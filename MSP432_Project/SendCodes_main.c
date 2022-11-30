@@ -11,22 +11,51 @@
     ***************************************************
 */
 
+/* --COPYRIGHT--,BSD
+ * Copyright (c) 2015, Texas Instruments Incorporated
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * *  Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * *  Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * *  Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * --/COPYRIGHT--*/
+//****************************************************************************
+//
+// main.c - MSP-EXP432P401R + Educational Boosterpack MkII - Joystick
+//
+//          Displays raw 14-bit ADC measurements for X/Y axis of Joystick
+//
+//****************************************************************************
+
+
 #include "msp.h"
 #include "Clock.h"
 #include <stdint.h>
 #include <time.h>
 
-
-
-// Commands start with a 5000 usec pulse to increase reliability
-// 500 usec pulse denotes a 0
-// 2000 usec pulse denotes a 1
-
-
-// There is a 1000 usec pause between each pulse
-
-
-int i;
 
 
 // EFFECT: initializes the PWM to send IR codes on P2.5
@@ -117,6 +146,7 @@ void space(unsigned int usec)
 // EFFECT: sends the array of pulses cmd[] with pauseTimes[] between each pulse
 void sendCommand(unsigned int cmd[], unsigned int pause[], unsigned int length)
 {
+    int i;
     for (i = 0; i < length; i++)
     {
         mark(cmd[i]);
@@ -125,7 +155,7 @@ void sendCommand(unsigned int cmd[], unsigned int pause[], unsigned int length)
 }
 
 // EFFECT: calls all initialization functions
-void initAll(void)
+void _initPWM(void)
 {
     Clock_Init48MHz();
     SysTick_Init();

@@ -5,8 +5,8 @@
  *      Author: damiano
  */
 
-#ifndef COMMAND_MATRICES_H_
-#define COMMAND_MATRICES_H_
+#ifndef COMMANDMATRICES_H_
+#define COMMANDMATRICES_H_
 
 
 #define MAX_PULSE 34
@@ -24,4 +24,4 @@ extern unsigned int right_matrix[5][MAX_PULSE];
 extern unsigned int right_matrix_p[5][MAX_PULSE];
 
 
-#endif /* COMMAND_MATRICES_H_ */
+#endif /* COMMANDMATRICES_H_ */
