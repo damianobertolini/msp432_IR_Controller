@@ -5,14 +5,13 @@
  *      Author: damiano
  */
 
-#include <CommandMatrices.h>
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
-
 #include <ti/devices/msp432p4xx/inc/msp.h>
 #include <ti/grlib/grlib.h>
 #include "LcdDriver/Crystalfontz128x128_ST7735.h"
 #include <stdio.h>
 
+#include "CommandMatrices.h"
 #include "SendCodes_main.h"
 #include "HardwareInit.h"
 
@@ -60,8 +59,6 @@ void main(void)
     _hwInit();
 
 
-    ADC14_toggleConversionTrigger();
-
     // send a command
     while(1)
     {
@@ -69,132 +66,107 @@ void main(void)
 
 }
 
-
+//global variables for current speed state and information about next command to be sent
 int curr_val = 0;
-int curr_forw_backw = 0;
-int curr_des_sin = 0;
+int forw_backw = 0;
+int right_left = 0;
 
 
-void TA3_0_IRQHandler(void)
+//finds the right command to send and calls sendCommand to send it
+findCommand()
 {
+    //create in-function local copy of global variables in order to have the possibility to erase their value
+    int curr_forw_backw = forw_backw;
+    int curr_right_left = right_left;
 
-        //sendCommand(av_5, av_5_p);
-        if(curr_forw_backw == 1)
-        {
-            sendCommand(fw_matrix[curr_val], fw_matrix_p[curr_val], sizeof(fw_matrix[curr_val]) / sizeof(fw_matrix[curr_val][0]));
-        }
-        else
-        {
-            if(curr_forw_backw == -1)
-            {
-                sendCommand(bk_matrix[curr_val], bk_matrix_p[curr_val], sizeof(bk_matrix[curr_val]) / sizeof(bk_matrix[curr_val][0]));
-            }
-            else
-            {
-                if(curr_des_sin == 1)
-                {
-                    sendCommand(right_matrix[curr_val], right_matrix_p[curr_val], sizeof(right_matrix[curr_val]) / sizeof(right_matrix[curr_val][0]));
-                }
-                else
-                {
-                    if(curr_des_sin == -1)
-                    {
-                        sendCommand(left_matrix[curr_val], left_matrix_p[curr_val], sizeof(left_matrix[curr_val]) / sizeof(left_matrix[curr_val][0]));
-                    }
-                    else
-                    {
-                        //default
-                        sendCommand(up_matrix[curr_val], up_matrix_p[curr_val], sizeof(up_matrix[curr_val]) / sizeof(up_matrix[curr_val][0]));
-                    }
-                }
-            }
-        }
+    //erase value (user will have to trigger again the device (Joystick, accelerometer, ...) in order to put them back to 1
+    forw_backw = 0;
+    right_left = 0;
 
-        curr_forw_backw = 0;
-        curr_des_sin = 0;
+    //forward or backward
+    if(curr_forw_backw == 1)
+    {
+        sendCommand(fw_matrix[curr_val], fw_matrix_p[curr_val], sizeof(fw_matrix[curr_val]) / sizeof(fw_matrix[curr_val][0]));
+        return;
+    }
+    if(curr_forw_backw == -1)
+    {
+        sendCommand(bk_matrix[curr_val], bk_matrix_p[curr_val], sizeof(bk_matrix[curr_val]) / sizeof(bk_matrix[curr_val][0]));
+        puts("CI");
 
+        return;
+    }
 
-        GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
+    //right or left
+    if(curr_right_left == 1)
+    {
+        sendCommand(right_matrix[curr_val], right_matrix_p[curr_val], sizeof(right_matrix[curr_val]) / sizeof(right_matrix[curr_val][0]));
+        return;
+    }
+    if(curr_right_left == -1)
+    {
+        sendCommand(left_matrix[curr_val], left_matrix_p[curr_val], sizeof(left_matrix[curr_val]) / sizeof(left_matrix[curr_val][0]));
+        return;
+    }
 
+    //default maintain current propeller speed
+    sendCommand(up_matrix[curr_val], up_matrix_p[curr_val], sizeof(up_matrix[curr_val]) / sizeof(up_matrix[curr_val][0]));
 
-        Timer_A_clearCaptureCompareInterrupt(TIMER_A3_BASE,
-                TIMER_A_CAPTURECOMPARE_REGISTER_0);
-
-        Timer_A_startCounter(TIMER_A2_BASE, TIMER_A_UP_MODE);
-        Timer_A_stopTimer(TIMER_A3_BASE);
-
-
-        ADC14_toggleConversionTrigger();
 }
 
 
+//HARDWARE INTERRUPTS
+
+
+
+//The two Timers alternate in triggering interrupts; this is necessary as the real remote control emits IR signals with different time intervals
+//Note I'm not calling findCommand() inside the TIMER Interrupts (ex. after ADC14_toggleConversionTrigger()); as this function is called AT THE END of the timer interrupt
+//This would mean not getting a responsive device.
+
+//Timer A2 Capture/Compare Register 0 Interrupt handler
 void TA2_0_IRQHandler(void)
 {
-
-        //sendCommand(av_5, av_5_p);
-        if(curr_forw_backw == 1)
-        {
-            sendCommand(fw_matrix[curr_val], fw_matrix_p[curr_val], sizeof(fw_matrix[curr_val]) / sizeof(fw_matrix[curr_val][0]));
-        }
-        else
-        {
-            if(curr_forw_backw == -1)
-            {
-                sendCommand(bk_matrix[curr_val], bk_matrix_p[curr_val], sizeof(bk_matrix[curr_val]) / sizeof(bk_matrix[curr_val][0]));
-            }
-            else
-            {
-                if(curr_des_sin == 1)
-                {
-                    sendCommand(right_matrix[curr_val], right_matrix_p[curr_val], sizeof(right_matrix[curr_val]) / sizeof(right_matrix[curr_val][0]));
-                }
-                else
-                {
-                    if(curr_des_sin == -1)
-                    {
-                        sendCommand(left_matrix[curr_val], left_matrix_p[curr_val], sizeof(left_matrix[curr_val]) / sizeof(left_matrix[curr_val][0]));
-                    }
-                    else
-                    {
-                        //default
-                        sendCommand(up_matrix[curr_val], up_matrix_p[curr_val], sizeof(up_matrix[curr_val]) / sizeof(up_matrix[curr_val][0]));
-                    }
-                }
-            }
-        }
-
-        curr_forw_backw = 0;
-        curr_des_sin = 0;
-
-
-        GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
+        //trigger ADC conversion of Joystick position to get next command to send
+        ADC14_toggleConversionTrigger();
 
 
         Timer_A_clearCaptureCompareInterrupt(TIMER_A3_BASE,
                 TIMER_A_CAPTURECOMPARE_REGISTER_0);
 
+        //stopping timer A2 and starting timer A3 -> sending signals with different time intervals
         Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
         Timer_A_stopTimer(TIMER_A2_BASE);
+}
 
-
+//Timer A3 Capture/Compare Register 0 Interrupt handler
+void TA3_0_IRQHandler(void)
+{
+        //trigger ADC conversion of Joystick position to get next command to send
         ADC14_toggleConversionTrigger();
+
+
+        Timer_A_clearCaptureCompareInterrupt(TIMER_A3_BASE,
+                TIMER_A_CAPTURECOMPARE_REGISTER_0);
+
+        //stopping timer A3 and starting timer A2 -> sending signals with different time intervals
+        Timer_A_startCounter(TIMER_A2_BASE, TIMER_A_UP_MODE);
+        Timer_A_stopTimer(TIMER_A3_BASE);
 }
 
 
-
-/* ADC results buffer */
 static uint16_t resultsBuffer[2];
-
 
 /* This interrupt is fired whenever a conversion is completed and placed in
  * ADC_MEM1. This signals the end of conversion and the results array is
  * grabbed and placed in resultsBuffer */
 void ADC14_IRQHandler(void)
 {
+    /* ADC results buffer */
     uint64_t status;
 
     status = ADC14_getEnabledInterruptStatus();
     ADC14_clearInterruptFlag(status);
+
 
     /* ADC_MEM1 conversion completed */
     if(status & ADC_INT1)
@@ -212,20 +184,17 @@ void ADC14_IRQHandler(void)
                                         50,
                                         OPAQUE_TEXT);
 
+
+        //manipulate Joystick X position and decide accordingly whether to turn left, right or stay still
+        right_left = 0; //reset right-left state (stop turning)
+
         if(resultsBuffer[0] > 14000)
         {
-            curr_des_sin = 1;  //des
+            right_left = 1;  //right
         }
-        else
+        if(resultsBuffer[0] < 2000)
         {
-            if(resultsBuffer[0] < 2000)
-            {
-                curr_des_sin = -1;  //sin
-            }
-            else
-            {
-                curr_des_sin = 0;
-            }
+            right_left = -1;  //left
         }
 
 
@@ -237,35 +206,24 @@ void ADC14_IRQHandler(void)
                                         70,
                                         OPAQUE_TEXT);
 
+        //manipulate Joystick Y position and decide accordingly whether to move forward, backward or stay still
+        forw_backw = 0;  //reset forw-backw state (stop moving)
+
         if(resultsBuffer[1] > 14000)
         {
-            curr_forw_backw = 1;  //forward
+            forw_backw = 1;  //forward
         }
-        else
+        if(resultsBuffer[1] < 2000)
         {
-            if(resultsBuffer[1] < 2000)
-            {
-                curr_forw_backw = -1;  //backward
-            }
-            else
-            {
-                curr_forw_backw = 0;  //reset forw-backw state (stop moving)
-            }
+            forw_backw = -1; //backward
         }
 
 
-        /* Determine if JoyStick button is pressed */
-        int buttonPressed = 0;
-        if (!(P4IN & GPIO_PIN1))
-            buttonPressed = 1;
+        //decide which command to send and emit IR signals accordingly
+        findCommand();
 
-        sprintf(string, "Button: %d", buttonPressed);
-        Graphics_drawStringCentered(&g_sContext,
-                                        (int8_t *)string,
-                                        AUTO_STRING_LENGTH,
-                                        64,
-                                        90,
-                                        OPAQUE_TEXT);
+        //toggle LED state in order to notify the user that a command has been sent (mostly useful for debugging purposes)
+        GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
     }
 }
 
@@ -278,11 +236,9 @@ void PORT3_IRQHandler(void)
     uint_fast16_t status = GPIO_getEnabledInterruptStatus(GPIO_PORT_P3);
     /* clear interrupt flag (to clear pending interrupt indicator */
     GPIO_clearInterruptFlag(GPIO_PORT_P3, status);
-    /* check if we received P1.1 or P1.4 interrupt */
+
+    /* check if we received P3.5 interrupt */
     if((status & GPIO_PIN5)){
-        /* Toggling the output on the LED */
-
-
         if(curr_val == 0)
         {
             //won't decrement as velocity matrix index can't go under 0 (vector[-1] doesn't exist)
@@ -302,10 +258,9 @@ void PORT5_IRQHandler(void)
     uint_fast16_t status = GPIO_getEnabledInterruptStatus(GPIO_PORT_P5);
     /* clear interrupt flag (to clear pending interrupt indicator */
     GPIO_clearInterruptFlag(GPIO_PORT_P5, status);
-    /* check if we received P1.1 or P1.4 interrupt */
-    if((status & GPIO_PIN1)){
-        /* Toggling the output on the LED */
 
+    /* check if we received P5.1 interrupt */
+    if((status & GPIO_PIN1)){
         if(curr_val == 4)
         {
             //won't increment as velocity matrix only has 5 possible positions
