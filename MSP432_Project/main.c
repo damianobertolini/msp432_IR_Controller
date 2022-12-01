@@ -73,7 +73,7 @@ int right_left = 0;
 
 
 //finds the right command to send and calls sendCommand to send it
-findCommand()
+void findCommand()
 {
     //create in-function local copy of global variables in order to have the possibility to erase their value
     int curr_forw_backw = forw_backw;
@@ -92,8 +92,6 @@ findCommand()
     if(curr_forw_backw == -1)
     {
         sendCommand(bk_matrix[curr_val], bk_matrix_p[curr_val], sizeof(bk_matrix[curr_val]) / sizeof(bk_matrix[curr_val][0]));
-        puts("CI");
-
         return;
     }
 
