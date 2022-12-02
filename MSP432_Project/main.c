@@ -14,7 +14,7 @@
 #include "CommandMatrices.h"
 #include "SendCodes_main.h"
 #include "HardwareInit.h"
-
+#include <time.h>
 
 
 void _hwInit()
@@ -35,10 +35,10 @@ void _hwInit()
     _buttonsInit();
     
     //initialize ADC for Joystick
-    //_joystickInit();
+    _joystickInit();
 
     //initialize ADC for accelerometer
-    _accelSensorInit();
+    //_accelSensorInit();
 
     //initialize general ADC
     _adcInit();
@@ -64,13 +64,11 @@ void main(void)
     // call all initialization functions
     _hwInit();
 
-
     // send a command
     while(1)
     {
         PCM_gotoLPM0();
     }
-
 }
 
 //global variables for current speed state and information about next command to be sent
@@ -150,7 +148,6 @@ void test1()
 //HARDWARE INTERRUPTS
 
 
-
 //The two Timers alternate in triggering interrupts; this is necessary as the real remote control emits IR signals with different time intervals
 //Note I'm not calling findCommand() inside the TIMER Interrupts (ex. after ADC14_toggleConversionTrigger()); as this function is called AT THE END of the timer interrupt
 //This would mean not getting a responsive device.
@@ -158,29 +155,29 @@ void test1()
 //Timer A2 Capture/Compare Register 0 Interrupt handler
 void TA2_0_IRQHandler(void)
 {
+    //stopping timer A2 and starting timer A3 -> sending signals with different time intervals
+    Timer_A_stopTimer(TIMER_A2_BASE);
+    Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
+
     //trigger ADC conversion of Joystick position to get next command to send
     ADC14_toggleConversionTrigger();
 
 
-    Timer_A_clearCaptureCompareInterrupt(TIMER_A3_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
-
-    //stopping timer A2 and starting timer A3 -> sending signals with different time intervals
-    Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
-    Timer_A_stopTimer(TIMER_A2_BASE);
+    Timer_A_clearCaptureCompareInterrupt(TIMER_A2_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 }
 
 //Timer A3 Capture/Compare Register 0 Interrupt handler
 void TA3_0_IRQHandler(void)
 {
+    //stopping timer A3 and starting timer A2 -> sending signals with different time intervals
+    Timer_A_stopTimer(TIMER_A3_BASE);
+    Timer_A_startCounter(TIMER_A2_BASE, TIMER_A_UP_MODE);
+
     //trigger ADC conversion of Joystick and accelerometer position to get next command to send
     ADC14_toggleConversionTrigger();
 
 
     Timer_A_clearCaptureCompareInterrupt(TIMER_A3_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
-
-    //stopping timer A3 and starting timer A2 -> sending signals with different time intervals
-    Timer_A_startCounter(TIMER_A2_BASE, TIMER_A_UP_MODE);
-    Timer_A_stopTimer(TIMER_A3_BASE);
 }
 
 

@@ -12,8 +12,8 @@
 
 
 /* Statics */
-#define TIMER_PERIOD    0x0FA0   //4000 to hex
-#define TIMER_PERIOD2    0x1770   //6000 to hex
+#define TIMER_PERIOD    0x0BB8   //4000 to hex
+#define TIMER_PERIOD2    0x07D0   //6000 to hex
 
 
 /* Timer_A UpMode Configuration Parameter */
