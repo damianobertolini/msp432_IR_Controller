@@ -14,7 +14,6 @@
 #include "CommandMatrices.h"
 #include "SendCodes_main.h"
 #include "HardwareInit.h"
-#include <time.h>
 
 
 void _hwInit()
