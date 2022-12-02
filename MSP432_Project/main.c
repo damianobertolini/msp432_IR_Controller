@@ -19,6 +19,9 @@
 
 void _hwInit()
 {
+    //initialize hardware for PWM and IR emitter
+    _initPWM();
+
     //sets core voltage level and number of wait states used by flash controller for read operation
     _PCM_Flash_Init();
 
@@ -36,9 +39,6 @@ void _hwInit()
 
     //initialize LCD
     _graphicsInit();
-
-    //initialize hardware for PWM and IR emitter
-    _initPWM();
 
     //enable master interrupt
     Interrupt_enableMaster();
@@ -110,6 +110,33 @@ void findCommand()
     //default maintain current propeller speed
     sendCommand(up_matrix[curr_val], up_matrix_p[curr_val], sizeof(up_matrix[curr_val]) / sizeof(up_matrix[curr_val][0]));
 
+}
+
+
+void test1()
+{
+    Interrupt_disableMaster();
+    ADC14_disableConversion();
+
+    curr_val = 0;
+    forw_backw = 1;
+    right_left = 0;
+
+    findCommand();
+
+    forw_backw = -1;
+    right_left = 0;
+
+    findCommand();
+
+    forw_backw = 0;
+    right_left = -1;
+
+    findCommand();
+
+    forw_backw = 0;
+    right_left = -1;
+    findCommand();
 }
 
 
@@ -241,6 +268,7 @@ void PORT3_IRQHandler(void)
         {
             //won't decrement as velocity matrix index can't go under 0 (vector[-1] doesn't exist)
         }
+        else
         {
             //decrease speed
             curr_val--;
