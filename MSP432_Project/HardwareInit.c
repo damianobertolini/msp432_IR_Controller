@@ -88,29 +88,53 @@ void _buttonsInit()
     Interrupt_enableInterrupt(INT_PORT3);
 }
 
-
-
 //initialize Analog to Digital Converter for Joystick and enables its interrupts
-void _adcInit()
+void _joystickInit()
 {
     /* Configures Pin 6.0 and 4.4 as ADC input */
     GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6, GPIO_PIN0, GPIO_TERTIARY_MODULE_FUNCTION);
     GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P4, GPIO_PIN4, GPIO_TERTIARY_MODULE_FUNCTION);
 
-    /* Initializing ADC (ADCOSC/64/8) */
-    ADC14_enableModule();
-    ADC14_initModule(ADC_CLOCKSOURCE_ADCOSC, ADC_PREDIVIDER_64, ADC_DIVIDER_8, 0);
-
-    /* Configuring ADC Memory (ADC_MEM0 - ADC_MEM1 (A15, A9)  with repeat)
+    /* Configuring ADC Memory (ADC_MEM0 - ADC_MEM1 (A15, A9)  with no repeat)
          * with internal 2.5v reference */
     ADC14_configureMultiSequenceMode(ADC_MEM0, ADC_MEM1, true);
     ADC14_configureConversionMemory(ADC_MEM0, ADC_VREFPOS_AVCC_VREFNEG_VSS, ADC_INPUT_A15, ADC_NONDIFFERENTIAL_INPUTS);
-
     ADC14_configureConversionMemory(ADC_MEM1, ADC_VREFPOS_AVCC_VREFNEG_VSS, ADC_INPUT_A9, ADC_NONDIFFERENTIAL_INPUTS);
 
     /* Enabling the interrupt when a conversion on channel 1 (end of sequence)
      *  is complete and enabling conversions */
     ADC14_enableInterrupt(ADC_INT1);
+}
+
+//NOTE that ADC14_configureMultiSequenceMode(ADC_MEMx, ADC_MEMy, true); will "overwrite" a previous function of same type, so in order to have both
+//Joystick and accelerometer working together you need to put ADC14_configureMultiSequenceMode(ADC_MEM0, ADC_MEM4, true); so that both memory location are properly configured
+
+
+//initialization of accelerometer (Pins and memory location where result of conversion has to be stored)
+void _accelSensorInit()
+{
+    /* Configures Pin 4.0, 4.2, and 6.1 as ADC input */
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN2, GPIO_TERTIARY_MODULE_FUNCTION);
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6, GPIO_PIN1, GPIO_TERTIARY_MODULE_FUNCTION);
+
+    /* Configuring ADC Memory (ADC_MEM2 - ADC_MEM4 (A11, A13, A14)  with no repeat)
+     * with 3.3v reference */
+    ADC14_configureMultiSequenceMode(ADC_MEM0, ADC_MEM4, true);
+    ADC14_configureConversionMemory(ADC_MEM2, ADC_VREFPOS_AVCC_VREFNEG_VSS, ADC_INPUT_A14, ADC_NONDIFFERENTIAL_INPUTS);
+    ADC14_configureConversionMemory(ADC_MEM3, ADC_VREFPOS_AVCC_VREFNEG_VSS, ADC_INPUT_A13, ADC_NONDIFFERENTIAL_INPUTS);
+    ADC14_configureConversionMemory(ADC_MEM4, ADC_VREFPOS_AVCC_VREFNEG_VSS, ADC_INPUT_A11, ADC_NONDIFFERENTIAL_INPUTS);
+
+    /* Enabling the interrupt when a conversion on channel 2 (end of sequence)
+     *  is complete and enabling conversions */
+    ADC14_enableInterrupt(ADC_INT4);
+}
+
+//generic initialization of ADC14, to be used in conjunction with _adcInit() and/or _joystickInit()
+void _adcInit()
+{
+    /* Initializing ADC (ADCOSC/64/8) */
+    ADC14_enableModule();
+    ADC14_initModule(ADC_CLOCKSOURCE_ADCOSC, ADC_PREDIVIDER_64, ADC_DIVIDER_8, 0);
 
     /* Enabling Interrupts */
     Interrupt_enableInterrupt(INT_ADC14);
@@ -118,10 +142,10 @@ void _adcInit()
     /* Setting up the sample timer to manually step through the sequence*/
     ADC14_enableSampleTimer(ADC_MANUAL_ITERATION);
 
-    /* Triggering the start of the sample */
+
+    /* Enabling ADC data conversion*/
     ADC14_enableConversion();
 }
-
 
 //initialize Liquid Crystal Display
 void _graphicsInit()

@@ -16,6 +16,8 @@ void _PCM_Flash_Init();
 void _ledInit();
 void _timersInit();
 void _buttonsInit();
+void _joystickInit();
+void _accelSensorInit();
 void _adcInit();
 void _graphicsInit();
 
