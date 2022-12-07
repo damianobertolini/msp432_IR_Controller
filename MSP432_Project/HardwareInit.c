@@ -38,6 +38,55 @@ const Timer_A_UpModeConfig upConfigTimerA2 =
 };
 
 
+//This function sets all pins of all ports to output mode and low value (some pins will be later overwritten by other Init functions) and should solve the warning of power consumption on unused pins
+//EVEN IF the warning might still remain as this was reported to be a bug:
+//see https://e2e.ti.com/support/microcontrollers/msp-low-power-microcontrollers-group/msp430/f/msp-low-power-microcontroller-forum/535365/ulp4-1-issues-on-msp432 for further information
+void _lowPowerInit()
+{
+    //P1
+    GPIO_setAsOutputPin(GPIO_PORT_P1, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P1, PIN_ALL16);
+
+    //P2
+    GPIO_setAsOutputPin(GPIO_PORT_P2, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P2, PIN_ALL16);
+
+    //P3
+    GPIO_setAsOutputPin(GPIO_PORT_P3, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P3, PIN_ALL16);
+
+    //P4
+    GPIO_setAsOutputPin(GPIO_PORT_P4, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, PIN_ALL16);
+
+    //P5
+    GPIO_setAsOutputPin(GPIO_PORT_P5, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P5, PIN_ALL16);
+
+    //P6
+    GPIO_setAsOutputPin(GPIO_PORT_P6, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P6, PIN_ALL16);
+
+    //P7
+    GPIO_setAsOutputPin(GPIO_PORT_P7, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P7, PIN_ALL16);
+
+    //P8
+    GPIO_setAsOutputPin(GPIO_PORT_P8, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P8, PIN_ALL16);
+
+    //P9
+    GPIO_setAsOutputPin(GPIO_PORT_P9, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P9, PIN_ALL16);
+
+    //P10
+    GPIO_setAsOutputPin(GPIO_PORT_P10, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P10, PIN_ALL16);
+
+    //PJ
+    GPIO_setAsOutputPin(GPIO_PORT_PJ, PIN_ALL16);
+    GPIO_setOutputLowOnPin(GPIO_PORT_PJ, PIN_ALL16);
+}
 
 void _PCM_Flash_Init()
 {

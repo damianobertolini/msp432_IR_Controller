@@ -12,6 +12,7 @@
 /* Graphic library context */
 Graphics_Context g_sContext;
 
+void _lowPowerInit();
 void _PCM_Flash_Init();
 void _ledInit();
 void _timersInit();

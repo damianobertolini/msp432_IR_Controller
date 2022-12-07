@@ -18,6 +18,10 @@
 
 void _hwInit()
 {
+    //Initializes all pins in order to address power consumption, this function is not mandatory and should just remove the warning (see the implementation for further info on why the warning is still present):
+    //"Detected uninitialized Port 1 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins."
+    _lowPowerInit();
+
     //initialize hardware for PWM and IR emitter
     _initPWM();
 
