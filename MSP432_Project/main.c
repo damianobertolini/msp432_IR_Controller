@@ -58,6 +58,9 @@ void _hwInit()
 
     //start first timer (TIMER_A3)
     Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
+
+    Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
+
 }
 
 
@@ -186,12 +189,17 @@ void test1()
 //Note I'm not calling findCommand() inside the TIMER Interrupts (ex. after ADC14_toggleConversionTrigger()); as this function is called AT THE END of the timer interrupt
 //This would mean not getting a responsive device.
 
+
+int global = 0;
+
 //Timer A2 Capture/Compare Register 0 Interrupt handler
 void TA2_0_IRQHandler(void)
 {
     //stopping timer A2 and starting timer A3 -> sending signals with different time intervals
     Timer_A_stopTimer(TIMER_A2_BASE);
     Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
+
+    global = 1;
 
     //trigger ADC conversion of Joystick position to get next command to send
     ADC14_toggleConversionTrigger();
@@ -207,11 +215,24 @@ void TA3_0_IRQHandler(void)
     Timer_A_stopTimer(TIMER_A3_BASE);
     Timer_A_startCounter(TIMER_A2_BASE, TIMER_A_UP_MODE);
 
+    global = 1;
+
     //trigger ADC conversion of Joystick and accelerometer position to get next command to send
     ADC14_toggleConversionTrigger();
 
 
     Timer_A_clearCaptureCompareInterrupt(TIMER_A3_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
+}
+
+
+//Timer A3 Capture/Compare Register 0 Interrupt handler
+void TA1_0_IRQHandler(void)
+{
+    //trigger ADC conversion of Joystick and accelerometer position
+    ADC14_toggleConversionTrigger();
+
+
+    Timer_A_clearCaptureCompareInterrupt(TIMER_A1_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 }
 
 
@@ -269,6 +290,11 @@ void ADC14_IRQHandler(void)
 
         drawDirections(x_value, y_value);
 
+        if(!global)
+        {
+            return;
+        }
+
 
         //manipulate Joystick X position and decide accordingly whether to turn left, right or stay still
 
@@ -300,6 +326,8 @@ void ADC14_IRQHandler(void)
 
         //toggle LED state in order to notify the user that a command has been sent (mostly useful for debugging purposes)
         GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
+
+        global = 0;
     }
     else
     {
@@ -317,6 +345,12 @@ void ADC14_IRQHandler(void)
             x_value = (int) resultsBuffer[0];
             y_value = (int) resultsBuffer[1];
             drawDirections(x_value, y_value);
+
+
+            if(!global)
+            {
+                return;
+            }
 
             if(resultsBuffer[0] < 6500)
             {
@@ -345,6 +379,7 @@ void ADC14_IRQHandler(void)
 
             printf("X-%d, Y-%d, Z-%d\n", resultsBuffer[0],resultsBuffer[1],resultsBuffer[2]);
 
+            global = 0;
         }
     }
 }

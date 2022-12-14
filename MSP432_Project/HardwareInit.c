@@ -15,7 +15,7 @@
 /* Statics */
 #define TIMER_PERIOD    0x0BB8   //4000 to hex
 #define TIMER_PERIOD2    0x07D0   //6000 to hex
-
+#define TIMER_PERIOD1    0x03E8
 
 /* Timer_A UpMode Configuration Parameter */
 const Timer_A_UpModeConfig upConfigTimerA3 =
@@ -33,6 +33,16 @@ const Timer_A_UpModeConfig upConfigTimerA2 =
         TIMER_A_CLOCKSOURCE_ACLK,              // SMCLK Clock Source
         TIMER_A_CLOCKSOURCE_DIVIDER_1,         // SMCLK/1 = 3MHz
         TIMER_PERIOD2,                           // every half second
+        TIMER_A_TAIE_INTERRUPT_DISABLE,         // Disable Timer interrupt
+        TIMER_A_CCIE_CCR0_INTERRUPT_ENABLE ,    // Enable CCR0 interrupt
+        TIMER_A_DO_CLEAR                        // Clear value
+};
+
+const Timer_A_UpModeConfig upConfigTimerA1 =
+{
+        TIMER_A_CLOCKSOURCE_ACLK,              // SMCLK Clock Source
+        TIMER_A_CLOCKSOURCE_DIVIDER_1,         // SMCLK/1 = 3MHz
+        TIMER_PERIOD1,                           // every half second
         TIMER_A_TAIE_INTERRUPT_DISABLE,         // Disable Timer interrupt
         TIMER_A_CCIE_CCR0_INTERRUPT_ENABLE ,    // Enable CCR0 interrupt
         TIMER_A_DO_CLEAR                        // Clear value
@@ -98,10 +108,16 @@ void _timersInit()
         Timer_A_configureUpMode(TIMER_A3_BASE, &upConfigTimerA3);
         Timer_A_configureUpMode(TIMER_A2_BASE, &upConfigTimerA2);
 
+        Timer_A_configureUpMode(TIMER_A1_BASE, &upConfigTimerA1);
+
+
         /* Enabling interrupts and starting the timer */
         //Interrupt_enableSleepOnIsrExit();
         Interrupt_enableInterrupt(INT_TA3_0);
         Interrupt_enableInterrupt(INT_TA2_0);
+
+        Interrupt_enableInterrupt(INT_TA1_0);
+
 }
 
 
