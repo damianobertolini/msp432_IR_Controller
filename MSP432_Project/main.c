@@ -5,6 +5,8 @@
  *      Author: damiano
  */
 
+#include <images.h>
+#include <img_vars.h>
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 #include <ti/devices/msp432p4xx/inc/msp.h>
 #include <ti/grlib/grlib.h>
@@ -20,7 +22,7 @@ void _hwInit()
 {
     //Initializes all pins in order to address power consumption, this function is not mandatory and should just remove the warning (see the implementation for further info on why the warning is still present):
     //"Detected uninitialized Port 1 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins."
-    _lowPowerInit();
+    //_lowPowerInit();
 
     //initialize hardware for PWM and IR emitter
     _initPWM();
@@ -41,7 +43,7 @@ void _hwInit()
     _joystickInit();
 
     //initialize ADC for accelerometer
-    //_accelSensorInit();
+    _accelSensorInit();
 
     //initialize general ADC
     _adcInit();
@@ -57,8 +59,6 @@ void _hwInit()
 }
 
 
-
-
 void main(void)
 {
     // Stop watchdog timer
@@ -66,6 +66,7 @@ void main(void)
 
     // call all initialization functions
     _hwInit();
+
 
     // send a command
     while(1)
@@ -78,6 +79,12 @@ void main(void)
 int curr_val = 0;
 int forw_backw = 0;
 int right_left = 0;
+int y_value;
+
+Selection_t currentSelection = NONE;
+int mode_selected = 0;
+
+
 
 
 //finds the right command to send and calls sendCommand to send it
@@ -118,6 +125,29 @@ void findCommand()
     //default maintain current propeller speed
     sendCommand(up_matrix[curr_val], up_matrix_p[curr_val], sizeof(up_matrix[curr_val]) / sizeof(up_matrix[curr_val][0]));
 
+}
+
+void callModality(Selection_t selection){
+    printf("selezionato\n");
+}
+
+void drawSelection(int y){
+
+    if(y>9800){
+        currentSelection = JOYSTICK;
+    } else if(y<7000){
+        currentSelection = ACCELEROMETER;
+    }
+
+    if(currentSelection == JOYSTICK){
+        Graphics_drawImage(&g_sContext, &JOYSTICK_BLUE, 17, 59);
+        Graphics_drawImage(&g_sContext, &ACCELEROMETER_BLACK, 17, 75);
+    }
+
+    if(currentSelection == ACCELEROMETER){
+        Graphics_drawImage(&g_sContext, &JOYSTICK_BLACK, 17, 59);
+        Graphics_drawImage(&g_sContext, &ACCELEROMETER_BLUE, 17, 75);
+    }
 }
 
 
@@ -203,22 +233,40 @@ void ADC14_IRQHandler(void)
     forw_backw = 0;  //reset forw-backw state (stop moving)
 
 
+    //still in menu mode
+    if(!mode_selected)
+    {
+        //joystick
+        if(status & ADC_INT1)
+        {
+            /* Store ADC14 conversion results */
+            resultsBuffer[1] = ADC14_getResult(ADC_MEM1);
+
+            //switch modality in menu
+            drawSelection((int) resultsBuffer[1]);
+
+
+            //user has chosen modality
+            if (!(P4IN & GPIO_PIN1))
+            {
+                //not modifiable anymore
+                mode_selected = 1;
+            }
+        }
+
+        return;
+    }
+
+
+
     /* ADC_MEM1 or ADC_MEM2 conversion completed */
     //joystick data ready
-    if(status & ADC_INT1)
+    if((status & ADC_INT1) && currentSelection == JOYSTICK)
     {
+        printf("no");
         /* Store ADC14 conversion results */
         resultsBuffer[0] = ADC14_getResult(ADC_MEM0);
         resultsBuffer[1] = ADC14_getResult(ADC_MEM1);
-
-        char string[10];
-        sprintf(string, "X: %5d", resultsBuffer[0]);
-        Graphics_drawStringCentered(&g_sContext,
-                                        (int8_t *)string,
-                                        8,
-                                        64,
-                                        50,
-                                        OPAQUE_TEXT);
 
 
         //manipulate Joystick X position and decide accordingly whether to turn left, right or stay still
@@ -233,14 +281,6 @@ void ADC14_IRQHandler(void)
             right_left = -1;  //left
         }
 
-
-        sprintf(string, "Y: %5d", resultsBuffer[1]);
-        Graphics_drawStringCentered(&g_sContext,
-                                        (int8_t *)string,
-                                        8,
-                                        64,
-                                        70,
-                                        OPAQUE_TEXT);
 
         //manipulate Joystick Y position and decide accordingly whether to move forward, backward or stay still
 
@@ -263,8 +303,9 @@ void ADC14_IRQHandler(void)
     else
     {
         //accelerometer data ready
-        if (status & ADC_INT4)
+        if ((status & ADC_INT4) && currentSelection == ACCELEROMETER)
         {
+
             /* Store ADC14 conversion results */
             resultsBuffer[0] = ADC14_getResult(ADC_MEM2);
             resultsBuffer[1] = ADC14_getResult(ADC_MEM3);

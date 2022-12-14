@@ -22,4 +22,6 @@ void _accelSensorInit();
 void _adcInit();
 void _graphicsInit();
 
+//Screen_t currentScreen = HELICOPTER_GRAPHICS;
+
 #endif /* HARDWAREINIT_H_ */

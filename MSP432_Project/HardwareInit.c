@@ -5,6 +5,7 @@
  *      Author: damiano
  */
 
+#include <img_vars.h>
 #include "LcdDriver/Crystalfontz128x128_ST7735.h"
 
 #include "HardwareInit.h"
@@ -196,6 +197,13 @@ void _adcInit()
     ADC14_enableConversion();
 }
 
+void customDelay()
+{
+    int j;
+
+    for(j=0;j<CYCLES;j++){}
+}
+
 //initialize Liquid Crystal Display
 void _graphicsInit()
 {
@@ -212,12 +220,28 @@ void _graphicsInit()
     GrContextFontSet(&g_sContext, &g_sFontFixed6x8);
     Graphics_clearDisplay(&g_sContext);
 
-    Graphics_drawStringCentered(&g_sContext,
-        (int8_t *)"Joystick:",
-        AUTO_STRING_LENGTH,
-        64,
-        30,
-        OPAQUE_TEXT);
+    //currentScreen = HELICOPTER_GRAPHICS;
+
+    int jj;
+
+    Graphics_drawImage(&g_sContext, &HELICOPTER, 0, 0);
+
+    customDelay();
+
+    for(jj=0; jj<10; jj++){
+        Graphics_drawImage(&g_sContext, &PROPELLERS1, 8, 30);
+
+        customDelay();
+
+        Graphics_drawImage(&g_sContext, &PROPELLERS2, 8, 29);
+
+        customDelay();
+    }
+    Graphics_drawImage(&g_sContext, &MENU, 0, 0);
+
+    customDelay();
+
+    //currentScreen = MENU_GRAPHICS;
 
 }
 
