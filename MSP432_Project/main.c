@@ -5,8 +5,7 @@
  *      Author: damiano
  */
 
-#include <images.h>
-#include <img_vars.h>
+
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 #include <ti/devices/msp432p4xx/inc/msp.h>
 #include <ti/grlib/grlib.h>
@@ -16,13 +15,16 @@
 #include "CommandMatrices.h"
 #include "SendCodes_main.h"
 #include "HardwareInit.h"
+#include "direction_graphics.h"
+#include <images.h>
+#include <img_vars.h>
 
 
 void _hwInit()
 {
     //Initializes all pins in order to address power consumption, this function is not mandatory and should just remove the warning (see the implementation for further info on why the warning is still present):
     //"Detected uninitialized Port 1 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins."
-    //_lowPowerInit();
+    _lowPowerInit();
 
     //initialize hardware for PWM and IR emitter
     _initPWM();
@@ -36,7 +38,7 @@ void _hwInit()
     //initialize TimerA2 and TimerA3 into upMode
     _timersInit();
 
-    //initialize buttons S1 and S2 (pins J4.32 and J4.33) on BoosterPack Module
+    //initialize buttons S1 and S2 (pins J4.32 and J4.33) on BoosterPack Module and Joystick button (Port4 PIN 1)
     _buttonsInit();
     
     //initialize ADC for Joystick
@@ -67,7 +69,6 @@ void main(void)
     // call all initialization functions
     _hwInit();
 
-
     // send a command
     while(1)
     {
@@ -81,7 +82,7 @@ int forw_backw = 0;
 int right_left = 0;
 int y_value;
 
-Selection_t currentSelection = NONE;
+Selection_t currentSelection = JOYSTICK;
 int mode_selected = 0;
 
 
@@ -244,29 +245,29 @@ void ADC14_IRQHandler(void)
 
             //switch modality in menu
             drawSelection((int) resultsBuffer[1]);
-
-
-            //user has chosen modality
-            if (!(P4IN & GPIO_PIN1))
-            {
-                //not modifiable anymore
-                mode_selected = 1;
-            }
         }
 
         return;
     }
 
 
+    int x_value;                            // integer that contains the x value of the joystick
+    int y_value;                            // integer that contains the y value of the joystick
+
 
     /* ADC_MEM1 or ADC_MEM2 conversion completed */
     //joystick data ready
     if((status & ADC_INT1) && currentSelection == JOYSTICK)
     {
-        printf("no");
         /* Store ADC14 conversion results */
         resultsBuffer[0] = ADC14_getResult(ADC_MEM0);
         resultsBuffer[1] = ADC14_getResult(ADC_MEM1);
+
+        //draw Direction power
+        x_value = (int) resultsBuffer[0];
+        y_value = (int) resultsBuffer[1];
+
+        drawDirections(x_value, y_value);
 
 
         //manipulate Joystick X position and decide accordingly whether to turn left, right or stay still
@@ -311,6 +312,12 @@ void ADC14_IRQHandler(void)
             resultsBuffer[1] = ADC14_getResult(ADC_MEM3);
             resultsBuffer[2] = ADC14_getResult(ADC_MEM4);
 
+
+            //draw Direction power
+            x_value = (int) resultsBuffer[0];
+            y_value = (int) resultsBuffer[1];
+            drawDirections(x_value, y_value);
+
             if(resultsBuffer[0] < 6500)
             {
                 right_left = -1;
@@ -343,6 +350,27 @@ void ADC14_IRQHandler(void)
 }
 
 
+//Joystick button on BoosterPack Module
+void PORT4_IRQHandler(void)
+{
+    /* Check which pins generated the interrupts */
+    uint_fast16_t status = GPIO_getEnabledInterruptStatus(GPIO_PORT_P4);
+    /* clear interrupt flag (to clear pending interrupt indicator */
+    GPIO_clearInterruptFlag(GPIO_PORT_P4, status);
+
+    /* check if we received P3.5 interrupt */
+    if((status & GPIO_PIN1)){
+        //user has chosen modality
+        if(!mode_selected)
+        {
+            //not modifiable anymore
+            mode_selected = 1;
+
+            Graphics_drawImage(&g_sContext, &DIRECTIONS, 0, 0);
+        }
+    }
+}
+
 
 //Button S2 on BoosterPack Module
 void PORT3_IRQHandler(void)
@@ -353,7 +381,7 @@ void PORT3_IRQHandler(void)
     GPIO_clearInterruptFlag(GPIO_PORT_P3, status);
 
     /* check if we received P3.5 interrupt */
-    if((status & GPIO_PIN5)){
+    if((status & GPIO_PIN1)){
         if(curr_val == 0)
         {
             //won't decrement as velocity matrix index can't go under 0 (vector[-1] doesn't exist)

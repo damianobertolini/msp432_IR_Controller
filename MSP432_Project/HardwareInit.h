@@ -20,7 +20,9 @@ void _buttonsInit();
 void _joystickInit();
 void _accelSensorInit();
 void _adcInit();
+void customDelay();
 void _graphicsInit();
+void startImageHelicopter();
 
 //Screen_t currentScreen = HELICOPTER_GRAPHICS;
 

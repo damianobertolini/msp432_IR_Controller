@@ -21,43 +21,65 @@
 #define GREY6_COLOR 0xdddddd
 #define BLUE_COLOR  0x3333cc
 
-const unsigned int RIGHT_DIRECTION_OFFSET_X = 76;
-const unsigned int RIGHT_DIRECTION_OFFSET_Y = 46;
+extern const unsigned int RIGHT_DIRECTION_OFFSET_X;
+extern const unsigned int RIGHT_DIRECTION_OFFSET_Y;
 
-const unsigned int LEFT_DIRECTION_OFFSET_X = 8;
-const unsigned int LEFT_DIRECTION_OFFSET_Y = 46;
+extern const unsigned int LEFT_DIRECTION_OFFSET_X;
+extern const unsigned int LEFT_DIRECTION_OFFSET_Y;
 
-const unsigned int BACKWARD_DIRECTION_OFFSET_X = 46;
-const unsigned int BACKWARD_DIRECTION_OFFSET_Y = 76;
+extern const unsigned int BACKWARD_DIRECTION_OFFSET_X;
+extern const unsigned int BACKWARD_DIRECTION_OFFSET_Y;
 
-const unsigned int FOREWARD_DIRECTION_OFFSET_X = 46;
-const unsigned int FOREWARD_DIRECTION_OFFSET_Y = 8;
+extern const unsigned int FOREWARD_DIRECTION_OFFSET_X;
+extern const unsigned int FOREWARD_DIRECTION_OFFSET_Y;
 
-const unsigned int HORIZONTAL_POWER_OFFSET_X = 58;
-const unsigned int FOREWARD_POWER_OFFSET_Y = 44;
-const unsigned int BACKWARD_POWER_OFFSET_Y = 78;
+extern const unsigned int HORIZONTAL_POWER_OFFSET_X;
+extern const unsigned int FOREWARD_POWER_OFFSET_Y;
+extern const unsigned int BACKWARD_POWER_OFFSET_Y;
 
-const unsigned int VERTICAL_POWER_OFFSET_Y = 58;
-const unsigned int RIGHT_POWER_OFFSET_X = 78;
-const unsigned int LEFT_POWER_OFFSET_X = 44;
+extern const unsigned int VERTICAL_POWER_OFFSET_Y;
+extern const unsigned int RIGHT_POWER_OFFSET_X;
+extern const unsigned int LEFT_POWER_OFFSET_X;
 
 
-const unsigned int PROPELLERS1_OFFSET_X = 8;
-const unsigned int PROPELLERS1_OFFSET_Y = 30;
-const unsigned int PROPELLERS2_OFFSET_X = 5;
-const unsigned int PROPELLERS2_OFFSET_Y = 30;
+extern const unsigned int PROPELLERS1_OFFSET_X;
+extern const unsigned int PROPELLERS1_OFFSET_Y;
+extern const unsigned int PROPELLERS2_OFFSET_X;
+extern const unsigned int PROPELLERS2_OFFSET_Y;
 
-const unsigned int MENU_OPTION_OFFSET_X = 17;
-const unsigned int MENU_OPTION1_OFFSET_Y = 59;
-const unsigned int MENU_OPTION2_OFFSET_Y = 75;
+extern const unsigned int MENU_OPTION_OFFSET_X;
+extern const unsigned int MENU_OPTION1_OFFSET_Y;
+extern const unsigned int MENU_OPTION2_OFFSET_Y;
+
+
+extern const Graphics_Image JOYSTICK_BLUE_1BPP_UNCOMP;
+extern const Graphics_Image JOYSTICK_BLACK_1BPP_UNCOMP;
+extern const Graphics_Image MENU_1BPP_UNCOMP;
+extern const Graphics_Image ACCELEROMETER_BLACK_1BPP_UNCOMP;
+extern const Graphics_Image ACCELEROMETER_BLUE_1BPP_UNCOMP;
+extern const Graphics_Image BACKWARD_RED_1BPP_UNCOMP;
+extern const Graphics_Image FOREWARD_WHITE_1BPP_UNCOMP;
+extern const Graphics_Image HORIZONTAL_POWER_1BPP_UNCOMP;
+extern const Graphics_Image PROPELLERS1_8BPP_UNCOMP;
+extern const Graphics_Image RIGHT_WHITE_1BPP_UNCOMP;
+extern const Graphics_Image DIRECTIONS_1BPP_UNCOMP;
+extern const Graphics_Image LEFT_RED_1BPP_UNCOMP;
+extern const Graphics_Image FOREWARD_RED_1BPP_UNCOMP;
+extern const Graphics_Image RIGHT_RED_1BPP_UNCOMP;
+extern const Graphics_Image HELICOPTER_8BPP_UNCOMP;
+extern const Graphics_Image PROPELLERS2_8BPP_UNCOMP;
+extern const Graphics_Image BACKWARD_WHITE_1BPP_UNCOMP;
+extern const Graphics_Image LEFT_WHITE_1BPP_UNCOMP;
+extern const Graphics_Image VERTICAL_POWER_1BPP_UNCOMP;
+
 
 
 // VARIOUS COLOR PALETTES
-static const unsigned long palette_BLACK_RED_1BPP_UNCOMP[] = {BLACK_COLOR, RED_COLOR};
-static const unsigned long palette_BLACK_WHITE_1BPP_UNCOMP[] = {BLACK_COLOR, WHITE_COLOR};
-static const unsigned long palette_BLACK_1BPP_UNCOMP[] = {BLACK_COLOR};
-static const unsigned long palette_BLUE_WHITE_1BPP_UNCOMP[] = {BLUE_COLOR, WHITE_COLOR};
-static const unsigned long palette_HELICOPTER_8BPP_UNCOMP[] = {
+static const uint32_t palette_BLACK_RED_1BPP_UNCOMP[] = {BLACK_COLOR, RED_COLOR};
+static const uint32_t palette_BLACK_WHITE_1BPP_UNCOMP[] = {BLACK_COLOR, WHITE_COLOR};
+static const uint32_t palette_BLACK_1BPP_UNCOMP[] = {BLACK_COLOR};
+static const uint32_t palette_BLUE_WHITE_1BPP_UNCOMP[] = {BLUE_COLOR, WHITE_COLOR};
+static const uint32_t palette_HELICOPTER_8BPP_UNCOMP[] = {
     WHITE_COLOR, BLACK_COLOR, GREY1_COLOR, GREY2_COLOR, GREY3_COLOR, GREY4_COLOR, GREY5_COLOR, GREY6_COLOR
 };
 
@@ -80,30 +102,10 @@ static const unsigned char pixel_VERTICAL_POWER_1BPP_UNCOMP[]  = {
     0b00, 0b00, 0b00, 0b00, 0b00, 0b00, 0b00, 0b00, 0b00, 0b00, 0b00
 };
 
-const tImage HORIZONTAL_POWER_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    power_width,
-    power_height,
-    power_size,
-    palette_BLACK_1BPP_UNCOMP,
-    pixel_HORIZONTAL_POWER_1BPP_UNCOMP,
-};
 
-const tImage VERTICAL_POWER_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    power_height,
-    power_width,
-    power_size,
-    palette_BLACK_1BPP_UNCOMP,
-    pixel_VERTICAL_POWER_1BPP_UNCOMP,
-};
 
 
 // FOREWARD DIRECTION IMAGES
-//const unsigned int foreward_width = 40;
-//const unsigned int foreward_height = 43;
-//const int foreward_size = 2;
-
 #define foreward_width 40
 #define foreward_height 43
 #define foreward_size 2
@@ -155,29 +157,13 @@ static const unsigned char pixel_FOREWARD_1BPP_UNCOMP[]  = {
     0b00000000,  0b00111111,  0b11111111,  0b10000000,  0b00000000
 };
 
-const tImage FOREWARD_RED_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    foreward_width,
-    foreward_height,
-    foreward_size,
-    palette_BLACK_RED_1BPP_UNCOMP,
-    pixel_FOREWARD_1BPP_UNCOMP,
-};
 
-const tImage FOREWARD_WHITE_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    foreward_width,
-    foreward_height,
-    foreward_size,
-    palette_BLACK_WHITE_1BPP_UNCOMP,
-    pixel_FOREWARD_1BPP_UNCOMP,
-};
 
 
 // BACKWARD DIRECTION IMAGES
-const unsigned int backward_width = 40;
-const unsigned int backward_height = 43;
-const int backward_size = 2;
+#define backward_width 40
+#define backward_height 43
+#define backward_size 2
 
 static const unsigned char pixel_BACKWARD_1BPP_UNCOMP[]  = {
     0b00000000,  0b00111111,  0b11111111,  0b10000000,  0b00000000,
@@ -225,29 +211,11 @@ static const unsigned char pixel_BACKWARD_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b01000000,  0b00000000,  0b00000000
 };
 
-const tImage BACKWARD_RED_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    backward_width,
-    backward_height,
-    backward_size,
-    palette_BLACK_RED_1BPP_UNCOMP,
-    pixel_BACKWARD_1BPP_UNCOMP,
-};
-
-const tImage BACKWARD_WHITE_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    backward_width,
-    backward_height,
-    backward_size,
-    palette_BLACK_WHITE_1BPP_UNCOMP,
-    pixel_BACKWARD_1BPP_UNCOMP,
-};
-
 
 // LEFT DIRECTION IMAGES
-const unsigned int left_width = 48;
-const unsigned int left_height = 35;
-const int left_size = 2;
+#define left_width 48
+#define left_height 35
+#define left_size 2
 
 static const unsigned char pixel_LEFT_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b01000000,  0b00000000,  0b00000000,  0b00000000,
@@ -287,29 +255,13 @@ static const unsigned char pixel_LEFT_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b01000000,  0b00000000,  0b00000000,  0b00000000
 };
 
-const tImage LEFT_RED_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    left_width,
-    left_height,
-    left_size,
-    palette_BLACK_RED_1BPP_UNCOMP,
-    pixel_LEFT_1BPP_UNCOMP,
-};
 
-const tImage LEFT_WHITE_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    left_width,
-    left_height,
-    left_size,
-    palette_BLACK_WHITE_1BPP_UNCOMP,
-    pixel_LEFT_1BPP_UNCOMP,
-};
 
 
 // RIGHT DIRECTION IMAGES
-const unsigned int right_width = 48;
-const unsigned int right_height = 35;
-const int right_size = 2;
+#define right_width 48
+#define right_height 35
+#define right_size 2
 
 static const unsigned char pixel_RIGHT_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b01000000,  0b00000000,  0b00000000,
@@ -349,29 +301,13 @@ static const unsigned char pixel_RIGHT_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b01000000,  0b00000000,  0b00000000
 };
 
-const tImage RIGHT_RED_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    right_width,
-    right_height,
-    right_size,
-    palette_BLACK_RED_1BPP_UNCOMP,
-    pixel_RIGHT_1BPP_UNCOMP,
-};
 
-const tImage RIGHT_WHITE_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    right_width,
-    right_height,
-    right_size,
-    palette_BLACK_WHITE_1BPP_UNCOMP,
-    pixel_RIGHT_1BPP_UNCOMP,
-};
 
 
 // ALL DIRECTIONS IMAGE
-const unsigned int directions_width = 128;
-const unsigned int directions_height = 128;
-const int directions_size = 2;
+#define directions_width 128
+#define directions_height 128
+#define directions_size 2
 
 static const unsigned char pixel_DIRECTIONS_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,
@@ -504,22 +440,15 @@ static const unsigned char pixel_DIRECTIONS_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,
 };
 
-const tImage DIRECTIONS_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    directions_width,
-    directions_height,
-    directions_size,
-    palette_BLACK_WHITE_1BPP_UNCOMP,
-    pixel_DIRECTIONS_1BPP_UNCOMP,
-};
+
 
 
 
 
 // HELICOPTER IMGAGE
-const unsigned int helicopter_width = 128;
-const unsigned int helicopter_height = 128;
-const int helicopter_size = 8;
+#define helicopter_width 128
+#define helicopter_height 128
+#define helicopter_size 8
 
 static const unsigned char pixel_HELICOPTER_8BPP_UNCOMP[]  = {
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
@@ -652,19 +581,10 @@ static const unsigned char pixel_HELICOPTER_8BPP_UNCOMP[]  = {
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
 };
 
-const tImage HELICOPTER_8BPP_UNCOMP={
-    IMAGE_FMT_8BPP_UNCOMP,
-    helicopter_width,
-    helicopter_height,
-    helicopter_size,
-    palette_HELICOPTER_8BPP_UNCOMP,
-    pixel_HELICOPTER_8BPP_UNCOMP,
-};
-
 
 // PROPELLERS IMAGE: FIRST FRAME
-const unsigned int propellers1_width = 113;
-const unsigned int propellers1_height = 37;
+#define propellers1_width 113
+#define propellers1_height 37
 
 static const unsigned char pixel_PROPELLERS1_8BPP_UNCOMP[] = {
     0x02, 0x02, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
@@ -706,19 +626,12 @@ static const unsigned char pixel_PROPELLERS1_8BPP_UNCOMP[] = {
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x04, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x03
 };
 
-const tImage PROPELLERS1_8BPP_UNCOMP = {
-    IMAGE_FMT_8BPP_UNCOMP,
-    propellers1_width,
-    propellers1_height,
-    helicopter_size,
-    palette_HELICOPTER_8BPP_UNCOMP,
-    pixel_PROPELLERS1_8BPP_UNCOMP,
-};
+
 
 
 // PROPELLERS IMAGE: SECOND FRAME
-const unsigned int propellers2_width = 113;
-const unsigned int propellers2_height = 38;
+#define propellers2_width 113
+#define propellers2_height 38
 
 static const unsigned char pixel_PROPELLERS2_8BPP_UNCOMP[] = {
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
@@ -761,14 +674,7 @@ static const unsigned char pixel_PROPELLERS2_8BPP_UNCOMP[] = {
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x04, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
 };
 
-const tImage PROPELLERS2_8BPP_UNCOMP = {
-    IMAGE_FMT_8BPP_UNCOMP,
-    propellers2_width,
-    propellers2_height,
-    helicopter_size,
-    palette_HELICOPTER_8BPP_UNCOMP,
-    pixel_PROPELLERS2_8BPP_UNCOMP,
-};
+
 
 
 
@@ -776,9 +682,9 @@ const tImage PROPELLERS2_8BPP_UNCOMP = {
 
 
 // COMMON ATTRIBUTES FOR BOTH OPTIONS
-const unsigned int option_width = 76;
-const unsigned int option_height = 15;
-const int option_size = 2;
+#define option_width 76
+#define option_height 15
+#define option_size 2
 
 // JOYSTICK SELECTED IMAGE
 static const uint8_t pixel_JOYSTICK_1BPP_UNCOMP[]  = {
@@ -799,23 +705,6 @@ static const uint8_t pixel_JOYSTICK_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b0000
 };
 
-const Graphics_Image JOYSTICK_BLUE_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    option_width,
-    option_height,
-    option_size,
-    palette_BLUE_WHITE_1BPP_UNCOMP,
-    pixel_JOYSTICK_1BPP_UNCOMP,
-};
-
-const Graphics_Image JOYSTICK_BLACK_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    option_width,
-    option_height,
-    option_size,
-    palette_BLACK_WHITE_1BPP_UNCOMP,
-    pixel_JOYSTICK_1BPP_UNCOMP,
-};
 
 
 // ACCELEROMETER SELECTED IMAGE
@@ -837,29 +726,13 @@ static const uint8_t pixel_ACCELEROMETER_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b0000
 };
 
-const Graphics_Image ACCELEROMETER_BLUE_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    option_width,
-    option_height,
-    option_size,
-    palette_BLUE_WHITE_1BPP_UNCOMP,
-    pixel_ACCELEROMETER_1BPP_UNCOMP,
-};
 
-const Graphics_Image ACCELEROMETER_BLACK_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    option_width,
-    option_height,
-    option_size,
-    palette_BLACK_WHITE_1BPP_UNCOMP,
-    pixel_ACCELEROMETER_1BPP_UNCOMP,
-};
 
 
 // MENU IMAGE
-const unsigned int menu_width = 128;
-const unsigned int menu_height = 128;
-const int menu_size = 2;
+#define menu_width 128
+#define menu_height 128
+#define menu_size 2
 
 static const uint8_t pixel_MENU_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,
@@ -992,14 +865,7 @@ static const uint8_t pixel_MENU_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000
 };
 
-const Graphics_Image MENU_1BPP_UNCOMP = {
-    IMAGE_FMT_1BPP_UNCOMP,
-    menu_width,
-    menu_height,
-    menu_size,
-    palette_BLACK_WHITE_1BPP_UNCOMP,
-    pixel_MENU_1BPP_UNCOMP,
-};
+
 
 
 

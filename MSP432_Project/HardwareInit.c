@@ -52,22 +52,6 @@ void _lowPowerInit()
     GPIO_setAsOutputPin(GPIO_PORT_P2, PIN_ALL16);
     GPIO_setOutputLowOnPin(GPIO_PORT_P2, PIN_ALL16);
 
-    //P3
-    GPIO_setAsOutputPin(GPIO_PORT_P3, PIN_ALL16);
-    GPIO_setOutputLowOnPin(GPIO_PORT_P3, PIN_ALL16);
-
-    //P4
-    GPIO_setAsOutputPin(GPIO_PORT_P4, PIN_ALL16);
-    GPIO_setOutputLowOnPin(GPIO_PORT_P4, PIN_ALL16);
-
-    //P5
-    GPIO_setAsOutputPin(GPIO_PORT_P5, PIN_ALL16);
-    GPIO_setOutputLowOnPin(GPIO_PORT_P5, PIN_ALL16);
-
-    //P6
-    GPIO_setAsOutputPin(GPIO_PORT_P6, PIN_ALL16);
-    GPIO_setOutputLowOnPin(GPIO_PORT_P6, PIN_ALL16);
-
     //P7
     GPIO_setAsOutputPin(GPIO_PORT_P7, PIN_ALL16);
     GPIO_setOutputLowOnPin(GPIO_PORT_P7, PIN_ALL16);
@@ -132,10 +116,14 @@ void _buttonsInit()
     GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P3, GPIO_PIN5);
     GPIO_enableInterrupt(GPIO_PORT_P3, GPIO_PIN5);
 
+    //Joystick button
+    GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P4, GPIO_PIN1);
+    GPIO_enableInterrupt(GPIO_PORT_P4, GPIO_PIN1);
 
-    //enable interrupts for Port3 and Port5
+    //enable interrupts for Port3 and Port5 and Port4
     Interrupt_enableInterrupt(INT_PORT5);
     Interrupt_enableInterrupt(INT_PORT3);
+    Interrupt_enableInterrupt(INT_PORT4);
 }
 
 //initialize Analog to Digital Converter for Joystick and enables its interrupts
@@ -220,8 +208,12 @@ void _graphicsInit()
     GrContextFontSet(&g_sContext, &g_sFontFixed6x8);
     Graphics_clearDisplay(&g_sContext);
 
-    //currentScreen = HELICOPTER_GRAPHICS;
+    //outputs helicopter image
+    startImageHelicopter();
+}
 
+void startImageHelicopter()
+{
     int jj;
 
     Graphics_drawImage(&g_sContext, &HELICOPTER, 0, 0);
@@ -240,8 +232,5 @@ void _graphicsInit()
     Graphics_drawImage(&g_sContext, &MENU, 0, 0);
 
     customDelay();
-
-    //currentScreen = MENU_GRAPHICS;
-
 }
 

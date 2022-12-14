@@ -381,3 +381,42 @@ void drawVerticalPower(int sign_x_value, int left_right_power, int i) {
         }
     }
 }
+
+
+
+error #10056: symbol "MENU_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "ACCELEROMETER_BLACK_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "ACCELEROMETER_BLUE_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "BACKWARD_RED_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "FOREWARD_WHITE_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "HORIZONTAL_POWER_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "PROPELLERS1_8BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "RIGHT_WHITE_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "DIRECTIONS_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "LEFT_RED_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "FOREWARD_RED_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "RIGHT_RED_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "HELICOPTER_8BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "PROPELLERS2_8BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "BACKWARD_WHITE_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "LEFT_WHITE_1BPP_UNCOMP" redefined: first defined in "./direction_graphics.obj"; redefined in "./main.obj"
+error #10056: symbol "VERTICAL_POWER_1BPP_UNCOMP" redefined: first defined in "./direction_gr
+
+
+extern const Graphics_Image MENU_1BPP_UNCOMP;
+extern const Graphics_Image ACCELEROMETER_BLACK_1BPP_UNCOMP;
+extern const Graphics_Image ACCELEROMETER_BLUE_1BPP_UNCOMP;
+extern const Graphics_Image BACKWARD_RED_1BPP_UNCOMP;
+extern const Graphics_Image FOREWARD_WHITE_1BPP_UNCOMP;
+extern const Graphics_Image HORIZONTAL_POWER_1BPP_UNCOMP;
+extern const Graphics_Image PROPELLERS1_8BPP_UNCOMP;
+extern const Graphics_Image RIGHT_WHITE_1BPP_UNCOMP;
+extern const Graphics_Image DIRECTIONS_1BPP_UNCOMP;
+extern const Graphics_Image LEFT_RED_1BPP_UNCOMP;
+extern const Graphics_Image FOREWARD_RED_1BPP_UNCOMP;
+extern const Graphics_Image RIGHT_RED_1BPP_UNCOMP;
+extern const Graphics_Image HELICOPTER_8BPP_UNCOMP;
+extern const Graphics_Image PROPELLERS2_8BPP_UNCOMP;
+extern const Graphics_Image BACKWARD_WHITE_1BPP_UNCOMP;
+extern const Graphics_Image LEFT_WHITE_1BPP_UNCOMP;
+extern const Graphics_Image VERTICAL_POWER_1BPP_UNCOMP;
