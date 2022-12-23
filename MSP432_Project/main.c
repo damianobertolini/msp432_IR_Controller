@@ -288,7 +288,7 @@ void ADC14_IRQHandler(void)
         x_value = (int) resultsBuffer[0];
         y_value = (int) resultsBuffer[1];
 
-        drawDirections(x_value, y_value);
+        drawDirections(x_value, y_value, currentSelection);
 
         if(!global)
         {
@@ -344,7 +344,7 @@ void ADC14_IRQHandler(void)
             //draw Direction power
             x_value = (int) resultsBuffer[0];
             y_value = (int) resultsBuffer[1];
-            drawDirections(x_value, y_value);
+            drawDirections(x_value, y_value, currentSelection);
 
 
             if(!global)

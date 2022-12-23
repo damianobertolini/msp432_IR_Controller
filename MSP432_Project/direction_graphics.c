@@ -298,7 +298,7 @@ int module_value(a){
 }
 
 
-void drawDirections(int x, int y){
+void drawDirections(int x, int y, Selection_t currentModality){
     int sign_x_value = 0;               // 1, 0, -1 whether it's right, none, left direction
     int sign_y_value = 0;               // 1, 0, -1 whether it's foreward, none, backward direction
 
@@ -307,20 +307,41 @@ void drawDirections(int x, int y){
     int foreward_backward_power = 0;    // number of power levels for foreward/backward direction
 
     //set parameters in order to choose the current direction and get te power levels
-    if(x>9800){
-        sign_x_value = 1;
-        left_right_power = (int) (x-8200)/1400;
-    } else if(x<7000){
-        sign_x_value = -1;
-        left_right_power = (int) (8200-x)/1400;
+
+    if(currentModality == JOYSTICK){
+        if(x>9800){
+            sign_x_value = 1;
+            left_right_power = (int) (x-8200)/1400;
+        } else if(x<7000){
+            sign_x_value = -1;
+            left_right_power = (int) (8200-x)/1400;
+        }
+
+        if(y>9800){
+            sign_y_value = 1;
+            foreward_backward_power = (int) (y-8200)/1400;
+        } else if(y<7000){
+            sign_y_value = -1;
+            foreward_backward_power = (int) (8200-y)/1400;
+        }
     }
 
-    if(y>9800){
-        sign_y_value = 1;
-        foreward_backward_power = (int) (y-8200)/1400;
-    } else if(y<7000){
-        sign_y_value = -1;
-        foreward_backward_power = (int) (8200-y)/1400;
+    if(currentModality == ACCELEROMETER){
+        if(x>8800){
+            sign_x_value = 1;
+            left_right_power = (int) (x-8200)/600;
+        } else if(x<7600){
+            sign_x_value = -1;
+            left_right_power = (int) (8200-x)/600;
+        }
+
+        if(y>8800){
+            sign_y_value = 1;
+            foreward_backward_power = (int) (y-8200)/600;
+        } else if(y<7600){
+            sign_y_value = -1;
+            foreward_backward_power = (int) (8200-y)/600;
+        }
     }
 
     // which is the most powerful direction: left/right or foreward/backward
