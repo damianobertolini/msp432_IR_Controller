@@ -94,6 +94,24 @@ const Graphics_Image ACCELEROMETER_BLACK_1BPP_UNCOMP = {
     pixel_ACCELEROMETER_1BPP_UNCOMP,
 };
 
+const Graphics_Image BLUETOOTH_BLUE_8BPP_UNCOMP = {
+    IMAGE_FMT_8BPP_UNCOMP,
+    option_width,
+    option_height,
+    option_size,
+    palette_BLUE_WHITE_BLUE_8BPP_UNCOMP,
+    pixel_BLUETOOTH_8BPP_UNCOMP,
+};
+
+const Graphics_Image BLUETOOTH_BLACK_8BPP_UNCOMP = {
+    IMAGE_FMT_8BPP_UNCOMP,
+    option_width,
+    option_height,
+    option_size,
+    palette_BLACK_WHITE_BLUE_8BPP_UNCOMP,
+    pixel_BLUETOOTH_8BPP_UNCOMP,
+};
+
 const tImage HORIZONTAL_POWER_1BPP_UNCOMP = {
     IMAGE_FMT_1BPP_UNCOMP,
     power_width,

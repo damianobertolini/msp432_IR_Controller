@@ -34,6 +34,8 @@ extern const Graphics_Image JOYSTICK_BLUE_1BPP_UNCOMP;
 extern const Graphics_Image JOYSTICK_BLACK_1BPP_UNCOMP;
 extern const Graphics_Image ACCELEROMETER_BLUE_1BPP_UNCOMP;
 extern const Graphics_Image ACCELEROMETER_BLACK_1BPP_UNCOMP;
+extern const Graphics_Image BLUETOOTH_BLUE_8BPP_UNCOMP;
+extern const Graphics_Image BLUETOOTH_BLACK_8BPP_UNCOMP;
 extern const Graphics_Image MENU_1BPP_UNCOMP;
 
 #define DIRECTIONS DIRECTIONS_1BPP_UNCOMP
