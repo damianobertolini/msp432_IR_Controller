@@ -8,8 +8,7 @@
 #ifndef DIRECTION_GRAPHICS_H_
 #define DIRECTION_GRAPHICS_H_
 
-typedef enum {JOYSTICK, ACCELEROMETER} Selection_t;
-
+typedef enum {JOYSTICK, ACCELEROMETER, BLUETOOTH} Selection_t;
 
 void drawDirections(int x, int y, Selection_t currentModality);
 
