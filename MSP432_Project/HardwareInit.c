@@ -115,7 +115,6 @@ void _timersInit()
         //Interrupt_enableSleepOnIsrExit();
         Interrupt_enableInterrupt(INT_TA3_0);
         Interrupt_enableInterrupt(INT_TA2_0);
-
         Interrupt_enableInterrupt(INT_TA1_0);
 
 }

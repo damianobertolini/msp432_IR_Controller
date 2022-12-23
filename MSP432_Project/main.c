@@ -60,7 +60,6 @@ void _hwInit()
     Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
 
     Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
-
 }
 
 
@@ -131,9 +130,6 @@ void findCommand()
 
 }
 
-void callModality(Selection_t selection){
-    printf("selezionato\n");
-}
 
 void drawSelection(int y){
 
@@ -356,20 +352,19 @@ void ADC14_IRQHandler(void)
             {
                 right_left = -1;
             }
-            if(resultsBuffer[0] > 10500)
+            if(resultsBuffer[0] > 9800)
             {
                 right_left = 1;
             }
 
-            if(resultsBuffer[1] < 6500)
+            if(resultsBuffer[1] < 7000)
             {
                 forw_backw = -1;
             }
-            if(resultsBuffer[1] > 10500)
+            if(resultsBuffer[1] > 9600)
             {
                 forw_backw = 1;
             }
-
 
             //decide which command to send and emit IR signals accordingly
             findCommand();
@@ -377,7 +372,7 @@ void ADC14_IRQHandler(void)
             //toggle LED state in order to notify the user that a command has been sent (mostly useful for debugging purposes)
             GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
 
-            printf("X-%d, Y-%d, Z-%d\n", resultsBuffer[0],resultsBuffer[1],resultsBuffer[2]);
+            //printf("X-%d, Y-%d, Z-%d\n", resultsBuffer[0],resultsBuffer[1],resultsBuffer[2]);
 
             global = 0;
         }
@@ -408,15 +403,17 @@ void PORT4_IRQHandler(void)
 
 
 //Button S2 on BoosterPack Module
+//note that strangely PORT3 has an interrupt at the start of execution process, seemingly not related to a particular PIN
 void PORT3_IRQHandler(void)
 {
     /* Check which pins generated the interrupts */
     uint_fast16_t status = GPIO_getEnabledInterruptStatus(GPIO_PORT_P3);
     /* clear interrupt flag (to clear pending interrupt indicator */
+
     GPIO_clearInterruptFlag(GPIO_PORT_P3, status);
 
     /* check if we received P3.5 interrupt */
-    if((status & GPIO_PIN1)){
+    if((status & GPIO_PIN5)){
         if(curr_val == 0)
         {
             //won't decrement as velocity matrix index can't go under 0 (vector[-1] doesn't exist)

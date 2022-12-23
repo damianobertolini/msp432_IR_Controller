@@ -64,7 +64,6 @@ extern const Graphics_Image MENU_1BPP_UNCOMP;
 
 #define CYCLES 500000
 
-typedef enum {JOYSTICK, ACCELEROMETER} Selection_t;
 //typedef enum {HELICOPTER_GRAPHICS, MENU_GRAPHICS, DIRECTIONS_GRAPHICS} Screen_t;
 
 
