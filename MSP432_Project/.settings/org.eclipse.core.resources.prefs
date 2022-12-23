@@ -1,4 +1,10 @@
 eclipse.preferences.version=1
+encoding//Debug/BluetoothDriver/Devices/subdir_rules.mk=UTF-8
+encoding//Debug/BluetoothDriver/Devices/subdir_vars.mk=UTF-8
+encoding//Debug/BluetoothDriver/Hardware/subdir_rules.mk=UTF-8
+encoding//Debug/BluetoothDriver/Hardware/subdir_vars.mk=UTF-8
+encoding//Debug/BluetoothDriver/subdir_rules.mk=UTF-8
+encoding//Debug/BluetoothDriver/subdir_vars.mk=UTF-8
 encoding//Debug/LcdDriver/subdir_rules.mk=UTF-8
 encoding//Debug/LcdDriver/subdir_vars.mk=UTF-8
 encoding//Debug/makefile=UTF-8

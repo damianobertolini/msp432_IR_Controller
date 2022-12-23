@@ -9,6 +9,11 @@
 #define HARDWAREINIT_H_
 
 
+#define BLUETOOTH_BUFFER_SIZE    5    //maximum number of character that the uart bluetooth buffer can store
+
+extern char Buffer[BLUETOOTH_BUFFER_SIZE];
+
+
 /* Graphic library context */
 Graphics_Context g_sContext;
 
@@ -20,6 +25,7 @@ void _buttonsInit();
 void _joystickInit();
 void _accelSensorInit();
 void _adcInit();
+void _bluetoothInit();
 void customDelay();
 void _graphicsInit();
 void startImageHelicopter();

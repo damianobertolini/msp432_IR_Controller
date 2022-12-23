@@ -9,6 +9,8 @@
 #include "LcdDriver/Crystalfontz128x128_ST7735.h"
 
 #include "HardwareInit.h"
+#include <BluetoothDriver/Hardware/CS_Driver.h>
+#include <BluetoothDriver/Devices/MSPIO.h>
 
 
 
@@ -16,6 +18,10 @@
 #define TIMER_PERIOD    0x0BB8   //4000 to hex
 #define TIMER_PERIOD2    0x07D0   //6000 to hex
 #define TIMER_PERIOD1    0x03E8
+
+/*Data Buffer*/
+char Buffer[BLUETOOTH_BUFFER_SIZE];
+
 
 /* Timer_A UpMode Configuration Parameter */
 const Timer_A_UpModeConfig upConfigTimerA3 =
@@ -46,6 +52,26 @@ const Timer_A_UpModeConfig upConfigTimerA1 =
         TIMER_A_TAIE_INTERRUPT_DISABLE,         // Disable Timer interrupt
         TIMER_A_CCIE_CCR0_INTERRUPT_ENABLE ,    // Enable CCR0 interrupt
         TIMER_A_DO_CLEAR                        // Clear value
+};
+
+
+/* UART Configuration Parameter. These are the configuration parameters to
+ * make the eUSCI A UART module to operate with a 115200 baud rate. These
+ * values were calculated using the online calculator that TI provides
+ * at:
+ * http://software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSP430BaudRateConverter/index.html
+ */
+eUSCI_UART_ConfigV1 UART2Config =
+{
+     EUSCI_A_UART_CLOCKSOURCE_SMCLK,
+     6,
+     8,
+     32,
+     EUSCI_A_UART_NO_PARITY,
+     EUSCI_A_UART_LSB_FIRST,
+     EUSCI_A_UART_ONE_STOP_BIT,
+     EUSCI_A_UART_MODE,
+     EUSCI_A_UART_OVERSAMPLING_BAUDRATE_GENERATION
 };
 
 
@@ -200,10 +226,21 @@ void _adcInit()
     ADC14_enableConversion();
 }
 
+//initialization of the Bluetooth connection through UART
+void _bluetoothInit()
+{
+    //CS_Init();
+
+    /*Initialize Hardware required for the HC-05*/
+    UART_Init(EUSCI_A2_BASE, UART2Config);     //configure Bluetooth in order to operate at 9600 baud rate
+}
+
 void customDelay()
 {
     int j;
 
+    //this could throw a warning: Detected SW delay loop using empty loop. Recommend using a timer module instead
+    //but the creator has decided not to use another timer to implement this function
     for(j=0;j<CYCLES;j++){}
 }
 
