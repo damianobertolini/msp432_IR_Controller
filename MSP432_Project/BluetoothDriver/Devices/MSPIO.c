@@ -142,3 +142,53 @@ int MSPgets(uint32_t UART, char *b, int size)
     }
 }
 
+
+int customMSPgets(uint32_t UART, char *b, int size)
+{
+    char c;
+    uint32_t i = 0;
+
+    if(UART_Read(UART, (uint8_t*)&c, 1) != 0)
+    {
+       /*put a '\n' and '\r' if it fits on the buffer*/
+       if(c == '\n' || c == '\r')
+       {
+           if(i + 3 > size)
+           {
+               return size + 1;
+           }
+
+           b[i++] = '\r';
+           b[i++] = '\n';
+           b[i++] = 0;
+
+           return i;
+       }
+       /*erase data from buffer if backspace is received*/
+       else if(c == 127 || c == 8)
+       {
+           i--;
+           b[i] = 0;
+
+           return i;
+       }
+       /*store character on the buffer*/
+       else
+       {
+           if(i < size)
+           {
+               b[i++] = c;
+
+               return i;
+           }
+           else
+           {
+               return size + 1;
+           }
+       }
+    }
+    else
+    {
+        return 0;
+    }
+}

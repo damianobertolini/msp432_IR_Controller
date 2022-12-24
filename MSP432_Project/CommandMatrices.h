@@ -11,7 +11,6 @@
 
 #define MAX_PULSE 34
 
-
 extern unsigned int up_matrix[5][MAX_PULSE];
 extern unsigned int up_matrix_p[5][MAX_PULSE];
 extern unsigned int fw_matrix[5][MAX_PULSE];

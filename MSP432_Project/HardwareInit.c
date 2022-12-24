@@ -237,7 +237,7 @@ void _bluetoothInit()
     UART_Init(EUSCI_A2_BASE, UART2Config);     //configure Bluetooth in order to operate at 9600 baud rate
 }
 
-void customDelay()
+void customDelay(int CYCLES)
 {
     int j;
 
@@ -272,19 +272,20 @@ void startImageHelicopter()
 
     Graphics_drawImage(&g_sContext, &HELICOPTER, 0, 0);
 
-    customDelay();
+    customDelay(500000);
 
-    for(jj=0; jj<10; jj++){
+    for(jj=0; jj<10; jj++)
+    {
         Graphics_drawImage(&g_sContext, &PROPELLERS1, 8, 30);
 
-        customDelay();
+        customDelay(500000);
 
         Graphics_drawImage(&g_sContext, &PROPELLERS2, 8, 29);
 
-        customDelay();
+        customDelay(500000);
     }
     Graphics_drawImage(&g_sContext, &MENU, 0, 0);
 
-    customDelay();
+    customDelay(500000);
 }
 

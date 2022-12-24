@@ -7,6 +7,7 @@
 #include <ti/devices/msp432p4xx/driverlib/uart.h>
 #include <ti/devices/msp432p4xx/driverlib/gpio.h>
 
+
 #define UARTA0_BUFFERSIZE 2048
 #define UARTA2_BUFFERSIZE 2048
 

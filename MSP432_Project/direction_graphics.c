@@ -318,13 +318,13 @@ int module_value(a){
 
 void drawDirections(int x, int y, Selection_t currentModality){
     int sign_x_value = 0;               // 1, 0, -1 whether it's right, none, left direction
-    int sign_y_value = 0;               // 1, 0, -1 whether it's foreward, none, backward direction
+    int sign_y_value = 0;               // 1, 0, -1 whether it's forward, none, backward direction
 
     bool greater_module_x;
     int left_right_power = 0;           // number of power levels for left/right direction
-    int foreward_backward_power = 0;    // number of power levels for foreward/backward direction
+    int forward_backward_power = 0;    // number of power levels for forward/backward direction
 
-    //set parameters in order to choose the current direction and get te power levels
+    //set parameters in order to choose the current direction and get the power levels
 
     if(currentModality == JOYSTICK){
         if(x>9800){
@@ -337,10 +337,10 @@ void drawDirections(int x, int y, Selection_t currentModality){
 
         if(y>9800){
             sign_y_value = 1;
-            foreward_backward_power = (int) (y-8200)/1400;
+            forward_backward_power = (int) (y-8200)/1400;
         } else if(y<7000){
             sign_y_value = -1;
-            foreward_backward_power = (int) (8200-y)/1400;
+            forward_backward_power = (int) (8200-y)/1400;
         }
     }
 
@@ -355,14 +355,14 @@ void drawDirections(int x, int y, Selection_t currentModality){
 
         if(y>8800){
             sign_y_value = 1;
-            foreward_backward_power = (int) (y-8200)/600;
+            forward_backward_power = (int) (y-8200)/600;
         } else if(y<7600){
             sign_y_value = -1;
-            foreward_backward_power = (int) (8200-y)/600;
+            forward_backward_power = (int) (8200-y)/600;
         }
     }
 
-    // which is the most powerful direction: left/right or foreward/backward
+    // which is the most powerful direction: left/right or forward/backward
     if(module_value(x-8200)>module_value(y-8200)){greater_module_x=true;} else {greater_module_x=false;}
 
     // left or right direction
@@ -375,7 +375,7 @@ void drawDirections(int x, int y, Selection_t currentModality){
                 Graphics_drawImage(&g_sContext, &RIGHT_RED, 76, 46);
                 currentDirection = RIGHT;
             }
-            drawPower(left_right_power, foreward_backward_power, sign_x_value, sign_y_value);
+            drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
         if(sign_x_value == 0){
             Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
@@ -393,7 +393,7 @@ void drawDirections(int x, int y, Selection_t currentModality){
                 currentDirection = LEFT;
             }
 
-            drawPower(left_right_power, foreward_backward_power, sign_x_value, sign_y_value);
+            drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
     }
 
@@ -408,7 +408,7 @@ void drawDirections(int x, int y, Selection_t currentModality){
                 currentDirection = FOREWARD;
             }
 
-            drawPower(left_right_power, foreward_backward_power, sign_x_value, sign_y_value);
+            drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
         if(sign_y_value == 0){
             Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
@@ -426,7 +426,7 @@ void drawDirections(int x, int y, Selection_t currentModality){
                 currentDirection = BACKWARD;
             }
 
-            drawPower(left_right_power, foreward_backward_power, sign_x_value, sign_y_value);
+            drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
     }
 

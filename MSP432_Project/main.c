@@ -24,7 +24,7 @@
 
 void _hwInit()
 {
-    //Initializes all pins in order to address power consumption, this function is not mandatory and should just remove the warning (see the implementation for further info on why the warning is still present):
+    //Initializes all unused ports in order to address power consumption, this function is not mandatory and should just remove the warning (see the implementation for further info on why the warning is still present):
     //"Detected uninitialized Port 1 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins."
     _lowPowerInit();
 
@@ -77,11 +77,6 @@ void main(void)
 
     MSPrintf(EUSCI_A2_BASE, "Enter data to be sent to HC-05");
 
-    MSPgets(EUSCI_A2_BASE, Buffer, BLUETOOTH_BUFFER_SIZE);
-    printf("%s\n", Buffer);
-
-    MSPrintf(EUSCI_A2_BASE, "\r\n");
-
     // send a command
     while(1)
     {
@@ -95,7 +90,7 @@ int forw_backw = 0;
 int right_left = 0;
 int y_value;
 
-Selection_t currentSelection = JOYSTICK;
+Selection_t currentSelection = BLUETOOTH;
 int mode_selected = 0;
 
 
@@ -141,6 +136,89 @@ void findCommand()
 
 }
 
+int n_plane = 0;
+int planing = 0;
+
+void plane()
+{
+    if(curr_val != 0)
+    {
+        if(n_plane == 4)
+        {
+            curr_val--;
+            n_plane = 0;
+        }
+        else
+        {
+            n_plane++;
+        }
+
+        findCommand();
+
+        customDelay(500000);
+    }
+    else
+    {
+        planing = 0;
+    }
+}
+
+
+void ble_command_manager()
+{
+    //this custom MSPgets won't block other functions waiting for a command to be sent via Bluetooth and will just check if the UART Buffer is not empty
+    customMSPgets(EUSCI_A2_BASE, Buffer, BLUETOOTH_BUFFER_SIZE);
+
+    if(planing)
+    {
+        plane();
+    }
+
+    switch(Buffer[0])
+    {
+    case 'f':
+        forw_backw = 1;
+        break;
+    case 'b':
+        forw_backw = -1;
+        break;
+    case 'r':
+        right_left = 1;
+        break;
+    case 'l':
+        right_left = -1;
+        break;
+    case 'u':
+        if(curr_val != 4)
+        {
+            //increase speed
+            curr_val++;
+        }
+        break;
+    case 'd':
+        if(curr_val != 0)
+        {
+            //decrease speed
+            curr_val--;
+        }
+        break;
+    case 'p':
+        planing = 1;
+        plane();
+        break;
+
+    //no need of default (could be useful for debugging purposes)
+    }
+
+    //empty buffer in order not to read the same character at every iteration
+    Buffer[0]= 0;
+
+    //decide which command to send and emit IR signals accordingly
+    findCommand();
+
+    //toggle LED state in order to notify the user that a command has been sent (mostly useful for debugging purposes)
+    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
+}
 
 void drawSelection(int y){
 
@@ -208,11 +286,19 @@ void TA2_0_IRQHandler(void)
 
     global = 1;
 
-    //trigger ADC conversion of Joystick position to get next command to send
-    ADC14_toggleConversionTrigger();
-
+    currentSelection = BLUETOOTH;
 
     Timer_A_clearCaptureCompareInterrupt(TIMER_A2_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
+
+    if(mode_selected && currentSelection == BLUETOOTH)
+    {
+        ble_command_manager();
+    }
+    else
+    {
+        //trigger ADC conversion of Joystick position to get next command to send
+        ADC14_toggleConversionTrigger();
+    }
 }
 
 //Timer A3 Capture/Compare Register 0 Interrupt handler
@@ -224,11 +310,18 @@ void TA3_0_IRQHandler(void)
 
     global = 1;
 
-    //trigger ADC conversion of Joystick and accelerometer position to get next command to send
-    ADC14_toggleConversionTrigger();
-
 
     Timer_A_clearCaptureCompareInterrupt(TIMER_A3_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
+
+    if(mode_selected && currentSelection == BLUETOOTH)
+    {
+        ble_command_manager();
+    }
+    else
+    {
+        //trigger ADC conversion of Joystick position to get next command to send
+        ADC14_toggleConversionTrigger();
+    }
 }
 
 
