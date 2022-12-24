@@ -231,7 +231,7 @@ void _adcInit()
 //initialization of the Bluetooth connection through UART
 void _bluetoothInit()
 {
-    CS_Init();
+    //CS_Init();
 
     /*Initialize Hardware required for the HC-05*/
     UART_Init(EUSCI_A2_BASE, UART2Config);     //configure Bluetooth in order to operate at 9600 baud rate

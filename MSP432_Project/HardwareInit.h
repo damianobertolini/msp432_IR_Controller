@@ -9,7 +9,7 @@
 #define HARDWAREINIT_H_
 
 
-#define BLUETOOTH_BUFFER_SIZE    5    //maximum number of character that the uart bluetooth buffer can store
+#define BLUETOOTH_BUFFER_SIZE    1    //maximum number of character that the uart bluetooth buffer can store
 
 extern char Buffer[BLUETOOTH_BUFFER_SIZE];
 

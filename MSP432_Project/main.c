@@ -79,6 +79,7 @@ void main(void)
 
     MSPgets(EUSCI_A2_BASE, Buffer, BLUETOOTH_BUFFER_SIZE);
     printf("%s\n", Buffer);
+
     MSPrintf(EUSCI_A2_BASE, "\r\n");
 
     // send a command
