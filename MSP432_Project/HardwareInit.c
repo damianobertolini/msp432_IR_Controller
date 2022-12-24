@@ -17,6 +17,7 @@
 /* Statics */
 #define TIMER_PERIOD    0x0BB8   //4000 to hex
 #define TIMER_PERIOD2    0x07D0   //6000 to hex
+
 #define TIMER_PERIOD1    0x03E8
 
 /*Data Buffer*/
@@ -61,12 +62,13 @@ const Timer_A_UpModeConfig upConfigTimerA1 =
  * at:
  * http://software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSP430BaudRateConverter/index.html
  */
+
 eUSCI_UART_ConfigV1 UART2Config =
 {
      EUSCI_A_UART_CLOCKSOURCE_SMCLK,
-     6,
-     8,
-     32,
+     78,
+     2,
+     0,
      EUSCI_A_UART_NO_PARITY,
      EUSCI_A_UART_LSB_FIRST,
      EUSCI_A_UART_ONE_STOP_BIT,
@@ -229,7 +231,7 @@ void _adcInit()
 //initialization of the Bluetooth connection through UART
 void _bluetoothInit()
 {
-    //CS_Init();
+    CS_Init();
 
     /*Initialize Hardware required for the HC-05*/
     UART_Init(EUSCI_A2_BASE, UART2Config);     //configure Bluetooth in order to operate at 9600 baud rate
