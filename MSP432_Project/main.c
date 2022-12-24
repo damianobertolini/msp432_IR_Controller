@@ -90,7 +90,7 @@ int forw_backw = 0;
 int right_left = 0;
 int y_value;
 
-Selection_t currentSelection = BLUETOOTH;
+Selection_t currentSelection = JOYSTICK;
 int mode_selected = 0;
 
 
