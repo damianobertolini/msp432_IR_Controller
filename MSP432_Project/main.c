@@ -73,29 +73,14 @@ void main(void)
     // Stop watchdog timer
     WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;
 
-    // call all initialization functions
+    _hwInit();
 
-    _initPWM();
+    MSPrintf(EUSCI_A2_BASE, "Enter data to be sent to HC-05");
 
-    _bluetoothInit();
-
-    MSPrintf(EUSCI_A2_BASE, "Enter data to be sent to HC-05: ");
     MSPgets(EUSCI_A2_BASE, Buffer, BLUETOOTH_BUFFER_SIZE);
     printf("%s\n", Buffer);
+
     MSPrintf(EUSCI_A2_BASE, "\r\n");
-
-    /*Send data to HC-05*/
-    MSPrintf(EUSCI_A2_BASE, Buffer);
-
-    /*Get data from HC-05*/
-    MSPrintf(EUSCI_A2_BASE, "Waiting for HC-05 response...\r\n");
-    MSPgets(EUSCI_A2_BASE, Buffer, BLUETOOTH_BUFFER_SIZE);
-
-    /*Send data to serial terminal*/
-    MSPrintf(EUSCI_A2_BASE, "Data received from HC-05: %s\r\n", Buffer);
-
-
-    _hwInit();
 
     // send a command
     while(1)

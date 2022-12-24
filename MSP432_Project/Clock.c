@@ -92,6 +92,8 @@ void Clock_Init48MHz(void){
       return;                           // time out error
     }
   }
+
+
   // initialize PJ.3 and PJ.2 and make them HFXT (PJ.3 built-in 48 MHz crystal out; PJ.2 built-in 48 MHz crystal in)
   PJ->SEL0 |= 0x0C;
   PJ->SEL1 &= ~0x0C;                    // configure built-in 48 MHz crystal for HFXT operation
@@ -103,14 +105,16 @@ void Clock_Init48MHz(void){
            0x00010000 |                 // HFXT oscillator drive selection for crystals >4 MHz
            0x01000000;                  // enable HFXT
   CS->CTL2 &= ~0x02000000;              // disable high-frequency crystal bypass
+
   // wait for the HFXT clock to stabilize
   while(CS->IFG&0x00000002){
-    CS->CLRIFG = 0x00000002;              // clear the HFXT oscillator interrupt flag
-    Crystalstable = Crystalstable + 1;
-    if(Crystalstable > 100000){
-      return;                           // time out error
+      CS->CLRIFG = 0x00000002;              // clear the HFXT oscillator interrupt flag
+      Crystalstable = Crystalstable + 1;
+      if(Crystalstable > 100000){
+        return;                           // time out error
+      }
     }
-  }
+
   // configure for 2 wait states (minimum for 48 MHz operation) for flash Bank 0
   FLCTL->BANK0_RDCTL = (FLCTL->BANK0_RDCTL&~0x0000F000)|FLCTL_BANK0_RDCTL_WAIT_2;
   // configure for 2 wait states (minimum for 48 MHz operation) for flash Bank 1
