@@ -94,22 +94,40 @@ const Graphics_Image ACCELEROMETER_BLACK_1BPP_UNCOMP = {
     pixel_ACCELEROMETER_1BPP_UNCOMP,
 };
 
-const Graphics_Image BLUETOOTH_BLUE_8BPP_UNCOMP = {
-    IMAGE_FMT_8BPP_UNCOMP,
+const Graphics_Image BLUETOOTH_BLUE_1BPP_UNCOMP = {
+    IMAGE_FMT_1BPP_UNCOMP,
     option_width,
     option_height,
     option_size,
-    palette_BLUE_WHITE_BLUE_8BPP_UNCOMP,
-    pixel_BLUETOOTH_8BPP_UNCOMP,
+    palette_BLUE_WHITE_1BPP_UNCOMP,
+    pixel_BLUETOOTH_1BPP_UNCOMP,
 };
 
-const Graphics_Image BLUETOOTH_BLACK_8BPP_UNCOMP = {
-    IMAGE_FMT_8BPP_UNCOMP,
+const Graphics_Image BLUETOOTH_BLACK_1BPP_UNCOMP = {
+    IMAGE_FMT_1BPP_UNCOMP,
     option_width,
     option_height,
     option_size,
-    palette_BLACK_WHITE_BLUE_8BPP_UNCOMP,
-    pixel_BLUETOOTH_8BPP_UNCOMP,
+    palette_BLACK_WHITE_1BPP_UNCOMP,
+    pixel_BLUETOOTH_1BPP_UNCOMP,
+};
+
+const Graphics_Image BLUETOOTH_LOGO_BLUE_8BPP_UNCOMP = {
+    IMAGE_FMT_8BPP_UNCOMP,
+    bluetooth_logo_width,
+    bluetooth_logo_height,
+    bluetooth_logo_size,
+    palette_BLUETOOTH_LOGO_BLUE_8BPP_UNCOMP,
+    pixel_BLUETOOTH_LOGO_8BPP_UNCOMP,
+};
+
+const Graphics_Image BLUETOOTH_LOGO_BLACK_8BPP_UNCOMP = {
+    IMAGE_FMT_8BPP_UNCOMP,
+    bluetooth_logo_width,
+    bluetooth_logo_height,
+    bluetooth_logo_size,
+    palette_BLUETOOTH_LOGO_WHITE_8BPP_UNCOMP,
+    pixel_BLUETOOTH_LOGO_8BPP_UNCOMP,
 };
 
 const tImage HORIZONTAL_POWER_1BPP_UNCOMP = {
@@ -322,7 +340,7 @@ void drawDirections(int x, int y, Selection_t currentModality){
 
     bool greater_module_x;
     int left_right_power = 0;           // number of power levels for left/right direction
-    int forward_backward_power = 0;    // number of power levels for forward/backward direction
+    int forward_backward_power = 0;     // number of power levels for forward/backward direction
 
     //set parameters in order to choose the current direction and get the power levels
 

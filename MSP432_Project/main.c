@@ -178,15 +178,31 @@ void ble_command_manager()
     {
     case 'f':
         forw_backw = 1;
+        Graphics_drawImage(&g_sContext, &FOREWARD_RED, 46, 8);
+        Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
+        Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
+        Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
         break;
     case 'b':
         forw_backw = -1;
+        Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
+        Graphics_drawImage(&g_sContext, &BACKWARD_RED, 46, 76);
+        Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
+        Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
         break;
     case 'r':
         right_left = 1;
+        Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
+        Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
+        Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
+        Graphics_drawImage(&g_sContext, &RIGHT_RED, 76, 46);
         break;
     case 'l':
         right_left = -1;
+        Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
+        Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
+        Graphics_drawImage(&g_sContext, &LEFT_RED, 8, 46);
+        Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
         break;
     case 'u':
         if(curr_val != 4)
@@ -223,19 +239,32 @@ void ble_command_manager()
 void drawSelection(int y){
 
     if(y>9800){
-        currentSelection = JOYSTICK;
+        currentSelection = (Selection_t) ((3 + --currentSelection) % 3);  // Selection_t casting in order to avoid "enumerated type mixed with another type" warning
     } else if(y<7000){
-        currentSelection = ACCELEROMETER;
+        currentSelection = (Selection_t) (++currentSelection % 3);        // Selection_t casting in order to avoid "enumerated type mixed with another type" warning
     }
+
+
 
     if(currentSelection == JOYSTICK){
         Graphics_drawImage(&g_sContext, &JOYSTICK_BLUE, 17, 59);
         Graphics_drawImage(&g_sContext, &ACCELEROMETER_BLACK, 17, 75);
+        Graphics_drawImage(&g_sContext, &BLUETOOTH_BLACK, 17, 92);
+        Graphics_drawImage(&g_sContext, &BLUETOOTH_LOGO_BLACK, 101, 93);
     }
 
     if(currentSelection == ACCELEROMETER){
         Graphics_drawImage(&g_sContext, &JOYSTICK_BLACK, 17, 59);
         Graphics_drawImage(&g_sContext, &ACCELEROMETER_BLUE, 17, 75);
+        Graphics_drawImage(&g_sContext, &BLUETOOTH_BLACK, 17, 92);
+        Graphics_drawImage(&g_sContext, &BLUETOOTH_LOGO_BLACK, 101, 93);
+    }
+
+    if(currentSelection == BLUETOOTH){
+        Graphics_drawImage(&g_sContext, &JOYSTICK_BLACK, 17, 59);
+        Graphics_drawImage(&g_sContext, &ACCELEROMETER_BLACK, 17, 75);
+        Graphics_drawImage(&g_sContext, &BLUETOOTH_BLUE, 17, 92);
+        Graphics_drawImage(&g_sContext, &BLUETOOTH_LOGO_BLUE, 101, 93);
     }
 }
 
@@ -285,8 +314,6 @@ void TA2_0_IRQHandler(void)
     Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
 
     global = 1;
-
-    currentSelection = BLUETOOTH;
 
     Timer_A_clearCaptureCompareInterrupt(TIMER_A2_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 
