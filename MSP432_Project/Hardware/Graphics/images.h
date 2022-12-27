@@ -30,11 +30,11 @@ extern const unsigned int LEFT_DIRECTION_OFFSET_Y;
 extern const unsigned int BACKWARD_DIRECTION_OFFSET_X;
 extern const unsigned int BACKWARD_DIRECTION_OFFSET_Y;
 
-extern const unsigned int FOREWARD_DIRECTION_OFFSET_X;
-extern const unsigned int FOREWARD_DIRECTION_OFFSET_Y;
+extern const unsigned int FORWARD_DIRECTION_OFFSET_X;
+extern const unsigned int FORWARD_DIRECTION_OFFSET_Y;
 
 extern const unsigned int HORIZONTAL_POWER_OFFSET_X;
-extern const unsigned int FOREWARD_POWER_OFFSET_Y;
+extern const unsigned int FORWARD_POWER_OFFSET_Y;
 extern const unsigned int BACKWARD_POWER_OFFSET_Y;
 
 extern const unsigned int VERTICAL_POWER_OFFSET_Y;
@@ -57,8 +57,8 @@ extern const Graphics_Image DIRECTIONS_1BPP_UNCOMP;
 extern const Graphics_Image HORIZONTAL_POWER_1BPP_UNCOMP;
 extern const Graphics_Image VERTICAL_POWER_1BPP_UNCOMP;
 
-extern const Graphics_Image FOREWARD_RED_1BPP_UNCOMP;
-extern const Graphics_Image FOREWARD_WHITE_1BPP_UNCOMP;
+extern const Graphics_Image FORWARD_RED_1BPP_UNCOMP;
+extern const Graphics_Image FORWARD_WHITE_1BPP_UNCOMP;
 extern const Graphics_Image BACKWARD_RED_1BPP_UNCOMP;
 extern const Graphics_Image BACKWARD_WHITE_1BPP_UNCOMP;
 
@@ -82,7 +82,6 @@ extern const Graphics_Image BLUETOOTH_LOGO_BLACK_8BPP_UNCOMP;
 extern const Graphics_Image MENU_1BPP_UNCOMP;
 
 
-
 // VARIOUS COLOR PALETTES
 static const uint32_t palette_BLACK_RED_1BPP_UNCOMP[] = {BLACK_COLOR, RED_COLOR};
 static const uint32_t palette_BLACK_WHITE_1BPP_UNCOMP[] = {BLACK_COLOR, WHITE_COLOR};
@@ -95,12 +94,7 @@ static const uint32_t palette_HELICOPTER_8BPP_UNCOMP[] = {
 };
 
 
-
 // POWER LEVELS IMAGES
-//const unsigned int power_width = 11;
-//const unsigned int power_height = 2;
-//const int power_size = 1;
-
 #define power_width 11
 #define power_height 2
 #define power_size 1
@@ -115,15 +109,12 @@ static const unsigned char pixel_VERTICAL_POWER_1BPP_UNCOMP[]  = {
 };
 
 
+// FORWARD DIRECTION IMAGES
+#define FORWARD_width 40
+#define FORWARD_height 43
+#define FORWARD_size 2
 
-
-// FOREWARD DIRECTION IMAGES
-#define foreward_width 40
-#define foreward_height 43
-#define foreward_size 2
-
-
-static const unsigned char pixel_FOREWARD_1BPP_UNCOMP[]  = {
+static const unsigned char pixel_FORWARD_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b01000000,  0b00000000,  0b00000000,
     0b00000000,  0b00000000,  0b11100000,  0b00000000,  0b00000000,
     0b00000000,  0b00000001,  0b11110000,  0b00000000,  0b00000000,
@@ -168,8 +159,6 @@ static const unsigned char pixel_FOREWARD_1BPP_UNCOMP[]  = {
     0b00000000,  0b00111111,  0b11111111,  0b10000000,  0b00000000,
     0b00000000,  0b00111111,  0b11111111,  0b10000000,  0b00000000
 };
-
-
 
 
 // BACKWARD DIRECTION IMAGES
@@ -268,8 +257,6 @@ static const unsigned char pixel_LEFT_1BPP_UNCOMP[]  = {
 };
 
 
-
-
 // RIGHT DIRECTION IMAGES
 #define right_width 48
 #define right_height 35
@@ -312,8 +299,6 @@ static const unsigned char pixel_RIGHT_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b01100000,  0b00000000,  0b00000000,
     0b00000000,  0b00000000,  0b00000000,  0b01000000,  0b00000000,  0b00000000
 };
-
-
 
 
 // ALL DIRECTIONS IMAGE
@@ -451,9 +436,6 @@ static const unsigned char pixel_DIRECTIONS_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,
 };
-
-
-
 
 
 
@@ -639,8 +621,6 @@ static const unsigned char pixel_PROPELLERS1_8BPP_UNCOMP[] = {
 };
 
 
-
-
 // PROPELLERS IMAGE: SECOND FRAME
 #define propellers2_width 113
 #define propellers2_height 38
@@ -688,12 +668,7 @@ static const unsigned char pixel_PROPELLERS2_8BPP_UNCOMP[] = {
 
 
 
-
-
-
-
-
-// COMMON ATTRIBUTES FOR BOTH OPTIONS
+// COMMON ATTRIBUTES FOR THE MENU OPTIONS
 #define option_width 76
 #define option_height 15
 #define option_size 2
@@ -717,8 +692,6 @@ static const uint8_t pixel_JOYSTICK_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b0000
 };
 
-
-
 // ACCELEROMETER SELECTED IMAGE
 static const uint8_t pixel_ACCELEROMETER_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b0000,
@@ -738,6 +711,7 @@ static const uint8_t pixel_ACCELEROMETER_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b0000
 };
 
+// BLUETOOTH SELECTED IMAGE
 static const uint8_t pixel_BLUETOOTH_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b0000,
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b0000,
@@ -756,6 +730,7 @@ static const uint8_t pixel_BLUETOOTH_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b0000
 };
 
+// BLUETOOTH LOGO IMAGE
 #define bluetooth_logo_width 10
 #define bluetooth_logo_height 13
 #define bluetooth_logo_size 3
@@ -775,6 +750,7 @@ static const unsigned char pixel_BLUETOOTH_LOGO_8BPP_UNCOMP[] = {
     0x0, 0x0, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x0, 0x0,
     0x0, 0x0, 0x0, 0x1, 0x1, 0x1, 0x1, 0x0, 0x0, 0x0
 };
+
 
 // MENU IMAGE
 #define menu_width 128
@@ -911,10 +887,6 @@ static const uint8_t pixel_MENU_1BPP_UNCOMP[]  = {
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,
     0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000,  0b00000000
 };
-
-
-
-
 
 
 #endif /* IMAGES_H_ */

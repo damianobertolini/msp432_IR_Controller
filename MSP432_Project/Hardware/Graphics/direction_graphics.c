@@ -15,7 +15,12 @@
 #include "Hardware/Graphics/direction_graphics.h"
 #include "Hardware/Graphics/images.h"
 #include "Hardware/Graphics/img_vars.h"
+#include "Hardware/Graphics/graphics_context.h"
 
+typedef enum {NONE, FORWARD, BACKWARD, LEFT, RIGHT} Direction_t;
+
+// keep track of the direction during the execution to avoid useless redrawings
+Direction_t currentDirection = NONE;
 
 
 const unsigned int RIGHT_DIRECTION_OFFSET_X = 76;
@@ -27,16 +32,15 @@ const unsigned int LEFT_DIRECTION_OFFSET_Y = 46;
 const unsigned int BACKWARD_DIRECTION_OFFSET_X = 46;
 const unsigned int BACKWARD_DIRECTION_OFFSET_Y = 76;
 
-const unsigned int FOREWARD_DIRECTION_OFFSET_X = 46;
-const unsigned int FOREWARD_DIRECTION_OFFSET_Y = 8;
+const unsigned int FORWARD_DIRECTION_OFFSET_X = 46;
+const unsigned int FORWARD_DIRECTION_OFFSET_Y = 8;
 
 const unsigned int HORIZONTAL_POWER_OFFSET_X = 58;
-const unsigned int FOREWARD_POWER_OFFSET_Y = 44;
-const unsigned int BACKWARD_POWER_OFFSET_Y = 78;
-
 const unsigned int VERTICAL_POWER_OFFSET_Y = 58;
 const unsigned int RIGHT_POWER_OFFSET_X = 78;
-const unsigned int LEFT_POWER_OFFSET_X = 44;
+const unsigned int LEFT_POWER_OFFSET_X = 47;
+const unsigned int FORWARD_POWER_OFFSET_Y = 47;
+const unsigned int BACKWARD_POWER_OFFSET_Y = 78;
 
 
 const unsigned int PROPELLERS1_OFFSET_X = 8;
@@ -49,7 +53,6 @@ const unsigned int MENU_OPTION1_OFFSET_Y = 59;
 const unsigned int MENU_OPTION2_OFFSET_Y = 75;
 
 
-
 const Graphics_Image JOYSTICK_BLACK_1BPP_UNCOMP = {
     IMAGE_FMT_1BPP_UNCOMP,
     option_width,
@@ -58,7 +61,6 @@ const Graphics_Image JOYSTICK_BLACK_1BPP_UNCOMP = {
     palette_BLACK_WHITE_1BPP_UNCOMP,
     pixel_JOYSTICK_1BPP_UNCOMP,
 };
-
 
 const Graphics_Image JOYSTICK_BLUE_1BPP_UNCOMP = {
     IMAGE_FMT_1BPP_UNCOMP,
@@ -214,7 +216,7 @@ const tImage DIRECTIONS_1BPP_UNCOMP = {
 };
 
 
-const tImage HELICOPTER_8BPP_UNCOMP={
+const tImage HELICOPTER_8BPP_UNCOMP = {
     IMAGE_FMT_8BPP_UNCOMP,
     helicopter_width,
     helicopter_height,
@@ -241,99 +243,23 @@ const tImage PROPELLERS2_8BPP_UNCOMP = {
     pixel_PROPELLERS2_8BPP_UNCOMP,
 };
 
-const tImage FOREWARD_RED_1BPP_UNCOMP = {
+const tImage FORWARD_RED_1BPP_UNCOMP = {
     IMAGE_FMT_1BPP_UNCOMP,
-    foreward_width,
-    foreward_height,
-    foreward_size,
+    FORWARD_width,
+    FORWARD_height,
+    FORWARD_size,
     palette_BLACK_RED_1BPP_UNCOMP,
-    pixel_FOREWARD_1BPP_UNCOMP,
+    pixel_FORWARD_1BPP_UNCOMP,
 };
 
-const tImage FOREWARD_WHITE_1BPP_UNCOMP = {
+const tImage FORWARD_WHITE_1BPP_UNCOMP = {
     IMAGE_FMT_1BPP_UNCOMP,
-    foreward_width,
-    foreward_height,
-    foreward_size,
+    FORWARD_width,
+    FORWARD_height,
+    FORWARD_size,
     palette_BLACK_WHITE_1BPP_UNCOMP,
-    pixel_FOREWARD_1BPP_UNCOMP,
+    pixel_FORWARD_1BPP_UNCOMP,
 };
-
-
-typedef enum {NONE, FOREWARD, BACKWARD, LEFT, RIGHT} Direction_t;
-
-Direction_t currentDirection = NONE;    // keep track of the direction during the execution to avoid useless redrawings
-
-/* Graphic library context */
-Graphics_Context g_sContext;
-
-
-void drawHorizontalPower(int sign_y_value, int foreward_backward_power) {
-    int i;
-
-    if(sign_y_value == 1){
-        for(i=0; i<foreward_backward_power; i++){
-            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, 58, 47-(POWER_OFFSET*i));
-        }
-    } else if(sign_y_value == -1){
-        for(i=0; i<foreward_backward_power; i++){
-            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, 58, 78+(POWER_OFFSET*i));
-        }
-    }
-}
-
-void drawVerticalPower(int sign_x_value, int left_right_power) {
-    int i;
-
-    if(sign_x_value == 1){
-        for(i=0; i<left_right_power; i++){
-            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, 78+(POWER_OFFSET*i), 58);
-        }
-    } else if(sign_x_value == -1){
-        for(i=0; i<left_right_power; i++){
-            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, 47-(POWER_OFFSET*i), 58);
-        }
-    }
-}
-
-
-void drawPower(int left_right_power, int foreward_backward_power, int sign_x_value, int sign_y_value){
-    int i;
-
-    if(sign_x_value == 1){
-        for(i=0; i<left_right_power; i++){
-            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, 78+(POWER_OFFSET*i), 58);
-        }
-        drawHorizontalPower(sign_y_value, foreward_backward_power);
-    }
-
-    if(sign_x_value == -1){
-        for(i=0; i<left_right_power; i++){
-            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, 47-(POWER_OFFSET*i), 58);
-        }
-        drawHorizontalPower(sign_y_value, foreward_backward_power);
-    }
-
-    if(sign_y_value == 1){
-        for(i=0; i<foreward_backward_power; i++){
-            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, 58, 47-(POWER_OFFSET*i));
-        }
-        drawVerticalPower(sign_x_value, left_right_power);
-    }
-
-    if(sign_y_value == -1){
-        for(i=0; i<foreward_backward_power; i++){
-            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, 58, 78+(POWER_OFFSET*i));
-        }
-        drawVerticalPower(sign_x_value, left_right_power);
-    }
-}
-
-
-int module_value(a){
-    if(a<0) return -a;
-    return a;
-}
 
 
 void drawDirections(int x, int y, Selection_t currentModality){
@@ -345,6 +271,27 @@ void drawDirections(int x, int y, Selection_t currentModality){
     int forward_backward_power = 0;     // number of power levels for forward/backward direction
 
     //set parameters in order to choose the current direction and get the power levels
+
+    /*
+      since the values (x, y) received by the draw directions function are different in the case of the joystick  or the accelerometer,
+      it is necessary to redefine the lower bound and upper bound for both directions in the two cases considered
+
+      - limit values received form the joystick:        x:[0, 16300],    y[0, 16300]
+      - limit values received form the accelerometer:   x:[5000, 11400], y[5000, 11400]
+
+      the "forward" or "backward" direction is considered selected only if the y value:
+      - joystick:       forward y>9800,     backward y<7000
+      - accelerometer:  forward y>8800,     backward y<7600
+
+      the "left" or "right" direction is considered selected only if the y value:
+      - joystick:       left x<7000,    right x>9800
+      - accelerometer:  left x<7600,    right x>8800
+
+      the power level is calculated by dividing the received value by a suitable number, so that the maximum number of power level is 5,
+      in this regard we divide values (x, y) by:
+      - joystick:       1400
+      - accelerometer:  600
+    */
 
     if(currentModality == JOYSTICK){
         if(x>9800){
@@ -382,75 +329,127 @@ void drawDirections(int x, int y, Selection_t currentModality){
         }
     }
 
-    // which is the most powerful direction: left/right or forward/backward
+    // determine which is the most powerful direction: left/right or forward/backward
     if(module_value(x-8200)>module_value(y-8200)){greater_module_x=true;} else {greater_module_x=false;}
 
-    // left or right direction
+    // determine which (and if) horizontal direction is colored red
     if(greater_module_x){
         if(sign_x_value == 1){
             if(currentDirection!=RIGHT){
-                Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
-                Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
-                Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
-                Graphics_drawImage(&g_sContext, &RIGHT_RED, 76, 46);
+                drawDirectionRight();
                 currentDirection = RIGHT;
             }
             drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
         if(sign_x_value == 0){
-            Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
-            Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
-            Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
-            Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
+            drawDirectionNone();
             currentDirection = NONE;
         }
         if(sign_x_value == -1){
             if(currentDirection!=LEFT){
-                Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
-                Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
-                Graphics_drawImage(&g_sContext, &LEFT_RED, 8, 46);
-                Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
+                drawDirectionLeft();
                 currentDirection = LEFT;
             }
-
             drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
     }
 
-    // foreward or backward direction
+    // determine which (and if) vertical direction is colored red
     if(!greater_module_x){
         if(sign_y_value == 1){
-            if(currentDirection!=FOREWARD){
-                Graphics_drawImage(&g_sContext, &FOREWARD_RED, 46, 8);
-                Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
-                Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
-                Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
-                currentDirection = FOREWARD;
+            if(currentDirection!=FORWARD){
+                drawDirectionForward();
+                currentDirection = FORWARD;
             }
-
             drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
         if(sign_y_value == 0){
-            Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
-            Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
-            Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
-            Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
+            drawDirectionNone();
             currentDirection = NONE;
         }
         if(sign_y_value == -1){
             if(currentDirection!=BACKWARD){
-                Graphics_drawImage(&g_sContext, &FOREWARD_WHITE, 46, 8);
-                Graphics_drawImage(&g_sContext, &BACKWARD_RED, 46, 76);
-                Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
-                Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
+                drawDirectionBackward();
                 currentDirection = BACKWARD;
             }
-
             drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
     }
 
 }
 
+// draw the power levels on both horizontal and vertical directions
+void drawPower(int left_right_power, int FORWARD_backward_power, int sign_x_value, int sign_y_value){
+    drawVerticalPower(sign_x_value, left_right_power);
+    drawHorizontalPower(sign_y_value, FORWARD_backward_power);
+}
 
+// draw the power levels on vertical directions
+void drawHorizontalPower(int sign_y_value, int FORWARD_backward_power) {
+    int i;
 
+    if(sign_y_value == 1){
+        for(i=0; i<FORWARD_backward_power; i++){
+            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, HORIZONTAL_POWER_OFFSET_X, FORWARD_POWER_OFFSET_Y-(POWER_OFFSET*i));
+        }
+    } else if(sign_y_value == -1){
+        for(i=0; i<FORWARD_backward_power; i++){
+            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, HORIZONTAL_POWER_OFFSET_X, BACKWARD_POWER_OFFSET_Y+(POWER_OFFSET*i));
+        }
+    }
+}
+
+// draw the power levels on horizontal directions
+void drawVerticalPower(int sign_x_value, int left_right_power) {
+    int i;
+
+    if(sign_x_value == 1){
+        for(i=0; i<left_right_power; i++){
+            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, RIGHT_POWER_OFFSET_X+(POWER_OFFSET*i), VERTICAL_POWER_OFFSET_Y);
+        }
+    } else if(sign_x_value == -1){
+        for(i=0; i<left_right_power; i++){
+            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, LEFT_POWER_OFFSET_X-(POWER_OFFSET*i), VERTICAL_POWER_OFFSET_Y);
+        }
+    }
+}
+
+int module_value(int a){
+    if(a<0) return -a;
+    return a;
+}
+
+void drawDirectionForward(){
+    Graphics_drawImage(&g_sContext, &FORWARD_RED, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+void drawDirectionBackward(){
+    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_RED, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+void drawDirectionLeft(){
+    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_RED, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+void drawDirectionRight(){
+    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_RED, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+void drawDirectionNone(){
+    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
