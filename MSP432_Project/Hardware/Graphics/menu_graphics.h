@@ -10,8 +10,8 @@
 
 void startImageHelicopter();
 void customDelay(int CYCLES);
-void drawSelectionJoystick();
-void drawSelectionAccelerometer();
-void drawSelectionBluetooth();
+drawSelectionJoystick();
+drawSelectionAccelerometer();
+drawSelectionBluetooth();
 
 #endif /* MENU_GRAPHICS_H_ */
