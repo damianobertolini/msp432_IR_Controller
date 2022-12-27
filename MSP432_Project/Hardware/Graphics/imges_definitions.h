@@ -5,8 +5,8 @@
  *      Author: damiano
  */
 
-#ifndef IMG_VARS_H_
-#define IMG_VARS_H_
+#ifndef IMAGES_DEFINITIONS_H_
+#define IMAGES_DEFINITIONS_H_
 
 #include <ti/grlib/grlib.h>
 
@@ -71,4 +71,4 @@ extern const Graphics_Image MENU_1BPP_UNCOMP;
 #define MENU MENU_1BPP_UNCOMP
 
 
-#endif /* IMG_VARS_H_ */
+#endif /* IMAGES_DEFINITIONS_H_ */
