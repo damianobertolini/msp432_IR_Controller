@@ -10,6 +10,10 @@
 "./Hardware/Lcd/Crystalfontz128x128_ST7735.obj"
 "./Hardware/Lcd/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj"
 "./Hardware/hardware_init.obj"
+"./Logic/Interrupts/adc_interrupt.obj"
+"./Logic/Interrupts/buttons_interrupts.obj"
+"./Logic/Interrupts/timers_interrupts.obj"
+"./Logic/project_logic.obj"
 "../msp432p401r.cmd"
 -llibc.a
 -l"/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/lib/ccs/m4f/grlib.a"

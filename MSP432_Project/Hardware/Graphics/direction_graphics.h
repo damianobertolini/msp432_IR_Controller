@@ -8,7 +8,7 @@
 #ifndef DIRECTION_GRAPHICS_H_
 #define DIRECTION_GRAPHICS_H_
 
-typedef enum {JOYSTICK, ACCELEROMETER, BLUETOOTH} Selection_t;
+#include "Logic/project_logic.h"
 
 void drawDirections(int x, int y, Selection_t currentModality);
 void drawPower(int left_right_power, int foreward_backward_power, int sign_x_value, int sign_y_value);

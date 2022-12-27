@@ -119,4 +119,6 @@ Hardware/Graphics \
 Hardware/Infrared \
 Hardware/Lcd \
 Hardware \
+Logic/Interrupts \
+Logic \
 

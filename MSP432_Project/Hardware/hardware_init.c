@@ -106,6 +106,9 @@ void _lowPowerInit()
 
 void _PCM_Flash_Init()
 {
+    // Stop watchdog timer
+    WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;
+
     /* Set the core voltage level to VCORE1 */
     PCM_setCoreVoltageLevel(PCM_VCORE1);
 

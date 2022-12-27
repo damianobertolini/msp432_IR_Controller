@@ -54,20 +54,7 @@ main.obj: /Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib
 main.obj: /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/assert.h
 main.obj: /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdio.h
 main.obj: /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h
-main.obj: ../Hardware/Infrared/command_matrices.h
-main.obj: ../Hardware/Infrared/send_codes.h
-main.obj: ../Hardware/hardware_init.h
-main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/graphics_context.h
-main.obj: /Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h
-main.obj: ../Hardware/Lcd/Crystalfontz128x128_ST7735.h
-main.obj: /Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h
-main.obj: ../Hardware/Graphics/direction_graphics.h
-main.obj: ../Hardware/Graphics/images.h
-main.obj: /Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h
-main.obj: ../Hardware/Graphics/img_vars.h
-main.obj: /Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h
-main.obj: ../Hardware/Bluetooth/Controller/UART_IO.h
-main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Bluetooth/Hardware/UART_Driver.h
+main.obj: ../Logic/project_logic.h
 
 ../main.c:
 
@@ -177,31 +164,5 @@ main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTE
 
 /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h:
 
-../Hardware/Infrared/command_matrices.h:
-
-../Hardware/Infrared/send_codes.h:
-
-../Hardware/hardware_init.h:
-
-/Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/graphics_context.h:
-
-/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h:
-
-../Hardware/Lcd/Crystalfontz128x128_ST7735.h:
-
-/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h:
-
-../Hardware/Graphics/direction_graphics.h:
-
-../Hardware/Graphics/images.h:
-
-/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h:
-
-../Hardware/Graphics/img_vars.h:
-
-/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h:
-
-../Hardware/Bluetooth/Controller/UART_IO.h:
-
-/Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Bluetooth/Hardware/UART_Driver.h:
+../Logic/project_logic.h:
 

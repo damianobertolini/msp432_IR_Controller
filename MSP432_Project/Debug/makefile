@@ -20,6 +20,10 @@ ORDERED_OBJS += \
 "./Hardware/Lcd/Crystalfontz128x128_ST7735.obj" \
 "./Hardware/Lcd/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj" \
 "./Hardware/hardware_init.obj" \
+"./Logic/Interrupts/adc_interrupt.obj" \
+"./Logic/Interrupts/buttons_interrupts.obj" \
+"./Logic/Interrupts/timers_interrupts.obj" \
+"./Logic/project_logic.obj" \
 "../msp432p401r.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -41,6 +45,8 @@ RMDIR := rm -rf
 -include Hardware/Infrared/subdir_vars.mk
 -include Hardware/Lcd/subdir_vars.mk
 -include Hardware/subdir_vars.mk
+-include Logic/Interrupts/subdir_vars.mk
+-include Logic/subdir_vars.mk
 -include subdir_rules.mk
 -include Hardware/Bluetooth/Controller/subdir_rules.mk
 -include Hardware/Bluetooth/Hardware/subdir_rules.mk
@@ -49,6 +55,8 @@ RMDIR := rm -rf
 -include Hardware/Infrared/subdir_rules.mk
 -include Hardware/Lcd/subdir_rules.mk
 -include Hardware/subdir_rules.mk
+-include Logic/Interrupts/subdir_rules.mk
+-include Logic/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -179,8 +187,8 @@ MSP432_Project.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" "Hardware/Bluetooth/Controller/UART_IO.obj" "Hardware/Bluetooth/Hardware/UART_Driver.obj" "Hardware/Clock/clock.obj" "Hardware/Graphics/direction_graphics.obj" "Hardware/Infrared/command_matrices.obj" "Hardware/Infrared/send_codes.obj" "Hardware/Lcd/Crystalfontz128x128_ST7735.obj" "Hardware/Lcd/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj" "Hardware/hardware_init.obj" 
-	-$(RM) "main.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" "Hardware/Bluetooth/Controller/UART_IO.d" "Hardware/Bluetooth/Hardware/UART_Driver.d" "Hardware/Clock/clock.d" "Hardware/Graphics/direction_graphics.d" "Hardware/Infrared/command_matrices.d" "Hardware/Infrared/send_codes.d" "Hardware/Lcd/Crystalfontz128x128_ST7735.d" "Hardware/Lcd/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.d" "Hardware/hardware_init.d" 
+	-$(RM) "main.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" "Hardware/Bluetooth/Controller/UART_IO.obj" "Hardware/Bluetooth/Hardware/UART_Driver.obj" "Hardware/Clock/clock.obj" "Hardware/Graphics/direction_graphics.obj" "Hardware/Infrared/command_matrices.obj" "Hardware/Infrared/send_codes.obj" "Hardware/Lcd/Crystalfontz128x128_ST7735.obj" "Hardware/Lcd/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj" "Hardware/hardware_init.obj" "Logic/Interrupts/adc_interrupt.obj" "Logic/Interrupts/buttons_interrupts.obj" "Logic/Interrupts/timers_interrupts.obj" "Logic/project_logic.obj" 
+	-$(RM) "main.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" "Hardware/Bluetooth/Controller/UART_IO.d" "Hardware/Bluetooth/Hardware/UART_Driver.d" "Hardware/Clock/clock.d" "Hardware/Graphics/direction_graphics.d" "Hardware/Infrared/command_matrices.d" "Hardware/Infrared/send_codes.d" "Hardware/Lcd/Crystalfontz128x128_ST7735.d" "Hardware/Lcd/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.d" "Hardware/hardware_init.d" "Logic/Interrupts/adc_interrupt.d" "Logic/Interrupts/buttons_interrupts.d" "Logic/Interrupts/timers_interrupts.d" "Logic/project_logic.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
