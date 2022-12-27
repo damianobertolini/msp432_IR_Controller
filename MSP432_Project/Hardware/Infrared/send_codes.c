@@ -156,6 +156,7 @@ void sendCommand(const unsigned int cmd[], const unsigned int pause[], unsigned 
 // EFFECT: calls all initialization functions
 void _initPWM(void)
 {
+    //sets master clock to 48 MHz (maximum frequency for MSP432P410R)
     Clock_Init48MHz();
     SysTick_Init();
     PWM_Init(0.000026315789473684, 0.5); // init pwm on pin P2.5 with 38kHz and 50% duty cycle

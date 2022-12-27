@@ -7,7 +7,7 @@
 
 #include "interrupts.h"
 
-
+// tells if the mode (BLE, Joystick or accelerometer) has already been selected
 int mode_selected = 0;
 
 
@@ -28,16 +28,21 @@ void PORT4_IRQHandler(void)
             //not modifiable anymore
             mode_selected = 1;
 
+            //sends messages to Bluetooth connected device in order to check channel status (useful also for debugging)
             if(currentSelection == BLUETOOTH)
             {
                 MSPrintf(EUSCI_A2_BASE, "Connection OK       ");
                 MSPrintf(EUSCI_A2_BASE, "Waiting for data    ");
             }
 
+            // draws first arrows image
             Graphics_drawImage(&g_sContext, &DIRECTIONS, 0, 0);
 
             //start A1 timer for directions drawing (TIMER_A1)
             Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
+
+
+            //Note that here we could even disable the Joystick Button interrupt as we will not be using it anymore
         }
     }
 }

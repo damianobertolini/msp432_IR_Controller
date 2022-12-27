@@ -10,7 +10,7 @@
 #include "Hardware/Bluetooth/Controller/UART_IO.h"
 
 #include "Hardware/Lcd/Crystalfontz128x128_ST7735.h"
-#include "Hardware/Graphics/img_vars.h"
+#include "Hardware/Graphics/images_definitions.h"
 #include "Hardware/Graphics/menu_graphics.h"
 
 

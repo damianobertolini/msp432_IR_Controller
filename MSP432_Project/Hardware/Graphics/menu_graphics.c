@@ -5,6 +5,7 @@
  *      Author: damiano
  */
 
+#include <Hardware/Graphics/images_definitions.h>
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 #include <ti/grlib/grlib.h>
 
@@ -14,9 +15,10 @@
 
 #include "Hardware/Graphics/menu_graphics.h"
 #include "Hardware/Graphics/images.h"
-#include "Hardware/Graphics/imges_definitions.h"
 #include "Hardware/Graphics/graphics_context.h"
 
+
+// CONSTANTS FOR IMAGE PLACEMENT
 
 const unsigned int PROPELLERS1_OFFSET_X = 8;
 const unsigned int PROPELLERS1_OFFSET_Y = 30;
@@ -29,6 +31,35 @@ const unsigned int MENU_OPTION2_OFFSET_Y = 75;
 const unsigned int MENU_OPTION3_OFFSET_Y = 92;
 const unsigned int BLUETOOTH_LOGO_OFFSET_X = 101;
 
+
+// IMAGES FOR THE HELICOPTER, MENU AND MENU OPTIONS
+
+const tImage HELICOPTER_8BPP_UNCOMP = {
+    IMAGE_FMT_8BPP_UNCOMP,
+    helicopter_width,
+    helicopter_height,
+    helicopter_size,
+    palette_HELICOPTER_8BPP_UNCOMP,
+    pixel_HELICOPTER_8BPP_UNCOMP,
+};
+
+const tImage PROPELLERS1_8BPP_UNCOMP = {
+    IMAGE_FMT_8BPP_UNCOMP,
+    propellers1_width,
+    propellers1_height,
+    helicopter_size,
+    palette_HELICOPTER_8BPP_UNCOMP,
+    pixel_PROPELLERS1_8BPP_UNCOMP,
+};
+
+const tImage PROPELLERS2_8BPP_UNCOMP = {
+    IMAGE_FMT_8BPP_UNCOMP,
+    propellers2_width,
+    propellers2_height,
+    helicopter_size,
+    palette_HELICOPTER_8BPP_UNCOMP,
+    pixel_PROPELLERS2_8BPP_UNCOMP,
+};
 
 const Graphics_Image MENU_1BPP_UNCOMP = {
     IMAGE_FMT_1BPP_UNCOMP,
@@ -112,68 +143,8 @@ const Graphics_Image BLUETOOTH_LOGO_BLACK_8BPP_UNCOMP = {
 };
 
 
-// draw the helicopter image at the startup of the system, with moving propellers at the end draws the menu
-void startImageHelicopter()
-{
-    int j;
-    Graphics_drawImage(&g_sContext, &HELICOPTER, 0, 0);
-    customDelay(500000);
-
-    // alternately draws the two propellers images, making the "movement" effect
-    for(j=0; j<10; j++)
-    {
-        Graphics_drawImage(&g_sContext, &PROPELLERS1, PROPELLERS1_OFFSET_X, PROPELLERS1_OFFSET_Y);
-        customDelay(300000);
-
-        Graphics_drawImage(&g_sContext, &PROPELLERS2, PROPELLERS2_OFFSET_X, PROPELLERS2_OFFSET_Y);
-        customDelay(300000);
-    }
-}
-
-void drawMenu()
-{
-    Graphics_drawImage(&g_sContext, &MENU, 0, 0);
-}
-
-<<<<<<< HEAD
-
-=======
-// delay using a counter 
-void customDelay(int CYCLES)
-{
-    int j;
-
-    //this could throw a warning: Detected SW delay loop using empty loop. Recommend using a timer module instead
-    //but the creator has decided not to use another timer to implement this function
-    for(j=0;j<CYCLES;j++){}
-}
-
-
-// move between the three menu options and redraws the option images based on the current selection
-// the upper and lower bound for the y value received are set to 9800 and 7000 in order to ignore little and unwanted movements
-void drawSelection(int y){
-
-    if(y>9800){
-        currentSelection = (Selection_t) ((3 + --currentSelection) % 3);  // Selection_t casting in order to avoid "enumerated type mixed with another type" warning
-    } else if(y<7000){
-        currentSelection = (Selection_t) (++currentSelection % 3);        // Selection_t casting in order to avoid "enumerated type mixed with another type" warning
-    }
-
-    if(currentSelection == JOYSTICK){
-        drawSelectionJoystick();
-    }
-
-    if(currentSelection == ACCELEROMETER){
-        drawSelectionAccelerometer();
-    }
-
-    if(currentSelection == BLUETOOTH){
-        drawSelectionBluetooth();
-    }
-}
 
 // redraw option images when JOYSTICK is selected
->>>>>>> 53571f263a7530d9011d9f36043acfa4f403a893
 void drawSelectionJoystick(){
     Graphics_drawImage(&g_sContext, &JOYSTICK_BLUE, MENU_OPTION_OFFSET_X, MENU_OPTION1_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &ACCELEROMETER_BLACK, MENU_OPTION_OFFSET_X, MENU_OPTION2_OFFSET_Y);
@@ -196,3 +167,39 @@ void drawSelectionBluetooth(){
     Graphics_drawImage(&g_sContext, &BLUETOOTH_BLUE, MENU_OPTION_OFFSET_X, MENU_OPTION3_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BLUETOOTH_LOGO_BLUE, BLUETOOTH_LOGO_OFFSET_X, MENU_OPTION3_OFFSET_Y+1);
 }
+
+// draws menu window
+void drawMenu()
+{
+    Graphics_drawImage(&g_sContext, &MENU, 0, 0);
+}
+
+// delay using a counter 
+void customDelay(int CYCLES)
+{
+    int j;
+
+    //this could throw a warning: Detected SW delay loop using empty loop. Recommend using a timer module instead
+    //but the creator has decided not to use another timer to implement this function
+    for(j=0;j<CYCLES;j++){}
+}
+
+// draw the helicopter image at the startup of the system, with moving propellers at the end draws the menu
+void startImageHelicopter()
+{
+    Graphics_drawImage(&g_sContext, &HELICOPTER, 0, 0);
+    customDelay(500000);
+
+    int j;
+
+    // alternately draws the two propellers images, making the "movement" effect
+    for(j=0; j<10; j++)
+    {
+        Graphics_drawImage(&g_sContext, &PROPELLERS1, PROPELLERS1_OFFSET_X, PROPELLERS1_OFFSET_Y);
+        customDelay(300000);
+
+        Graphics_drawImage(&g_sContext, &PROPELLERS2, PROPELLERS2_OFFSET_X, PROPELLERS2_OFFSET_Y);
+        customDelay(300000);
+    }
+}
+

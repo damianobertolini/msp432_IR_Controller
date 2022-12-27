@@ -55,6 +55,7 @@ main.obj: /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/incl
 main.obj: /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdio.h
 main.obj: /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h
 main.obj: ../Logic/project_logic.h
+main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/menu_graphics.h
 
 ../main.c:
 
@@ -165,4 +166,6 @@ main.obj: ../Logic/project_logic.h
 /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h:
 
 ../Logic/project_logic.h:
+
+/Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/menu_graphics.h:
 

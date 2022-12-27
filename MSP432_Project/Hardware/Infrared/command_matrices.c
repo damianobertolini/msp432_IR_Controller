@@ -7,6 +7,8 @@
 
 #include "command_matrices.h"
 
+// This file includes all matrices which represent the signals sent through Infrared
+// This values were decoded from the original remote controller with an IR Receiver
 
 const unsigned int up_matrix[5][MAX_PULSE] =      {{1950,250,250,400,250,250,250,300,300,250,300,200,250,250,250,250,300,250,250,200,400,350,200,250,250,250,400,300,350,250,250,400,350,250},
                                              {1950,250,250,350,300,400,300,200,250,300,250,250,250,250,300,250,250,250,300,400,200,250,300,350,350,250,350,300,300,350,400,400,350,250},

@@ -5,23 +5,26 @@
  *      Author: damiano
  */
 
+#include <Hardware/Graphics/images_definitions.h>
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 #include <ti/grlib/grlib.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "Hardware/Lcd/Crystalfontz128x128_ST7735.h"
 
 #include "Hardware/Graphics/direction_graphics.h"
 #include "Hardware/Graphics/images.h"
-#include "Hardware/Graphics/imges_definitions.h"
 #include "Hardware/Graphics/graphics_context.h"
 
 typedef enum {NONE, FORWARD, BACKWARD, LEFT, RIGHT} Direction_t;
 
-// keep track of the direction during the execution to avoid useless redrawings
+// keep track of the direction during the execution to avoid useless redrawing
 Direction_t currentDirection = NONE;
 
+
+// CONSTANTS FOR IMAGE PLACEMENT
 
 const unsigned int RIGHT_DIRECTION_OFFSET_X = 76;
 const unsigned int RIGHT_DIRECTION_OFFSET_Y = 46;
@@ -42,6 +45,8 @@ const unsigned int LEFT_POWER_OFFSET_X = 47;
 const unsigned int FORWARD_POWER_OFFSET_Y = 47;
 const unsigned int BACKWARD_POWER_OFFSET_Y = 78;
 
+
+// IMAGES FOR THE DIRECTIONS AND POWER LEVELS
 
 const tImage HORIZONTAL_POWER_1BPP_UNCOMP = {
     IMAGE_FMT_1BPP_UNCOMP,
@@ -122,34 +127,6 @@ const tImage DIRECTIONS_1BPP_UNCOMP = {
     directions_size,
     palette_BLACK_WHITE_1BPP_UNCOMP,
     pixel_DIRECTIONS_1BPP_UNCOMP,
-};
-
-
-const tImage HELICOPTER_8BPP_UNCOMP = {
-    IMAGE_FMT_8BPP_UNCOMP,
-    helicopter_width,
-    helicopter_height,
-    helicopter_size,
-    palette_HELICOPTER_8BPP_UNCOMP,
-    pixel_HELICOPTER_8BPP_UNCOMP,
-};
-
-const tImage PROPELLERS1_8BPP_UNCOMP = {
-    IMAGE_FMT_8BPP_UNCOMP,
-    propellers1_width,
-    propellers1_height,
-    helicopter_size,
-    palette_HELICOPTER_8BPP_UNCOMP,
-    pixel_PROPELLERS1_8BPP_UNCOMP,
-};
-
-const tImage PROPELLERS2_8BPP_UNCOMP = {
-    IMAGE_FMT_8BPP_UNCOMP,
-    propellers2_width,
-    propellers2_height,
-    helicopter_size,
-    palette_HELICOPTER_8BPP_UNCOMP,
-    pixel_PROPELLERS2_8BPP_UNCOMP,
 };
 
 const tImage FORWARD_RED_1BPP_UNCOMP = {
@@ -239,7 +216,7 @@ void drawDirections(int x, int y, Selection_t currentModality){
     }
 
     // determine which is the most powerful direction: left/right or forward/backward
-    if(module_value(x-8200)>module_value(y-8200)){greater_module_x=true;} else {greater_module_x=false;}
+    if(abs(x-8200)>abs(y-8200)){greater_module_x=true;} else {greater_module_x=false;}
 
     // determine which (and if) horizontal direction is colored red
     if(greater_module_x){
@@ -323,12 +300,8 @@ void drawVerticalPower(int sign_x_value, int left_right_power) {
     }
 }
 
-int module_value(int a){
-    if(a<0) return -a;
-    return a;
-}
 
-// redraw directio images when the current direction is FORWARD
+// redraw direction images when the current direction is FORWARD
 void drawDirectionForward(){
     Graphics_drawImage(&g_sContext, &FORWARD_RED, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
@@ -336,7 +309,7 @@ void drawDirectionForward(){
     Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
 }
 
-// redraw directio images when the current direction is BACKWARD
+// redraw direction images when the current direction is BACKWARD
 void drawDirectionBackward(){
     Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_RED, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
@@ -344,7 +317,7 @@ void drawDirectionBackward(){
     Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
 }
 
-// redraw directio images when the current direction is LEFT
+// redraw direction images when the current direction is LEFT
 void drawDirectionLeft(){
     Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
@@ -352,7 +325,7 @@ void drawDirectionLeft(){
     Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
 }
 
-// redraw directio images when the current direction is RIGHT
+// redraw direction images when the current direction is RIGHT
 void drawDirectionRight(){
     Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
@@ -360,7 +333,7 @@ void drawDirectionRight(){
     Graphics_drawImage(&g_sContext, &RIGHT_RED, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
 }
 
-// redraw directio images when the current direction is NONE
+// redraw direction images when the current direction is NONE
 void drawDirectionNone(){
     Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);

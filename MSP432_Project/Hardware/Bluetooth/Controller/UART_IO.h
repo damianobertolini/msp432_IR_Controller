@@ -7,7 +7,7 @@
 
 #define BLUETOOTH_BUFFER_SIZE    1    //maximum number of character that the uart bluetooth buffer can store
 
-extern char Buffer[BLUETOOTH_BUFFER_SIZE];
+extern char Buffer[BLUETOOTH_BUFFER_SIZE];  //Buffer which will make a copy of the default buffer (UARTA0Data) where UART data for Bluetooth are stored
 
 
 void MSPrintf(uint32_t UART, const char *fs, ...);

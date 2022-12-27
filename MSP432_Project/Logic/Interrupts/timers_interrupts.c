@@ -7,13 +7,13 @@
 
 #include "interrupts.h"
 
-
-int global = 0;
+// this variables is used in ADC interrupt to establish whether the ADC conversion was trigger by Timer A2 - A3 (and in this case we need to send a new IR command)
+// or by Timer A1 (in this case we just need to redraw the power directions arrows for better timing reactivity)
+int timer_2_or_3 = 0;
 
 //The two Timers alternate in triggering interrupts; this is necessary as the real remote control emits IR signals with different time intervals
-//Note I'm not calling findCommand() inside the TIMER Interrupts (ex. after ADC14_toggleConversionTrigger()); as this function is called AT THE END of the timer interrupt
-//This would mean not getting a responsive device.
-
+//Note I'm not calling findCommand() inside the TIMER Interrupts (ex. after ADC14_toggleConversionTrigger()); as this last function is called AT THE END of the timer interrupt
+//(This would mean not getting a responsive device)
 
 
 //Timer A2 Capture/Compare Register 0 Interrupt handler
@@ -23,10 +23,11 @@ void TA2_0_IRQHandler(void)
     Timer_A_stopTimer(TIMER_A2_BASE);
     Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
 
-    global = 1;
+    timer_2_or_3 = 1;
 
     Timer_A_clearCaptureCompareInterrupt(TIMER_A2_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 
+    // if the Bluetooth mode was selected it calls the BLE manager, else calls the ADC Conversion for Joystick and accelerometer
     if(mode_selected && currentSelection == BLUETOOTH)
     {
         ble_command_manager();
@@ -45,11 +46,11 @@ void TA3_0_IRQHandler(void)
     Timer_A_stopTimer(TIMER_A3_BASE);
     Timer_A_startCounter(TIMER_A2_BASE, TIMER_A_UP_MODE);
 
-    global = 1;
-
+    timer_2_or_3 = 1;
 
     Timer_A_clearCaptureCompareInterrupt(TIMER_A3_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 
+    // if the Bluetooth mode was selected it calls the BLE manager, else calls the ADC Conversion for Joystick and accelerometer
     if(mode_selected && currentSelection == BLUETOOTH)
     {
         ble_command_manager();
@@ -62,10 +63,10 @@ void TA3_0_IRQHandler(void)
 }
 
 
-//Timer A3 Capture/Compare Register 0 Interrupt handler
+//Timer A1 Capture/Compare Register 0 Interrupt handler
 void TA1_0_IRQHandler(void)
 {
-    //trigger ADC conversion of Joystick and accelerometer position
+    //trigger ADC conversion of Joystick and accelerometer position, just for arrows power redrawing
     ADC14_toggleConversionTrigger();
 
 

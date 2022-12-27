@@ -8,6 +8,8 @@
 #ifndef GRAPHICS_CONTEXT_H_
 #define GRAPHICS_CONTEXT_H_
 
+// this header file is used just to have a global Graphics_Context variable for the LCD in the whole project
+
 #include <ti/grlib/grlib.h>
 
 /* Graphic library context */

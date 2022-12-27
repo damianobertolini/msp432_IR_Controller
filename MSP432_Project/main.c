@@ -16,6 +16,7 @@
 
 void main(void)
 {
+    // initializes all the hardware
     _hwInit();
 
     // draws helicopter startup image
@@ -27,7 +28,6 @@ void main(void)
     // enables Interrupt master and start first clock, in order to start getting buttons, timer and adc interrupts
     activate_peripherals();
 
-    // send a command
     while(1)
     {
         // MSP432 goes into sleep mode until next interrupt is fired

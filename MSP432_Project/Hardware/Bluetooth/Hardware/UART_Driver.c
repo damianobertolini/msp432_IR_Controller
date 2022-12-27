@@ -133,6 +133,7 @@ void UART_Flush(uint32_t UART)
     }
 }
 
+// UART handler for EUSCIA0
 void EUSCIA0_IRQHandler(void)
 {
     uint8_t c;
@@ -159,6 +160,7 @@ void EUSCIA0_IRQHandler(void)
     }
 }
 
+// UART handler for EUSCIA2
 void EUSCIA2_IRQHandler(void)
 {
     uint8_t c;

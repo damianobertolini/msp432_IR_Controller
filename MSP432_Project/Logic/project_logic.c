@@ -4,9 +4,7 @@
  *  Created on: 27 dic 2022
  *      Author: damiano
  */
-
-#include <Hardware/Graphics/menu_graphics.h>
-#include <stdio.h>
+#include "project_logic.h"
 
 // Infrared
 #include "Hardware/Infrared/command_matrices.h"
@@ -19,21 +17,22 @@
 #include "Hardware/Lcd/Crystalfontz128x128_ST7735.h"
 
 #include "Hardware/Graphics/graphics_context.h"   //imported twice (present also in hardware_init.h) just to avoid problems in case of future changes in hardware_init.h
+#include "Hardware/Graphics/images_definitions.h"
 #include "Hardware/Graphics/direction_graphics.h"
-#include "Hardware/Graphics/images.h"
-#include "Hardware/Graphics/img_vars.h"
-#include "Hardware/Graphics/menu_graphics.h"
 
+// Bluetooth
 #include "Hardware/Bluetooth/Controller/UART_IO.h"
 
-// global variables also used in main
+
+
+// defining global variables also used in main
 int curr_val = 0;
 int forw_backw = 0;
 int right_left = 0;
 
-Selection_t currentSelection = JOYSTICK;
+Selection_t currentSelection = JOYSTICK;    // This way the Joystick will be shown as selected at the startup of the menu
 
-
+//initializes all hardware
 void _hwInit()
 {
     //Initializes all unused ports in order to address power consumption, this function is not mandatory and should just remove the warning (see the implementation for further info on why the warning is still present):
@@ -55,6 +54,8 @@ void _hwInit()
     //initialize buttons S1 and S2 (pins J4.32 and J4.33) on BoosterPack Module and Joystick button (Port4 PIN 1)
     _buttonsInit();
 
+    // it is possible to initialize Joystick or accelerometer only if they have been selected by the user in the menu, but this configuration could allow to use both at the same time
+
     //initialize ADC for Joystick
     _joystickInit();
 
@@ -71,17 +72,20 @@ void _hwInit()
     _graphicsInit();
 }
 
+// start the first helicopter image at the startup
 void start_graphics()
 {
     // outputs helicopter image
     startImageHelicopter();
 }
 
+// draws the menu
 void start_menu()
 {
     drawMenu();
 }
 
+// activates all peripherals interrupts and start the first of the two timers which manage the IR emission
 void activate_peripherals()
 {
     // enable master interrupt
@@ -92,9 +96,7 @@ void activate_peripherals()
 }
 
 
-
-
-//finds the right command to send and calls sendCommand to send it
+// finds the right command to send and calls sendCommand() to send it
 void findCommand()
 {
     //create in-function local copy of global variables in order to have the possibility to erase their value
@@ -132,16 +134,19 @@ void findCommand()
     //default maintain current propeller speed
     sendCommand(up_matrix[curr_val], up_matrix_p[curr_val], sizeof(up_matrix[curr_val]) / sizeof(up_matrix[curr_val][0]));
 
+
+    //toggle LED state in order to notify the user that a command has been sent (mostly useful for debugging purposes)
+    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
 }
 
 
-
-
 int n_plane = 0;
-int planing = 0;
+int landing = 0;
 
+// local function called when using Bluetooth and the user presses on "Plane", it slowly decrements the propellers power in order to make the helicopter land
 void land()
 {
+    // if the current velocity isn't 0, it counts 4 timers (A2 and A3) interrupts then decrements it until its value gets to 0
     if(curr_val != 0)
     {
         if(n_plane == 4)
@@ -154,56 +159,47 @@ void land()
             n_plane++;
         }
 
+        // It still needs to send signals even if n_plane isn't 4, otherwise the helicopter would stop for a moment
         findCommand();
-
-        customDelay(500000);
     }
     else
     {
-        planing = 0;
+        // after finishing the landing, landing variable is set to 0 so that land() will not be called anymore
+        landing = 0;
     }
 }
 
 
+// this functions implements the logical control of the Bluetooth module, interpreting received values and taking the appropriate actions
 void ble_command_manager()
 {
     //this custom MSPgets won't block other functions waiting for a command to be sent via Bluetooth and will just check if the UART Buffer is not empty
     customMSPgets(EUSCI_A2_BASE, Buffer, BLUETOOTH_BUFFER_SIZE);
 
-    if(planing)
+    // don't want to listen to other commands if the helicopter is in the landing phase
+    if(landing)
     {
         land();
     }
 
+    // check value read from the Bluetooth UART Buffer
     switch(Buffer[0])
     {
     case 'f':
         forw_backw = 1;
-        Graphics_drawImage(&g_sContext, &FORWARD_RED, 46, 8);
-        Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
-        Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
-        Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
+        drawDirectionForward();
         break;
     case 'b':
         forw_backw = -1;
-        Graphics_drawImage(&g_sContext, &FORWARD_WHITE, 46, 8);
-        Graphics_drawImage(&g_sContext, &BACKWARD_RED, 46, 76);
-        Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
-        Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
+        drawDirectionBackward();
         break;
     case 'r':
         right_left = 1;
-        Graphics_drawImage(&g_sContext, &FORWARD_WHITE, 46, 8);
-        Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
-        Graphics_drawImage(&g_sContext, &LEFT_WHITE, 8, 46);
-        Graphics_drawImage(&g_sContext, &RIGHT_RED, 76, 46);
+        drawDirectionRight();
         break;
     case 'l':
         right_left = -1;
-        Graphics_drawImage(&g_sContext, &FORWARD_WHITE, 46, 8);
-        Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, 46, 76);
-        Graphics_drawImage(&g_sContext, &LEFT_RED, 8, 46);
-        Graphics_drawImage(&g_sContext, &RIGHT_WHITE, 76, 46);
+        drawDirectionLeft();
         break;
     case 'u':
         if(curr_val != 4)
@@ -220,7 +216,7 @@ void ble_command_manager()
         }
         break;
     case 'p':
-        planing = 1;
+        landing = 1;
         land();
         break;
 
@@ -232,12 +228,11 @@ void ble_command_manager()
 
     //decide which command to send and emit IR signals accordingly
     findCommand();
-
-    //toggle LED state in order to notify the user that a command has been sent (mostly useful for debugging purposes)
-    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
 }
 
 
+// move between the three menu options and redraws the option images based on the current selection
+// the upper and lower bound for the y value received are set to 9800 and 7000 in order to ignore little and unwanted movements
 void drawSelection(int y){
 
     if(y>9800){
