@@ -35,11 +35,18 @@ void PORT4_IRQHandler(void)
                 MSPrintf(EUSCI_A2_BASE, "Waiting for data    ");
             }
 
+            //disable accelerometer if joystick is selected, or opposite in the other case
+            if(currentSelection == JOYSTICK)
+            {
+                ADC14_disableInterrupt(ADC_INT4);
+            }
+            if(currentSelection == ACCELEROMETER)
+            {
+                ADC14_disableInterrupt(ADC_INT1);
+            }
+
             // draws first arrows image
             Graphics_drawImage(&g_sContext, &DIRECTIONS, 0, 0);
-
-            //start A1 timer for directions drawing (TIMER_A1)
-            Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
 
 
             //Note that here we could even disable the Joystick Button interrupt as we will not be using it anymore

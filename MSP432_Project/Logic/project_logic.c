@@ -103,9 +103,13 @@ void findCommand()
     int curr_forw_backw = forw_backw;
     int curr_right_left = right_left;
 
+
     //erase value (user will have to trigger again the device (Joystick, accelerometer, ...) in order to put them back to 1
     forw_backw = 0;
     right_left = 0;
+
+    //toggle LED state in order to notify the user that a command has been sent (mostly useful for debugging purposes)
+    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
 
     //forward or backward
     if(curr_forw_backw == 1)
@@ -133,10 +137,6 @@ void findCommand()
 
     //default maintain current propeller speed
     sendCommand(up_matrix[curr_val], up_matrix_p[curr_val], sizeof(up_matrix[curr_val]) / sizeof(up_matrix[curr_val][0]));
-
-
-    //toggle LED state in order to notify the user that a command has been sent (mostly useful for debugging purposes)
-    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
 }
 
 

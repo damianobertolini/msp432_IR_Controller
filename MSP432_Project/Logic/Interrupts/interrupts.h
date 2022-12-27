@@ -27,7 +27,5 @@
 
 
 extern int mode_selected;
-extern int timer_2_or_3;
-
 
 #endif /* LOGIC_INTERRUPTS_INTERRUPTS_H_ */

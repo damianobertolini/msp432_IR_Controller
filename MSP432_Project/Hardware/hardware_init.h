@@ -11,9 +11,8 @@
 #include "Hardware/Graphics/graphics_context.h"
 
 /* Timers periods (CCR0 values) */
-#define TIMER_PERIOD3    0x0BB8   //4000 to hex
-#define TIMER_PERIOD2   0x07D0   //6000 to hex
-#define TIMER_PERIOD1   0x03E8   //1000 to hex
+#define TIMER_PERIOD3    0x05DC   //1500 to hex
+#define TIMER_PERIOD2   0x03E8   //1000 to hex
 
 
 void _lowPowerInit();

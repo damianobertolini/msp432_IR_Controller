@@ -228,8 +228,11 @@ void drawDirections(int x, int y, Selection_t currentModality){
             drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
         if(sign_x_value == 0){
-            drawDirectionNone();
-            currentDirection = NONE;
+            if(currentDirection != NONE)
+            {
+                drawDirectionNone();
+                currentDirection = NONE;
+            }
         }
         if(sign_x_value == -1){
             if(currentDirection!=LEFT){
@@ -250,8 +253,11 @@ void drawDirections(int x, int y, Selection_t currentModality){
             drawPower(left_right_power, forward_backward_power, sign_x_value, sign_y_value);
         }
         if(sign_y_value == 0){
-            drawDirectionNone();
-            currentDirection = NONE;
+            if(currentDirection != NONE)
+            {
+                drawDirectionNone();
+                currentDirection = NONE;
+            }
         }
         if(sign_y_value == -1){
             if(currentDirection!=BACKWARD){

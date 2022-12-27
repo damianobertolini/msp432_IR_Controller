@@ -39,15 +39,6 @@ const Timer_A_UpModeConfig upConfigTimerA2 =
         TIMER_A_DO_CLEAR                       // Clear value
 };
 
-const Timer_A_UpModeConfig upConfigTimerA1 =
-{
-        TIMER_A_CLOCKSOURCE_ACLK,              // ACLK Clock Source
-        TIMER_A_CLOCKSOURCE_DIVIDER_1,         // ACLK/1 = 32768 Hz
-        TIMER_PERIOD1,                         // every second
-        TIMER_A_TAIE_INTERRUPT_DISABLE,        // Disable Timer interrupt
-        TIMER_A_CCIE_CCR0_INTERRUPT_ENABLE ,   // Enable CCR0 interrupt
-        TIMER_A_DO_CLEAR                       // Clear value
-};
 
 
 /* UART Configuration Parameter. These are the configuration parameters to
@@ -129,17 +120,15 @@ void _ledInit()
 
 void _timersInit()
 {
-        /* Configuring Timer_A1 for Up Mode */
+        /* Configuring Timer_A1, A2 and A3 for Up Mode */
         Timer_A_configureUpMode(TIMER_A3_BASE, &upConfigTimerA3);
         Timer_A_configureUpMode(TIMER_A2_BASE, &upConfigTimerA2);
-        Timer_A_configureUpMode(TIMER_A1_BASE, &upConfigTimerA1);
 
 
         /* Enabling interrupts and starting the timer */
         //Interrupt_enableSleepOnIsrExit();
         Interrupt_enableInterrupt(INT_TA3_0);
         Interrupt_enableInterrupt(INT_TA2_0);
-        Interrupt_enableInterrupt(INT_TA1_0);
 }
 
 
