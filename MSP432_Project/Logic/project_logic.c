@@ -5,6 +5,7 @@
  *      Author: damiano
  */
 
+#include <Hardware/Graphics/menu_graphics.h>
 #include <stdio.h>
 
 // Infrared
@@ -20,8 +21,6 @@
 #include "Hardware/Graphics/direction_graphics.h"
 #include "Hardware/Graphics/images.h"
 #include "Hardware/Graphics/img_vars.h"
-
-// Bluetooth
 #include "Hardware/Bluetooth/Controller/UART_IO.h"
 
 // global variables also used in main
@@ -230,26 +229,16 @@ void drawSelection(int y){
         currentSelection = (Selection_t) (++currentSelection % 3);        // Selection_t casting in order to avoid "enumerated type mixed with another type" warning
     }
 
-
     if(currentSelection == JOYSTICK){
-        Graphics_drawImage(&g_sContext, &JOYSTICK_BLUE, 17, 59);
-        Graphics_drawImage(&g_sContext, &ACCELEROMETER_BLACK, 17, 75);
-        Graphics_drawImage(&g_sContext, &BLUETOOTH_BLACK, 17, 92);
-        Graphics_drawImage(&g_sContext, &BLUETOOTH_LOGO_BLACK, 101, 93);
+        drawSelectionJoystick();
     }
 
     if(currentSelection == ACCELEROMETER){
-        Graphics_drawImage(&g_sContext, &JOYSTICK_BLACK, 17, 59);
-        Graphics_drawImage(&g_sContext, &ACCELEROMETER_BLUE, 17, 75);
-        Graphics_drawImage(&g_sContext, &BLUETOOTH_BLACK, 17, 92);
-        Graphics_drawImage(&g_sContext, &BLUETOOTH_LOGO_BLACK, 101, 93);
+        drawSelectionAccelerometer();
     }
 
     if(currentSelection == BLUETOOTH){
-        Graphics_drawImage(&g_sContext, &JOYSTICK_BLACK, 17, 59);
-        Graphics_drawImage(&g_sContext, &ACCELEROMETER_BLACK, 17, 75);
-        Graphics_drawImage(&g_sContext, &BLUETOOTH_BLUE, 17, 92);
-        Graphics_drawImage(&g_sContext, &BLUETOOTH_LOGO_BLUE, 101, 93);
+        drawSelectionBluetooth();
     }
 }
 

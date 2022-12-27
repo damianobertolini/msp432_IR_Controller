@@ -5,6 +5,7 @@
 "./Hardware/Bluetooth/Hardware/UART_Driver.obj"
 "./Hardware/Clock/clock.obj"
 "./Hardware/Graphics/direction_graphics.obj"
+"./Hardware/Graphics/menu_graphics.obj"
 "./Hardware/Infrared/command_matrices.obj"
 "./Hardware/Infrared/send_codes.obj"
 "./Hardware/Lcd/Crystalfontz128x128_ST7735.obj"

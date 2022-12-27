@@ -26,8 +26,6 @@ void _accelSensorInit();
 void _adcInit();
 void _bluetoothInit();
 void _graphicsInit();
-void customDelay();
-void startImageHelicopter();
 
 
 #endif /* HARDWAREINIT_H_ */

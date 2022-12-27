@@ -27,7 +27,7 @@ const unsigned int MENU_OPTION_OFFSET_X = 17;
 const unsigned int MENU_OPTION1_OFFSET_Y = 59;
 const unsigned int MENU_OPTION2_OFFSET_Y = 75;
 const unsigned int MENU_OPTION3_OFFSET_Y = 92;
-const unsigned int BLUETOOTH_LOGO_OFFSET_X = 17;
+const unsigned int BLUETOOTH_LOGO_OFFSET_X = 101;
 
 
 const Graphics_Image MENU_1BPP_UNCOMP = {
@@ -111,6 +111,14 @@ const Graphics_Image BLUETOOTH_LOGO_BLACK_8BPP_UNCOMP = {
     pixel_BLUETOOTH_LOGO_8BPP_UNCOMP,
 };
 
+void customDelay(int CYCLES)
+{
+    int j;
+
+    //this could throw a warning: Detected SW delay loop using empty loop. Recommend using a timer module instead
+    //but the creator has decided not to use another timer to implement this function
+    for(j=0;j<CYCLES;j++){}
+}
 
 // draws the helicopter image at the startup of the system, with moving propellers at the end draws the menu
 void startImageHelicopter()
@@ -123,43 +131,13 @@ void startImageHelicopter()
     for(j=0; j<10; j++)
     {
         Graphics_drawImage(&g_sContext, &PROPELLERS1, PROPELLERS1_OFFSET_X, PROPELLERS1_OFFSET_Y);
-        customDelay(500000);
+        customDelay(300000);
 
         Graphics_drawImage(&g_sContext, &PROPELLERS2, PROPELLERS2_OFFSET_X, PROPELLERS2_OFFSET_Y);
-        customDelay(500000);
+        customDelay(300000);
     }
 
     Graphics_drawImage(&g_sContext, &MENU, 0, 0);
-}
-
-void customDelay(int CYCLES)
-{
-    int j;
-
-    //this could throw a warning: Detected SW delay loop using empty loop. Recommend using a timer module instead
-    //but the creator has decided not to use another timer to implement this function
-    for(j=0;j<CYCLES;j++){}
-}
-
-void drawSelection(int y){
-
-    if(y>9800){
-        currentSelection = (Selection_t) ((3 + --currentSelection) % 3);  // Selection_t casting in order to avoid "enumerated type mixed with another type" warning
-    } else if(y<7000){
-        currentSelection = (Selection_t) (++currentSelection % 3);        // Selection_t casting in order to avoid "enumerated type mixed with another type" warning
-    }
-
-    if(currentSelection == JOYSTICK){
-        drawSelectionJoystick();
-    }
-
-    if(currentSelection == ACCELEROMETER){
-        drawSelectionAccelerometer();
-    }
-
-    if(currentSelection == BLUETOOTH){
-        drawSelectionBluetooth();
-    }
 }
 
 void drawSelectionJoystick(){
@@ -182,3 +160,7 @@ void drawSelectionBluetooth(){
     Graphics_drawImage(&g_sContext, &BLUETOOTH_BLUE, MENU_OPTION_OFFSET_X, MENU_OPTION3_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BLUETOOTH_LOGO_BLUE, BLUETOOTH_LOGO_OFFSET_X, MENU_OPTION3_OFFSET_Y+1);
 }
+
+
+
+

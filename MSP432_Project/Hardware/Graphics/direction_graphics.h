@@ -11,8 +11,8 @@
 #include "Logic/project_logic.h"
 
 void drawDirections(int x, int y, Selection_t currentModality);
-void drawPower(int left_right_power, int foreward_backward_power, int sign_x_value, int sign_y_value);
-void drawHorizontalPower(int sign_y_value, int foreward_backward_power);
+void drawPower(int left_right_power, int forward_backward_power, int sign_x_value, int sign_y_value);
+void drawHorizontalPower(int sign_y_value, int forward_backward_power);
 void drawVerticalPower(int sign_x_value, int left_right_power);
 int module_value(int a);
 void drawDirectionForward();

@@ -11,6 +11,7 @@
 
 #include "Hardware/Lcd/Crystalfontz128x128_ST7735.h"
 #include "Hardware/Graphics/img_vars.h"
+#include "Hardware/Graphics/menu_graphics.h"
 
 
 /*Data Buffer*/
@@ -250,40 +251,5 @@ void _graphicsInit()
 
     //outputs helicopter image
     startImageHelicopter();
-}
-
-void customDelay(int CYCLES)
-{
-    int j;
-
-    //this could throw a warning: Detected SW delay loop using empty loop. Recommend using a timer module instead
-    //but the creator has decided not to use another timer to implement this function
-    for(j=0;j<CYCLES;j++){}
-}
-
-// draws the helicopter image at the startup of the system, with moving propellers
-// at the end draws the menu
-void startImageHelicopter()
-{
-    int j;
-
-    Graphics_drawImage(&g_sContext, &HELICOPTER, 0, 0);
-
-    customDelay(500000);
-
-    //alternately draws the two propellers images, making the "movement" effect
-    for(j=0; j<10; j++)
-    {
-        Graphics_drawImage(&g_sContext, &PROPELLERS1, 8, 30);
-
-        customDelay(500000);
-
-        Graphics_drawImage(&g_sContext, &PROPELLERS2, 8, 29);
-
-        customDelay(500000);
-    }
-
-
-    Graphics_drawImage(&g_sContext, &MENU, 0, 0);
 }
 

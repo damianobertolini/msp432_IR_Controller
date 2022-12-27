@@ -5,14 +5,13 @@
  *      Author: damiano
  */
 
-#ifndef DIRECTION_GRAPHICS_H_
-#define DIRECTION_GRAPHICS_H_
+#ifndef MENU_GRAPHICS_H_
+#define MENU_GRAPHICS_H_
 
 void startImageHelicopter();
 void customDelay(int CYCLES);
-void drawSelection(int y);
-drawSelectionJoystick();
-drawSelectionAccelerometer();
-drawSelectionBluetooth();
+void drawSelectionJoystick();
+void drawSelectionAccelerometer();
+void drawSelectionBluetooth();
 
-#endif /* DIRECTION_GRAPHICS_H_ */
+#endif /* MENU_GRAPHICS_H_ */
