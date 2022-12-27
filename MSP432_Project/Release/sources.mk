@@ -112,11 +112,7 @@ PDE_DEPS__QUOTED :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
-Hardware/Bluetooth/Controller \
-Hardware/Bluetooth/Hardware \
-Hardware/Clock \
-Hardware/Graphics \
-Hardware/Infrared \
-Hardware/Lcd \
-Hardware \
+BluetoothDriver/Devices \
+BluetoothDriver/Hardware \
+LcdDriver \
 

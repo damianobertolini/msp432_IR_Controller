@@ -8,23 +8,22 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./Clock.obj" \
+"./HardwareInit.obj" \
+"./command_matrices.obj" \
+"./direction_graphics.obj" \
 "./main.obj" \
+"./send_codes.obj" \
 "./startup_msp432p401r_ccs.obj" \
 "./system_msp432p401r.obj" \
-"./Hardware/Bluetooth/Controller/UART_IO.obj" \
-"./Hardware/Bluetooth/Hardware/UART_Driver.obj" \
-"./Hardware/Clock/clock.obj" \
-"./Hardware/Graphics/direction_graphics.obj" \
-"./Hardware/Infrared/command_matrices.obj" \
-"./Hardware/Infrared/send_codes.obj" \
-"./Hardware/Lcd/Crystalfontz128x128_ST7735.obj" \
-"./Hardware/Lcd/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj" \
-"./Hardware/hardware_init.obj" \
+"./BluetoothDriver/Devices/MSPIO.obj" \
+"./BluetoothDriver/Hardware/CS_Driver.obj" \
+"./BluetoothDriver/Hardware/UART_Driver.obj" \
+"./LcdDriver/Crystalfontz128x128_ST7735.obj" \
+"./LcdDriver/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj" \
 "../msp432p401r.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
--l"/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/lib/ccs/m4f/grlib.a" \
--l"/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/devices/msp432p4xx/driverlib/ccs/msp432p4xx_driverlib.lib" \
 
 -include ../makefile.init
 
@@ -34,21 +33,13 @@ RMDIR := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
--include Hardware/Bluetooth/Controller/subdir_vars.mk
--include Hardware/Bluetooth/Hardware/subdir_vars.mk
--include Hardware/Clock/subdir_vars.mk
--include Hardware/Graphics/subdir_vars.mk
--include Hardware/Infrared/subdir_vars.mk
--include Hardware/Lcd/subdir_vars.mk
--include Hardware/subdir_vars.mk
+-include BluetoothDriver/Devices/subdir_vars.mk
+-include BluetoothDriver/Hardware/subdir_vars.mk
+-include LcdDriver/subdir_vars.mk
 -include subdir_rules.mk
--include Hardware/Bluetooth/Controller/subdir_rules.mk
--include Hardware/Bluetooth/Hardware/subdir_rules.mk
--include Hardware/Clock/subdir_rules.mk
--include Hardware/Graphics/subdir_rules.mk
--include Hardware/Infrared/subdir_rules.mk
--include Hardware/Lcd/subdir_rules.mk
--include Hardware/subdir_rules.mk
+-include BluetoothDriver/Devices/subdir_rules.mk
+-include BluetoothDriver/Hardware/subdir_rules.mk
+-include LcdDriver/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -165,7 +156,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 MSP432_Project.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"/Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"MSP432_Project.map" --heap_size=1024 --stack_size=512 -i"/Applications/ti/ccs1210/ccs/ccs_base/arm/include" -i"/Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"/Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="MSP432_Project_linkInfo.xml" --rom_model -o "MSP432_Project.out" $(ORDERED_OBJS)
+	"/Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me -O2 --advice:power=all --define=__MSP432P401R__ --define=ccs --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"MSP432_Project.map" --heap_size=1024 --stack_size=512 -i"/Applications/ti/ccs1210/ccs/ccs_base/arm/include" -i"/Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"/Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="MSP432_Project_linkInfo.xml" --rom_model -o "MSP432_Project.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
@@ -179,8 +170,8 @@ MSP432_Project.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" "Hardware/Bluetooth/Controller/UART_IO.obj" "Hardware/Bluetooth/Hardware/UART_Driver.obj" "Hardware/Clock/clock.obj" "Hardware/Graphics/direction_graphics.obj" "Hardware/Infrared/command_matrices.obj" "Hardware/Infrared/send_codes.obj" "Hardware/Lcd/Crystalfontz128x128_ST7735.obj" "Hardware/Lcd/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj" "Hardware/hardware_init.obj" 
-	-$(RM) "main.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" "Hardware/Bluetooth/Controller/UART_IO.d" "Hardware/Bluetooth/Hardware/UART_Driver.d" "Hardware/Clock/clock.d" "Hardware/Graphics/direction_graphics.d" "Hardware/Infrared/command_matrices.d" "Hardware/Infrared/send_codes.d" "Hardware/Lcd/Crystalfontz128x128_ST7735.d" "Hardware/Lcd/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.d" "Hardware/hardware_init.d" 
+	-$(RM) "Clock.obj" "HardwareInit.obj" "command_matrices.obj" "direction_graphics.obj" "main.obj" "send_codes.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" "BluetoothDriver/Devices/MSPIO.obj" "BluetoothDriver/Hardware/CS_Driver.obj" "BluetoothDriver/Hardware/UART_Driver.obj" "LcdDriver/Crystalfontz128x128_ST7735.obj" "LcdDriver/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.obj" 
+	-$(RM) "Clock.d" "HardwareInit.d" "command_matrices.d" "direction_graphics.d" "main.d" "send_codes.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" "BluetoothDriver/Devices/MSPIO.d" "BluetoothDriver/Hardware/CS_Driver.d" "BluetoothDriver/Hardware/UART_Driver.d" "LcdDriver/Crystalfontz128x128_ST7735.d" "LcdDriver/HAL_MSP_EXP432P401R_Crystalfontz128x128_ST7735.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

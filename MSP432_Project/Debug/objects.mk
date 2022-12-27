@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -llibc.a -l"/Users/matteobeltrami/Desktop/Uni/embedded\ software\ for\ the\ IoT/include\ in\ projects/msp432p4xx_driverlib.lib" -l"/Users/matteobeltrami/Desktop/Uni/embedded\ software\ for\ the\ IoT/include\ in\ projects/grlib.a"
+LIBS := -llibc.a -l"/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/lib/ccs/m4f/grlib.a" -l"/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/devices/msp432p4xx/driverlib/ccs/msp432p4xx_driverlib.lib"
 
