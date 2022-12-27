@@ -14,7 +14,7 @@
 
 #include "Hardware/Graphics/direction_graphics.h"
 #include "Hardware/Graphics/images.h"
-#include "Hardware/Graphics/img_vars.h"
+#include "Hardware/Graphics/imges_definitions.h"
 #include "Hardware/Graphics/graphics_context.h"
 
 typedef enum {NONE, FORWARD, BACKWARD, LEFT, RIGHT} Direction_t;
@@ -171,6 +171,7 @@ const tImage FORWARD_WHITE_1BPP_UNCOMP = {
 };
 
 
+// redraw the directions and their respective power levels
 void drawDirections(int x, int y, Selection_t currentModality){
     int sign_x_value = 0;               // 1, 0, -1 whether it's right, none, left direction
     int sign_y_value = 0;               // 1, 0, -1 whether it's forward, none, backward direction
@@ -178,8 +179,6 @@ void drawDirections(int x, int y, Selection_t currentModality){
     bool greater_module_x;
     int left_right_power = 0;           // number of power levels for left/right direction
     int forward_backward_power = 0;     // number of power levels for forward/backward direction
-
-    //set parameters in order to choose the current direction and get the power levels
 
     /*
       since the values (x, y) received by the draw directions function are different in the case of the joystick  or the accelerometer,
@@ -201,6 +200,7 @@ void drawDirections(int x, int y, Selection_t currentModality){
       - joystick:       1400
       - accelerometer:  600
     */
+    // set parameters in order to choose the current direction and get the power levels
 
     if(currentModality == JOYSTICK){
         if(x>9800){
@@ -328,6 +328,7 @@ int module_value(int a){
     return a;
 }
 
+// redraw directio images when the current direction is FORWARD
 void drawDirectionForward(){
     Graphics_drawImage(&g_sContext, &FORWARD_RED, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
@@ -335,6 +336,7 @@ void drawDirectionForward(){
     Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
 }
 
+// redraw directio images when the current direction is BACKWARD
 void drawDirectionBackward(){
     Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_RED, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
@@ -342,6 +344,7 @@ void drawDirectionBackward(){
     Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
 }
 
+// redraw directio images when the current direction is LEFT
 void drawDirectionLeft(){
     Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
@@ -349,6 +352,7 @@ void drawDirectionLeft(){
     Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
 }
 
+// redraw directio images when the current direction is RIGHT
 void drawDirectionRight(){
     Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
@@ -356,6 +360,7 @@ void drawDirectionRight(){
     Graphics_drawImage(&g_sContext, &RIGHT_RED, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
 }
 
+// redraw directio images when the current direction is NONE
 void drawDirectionNone(){
     Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
