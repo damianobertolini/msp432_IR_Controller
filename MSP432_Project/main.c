@@ -18,8 +18,14 @@ void main(void)
 {
     _hwInit();
 
-    //startupHelicopter()
-    //startMenu
+    // draws helicopter startup image
+    start_graphics();
+
+    // draws the menu
+    start_menu();
+
+    // enables Interrupt master and start first clock, in order to start getting buttons, timer and adc interrupts
+    activate_peripherals();
 
     // send a command
     while(1)

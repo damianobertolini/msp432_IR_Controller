@@ -12,7 +12,7 @@
 
 #include "Hardware/Lcd/Crystalfontz128x128_ST7735.h"
 
-#include "Hardware/Graphics/direction_graphics.h"
+#include "Hardware/Graphics/menu_graphics.h"
 #include "Hardware/Graphics/images.h"
 #include "Hardware/Graphics/img_vars.h"
 #include "Hardware/Graphics/graphics_context.h"
@@ -136,9 +136,13 @@ void startImageHelicopter()
         Graphics_drawImage(&g_sContext, &PROPELLERS2, PROPELLERS2_OFFSET_X, PROPELLERS2_OFFSET_Y);
         customDelay(300000);
     }
+}
 
+void drawMenu()
+{
     Graphics_drawImage(&g_sContext, &MENU, 0, 0);
 }
+
 
 void drawSelectionJoystick(){
     Graphics_drawImage(&g_sContext, &JOYSTICK_BLUE, MENU_OPTION_OFFSET_X, MENU_OPTION1_OFFSET_Y);

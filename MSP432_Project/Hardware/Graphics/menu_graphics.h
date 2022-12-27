@@ -13,5 +13,6 @@ void customDelay(int CYCLES);
 void drawSelectionJoystick();
 void drawSelectionAccelerometer();
 void drawSelectionBluetooth();
+void drawMenu();
 
 #endif /* MENU_GRAPHICS_H_ */

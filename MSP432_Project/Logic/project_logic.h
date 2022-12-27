@@ -22,6 +22,9 @@ void _hwInit();
 void findCommand();
 void ble_command_manager();
 void drawSelection(int y);
+void start_graphics();
+void start_menu();
+void activate_peripherals();
 
 
 #endif /* LOGIC_PROJECT_LOGIC_H_ */

@@ -17,10 +17,13 @@
 
 // Graphics
 #include "Hardware/Lcd/Crystalfontz128x128_ST7735.h"
+
 #include "Hardware/Graphics/graphics_context.h"   //imported twice (present also in hardware_init.h) just to avoid problems in case of future changes in hardware_init.h
 #include "Hardware/Graphics/direction_graphics.h"
 #include "Hardware/Graphics/images.h"
 #include "Hardware/Graphics/img_vars.h"
+#include "Hardware/Graphics/menu_graphics.h"
+
 #include "Hardware/Bluetooth/Controller/UART_IO.h"
 
 // global variables also used in main
@@ -41,7 +44,7 @@ void _hwInit()
     _initPWM();
 
     //sets core voltage level and number of wait states used by flash controller for read operation
-    _PCM_Flash_Init();
+    _PCM_Flash_WDT_Init();
 
     //initialize LED on Pin 1.0
     _ledInit();
@@ -66,11 +69,25 @@ void _hwInit()
 
     //initialize LCD
     _graphicsInit();
+}
 
-    //enable master interrupt
+void start_graphics()
+{
+    // outputs helicopter image
+    startImageHelicopter();
+}
+
+void start_menu()
+{
+    drawMenu();
+}
+
+void activate_peripherals()
+{
+    // enable master interrupt
     Interrupt_enableMaster();
 
-    //start first timer (TIMER_A3)
+    // start first timer (TIMER_A3)
     Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
 }
 
