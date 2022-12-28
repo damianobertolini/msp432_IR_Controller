@@ -1,25 +1,7 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<!-- Credits for the readme template: https://github.com/othneildrew/Best-README-Template/ -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
 
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 [![Contributors][contributors-shield]][contributors-url]
-
 
 
 <!-- PROJECT LOGO -->
@@ -39,22 +21,18 @@
 </div>
 
 
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
+    <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#built-with">Built With</a></li>
-    <li>
-      <a href="#installation">Installation</a>
-    </li>
+    <li><a href="#installation">Installation</a></li>
     <li><a href="#requirements">Requirements</a></li>
     <li><a href="#folder-structure">Folder Structure</a></li>
     <li><a href="#using-the-code">Using the code</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#video-and-presentation">Video and Presentation</a></li>
+    <li><a href="#team-members">Team members</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -64,7 +42,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This project is an infrared remote controller for the Texas Instruments MSP432P401R microcontroller. It allows the MSP432P401R (together with the [Educational BoosterPack MKII](https://www.ti.com/tool/BOOSTXL-EDUMKII))  to send infrared signals to control the infrared helicopter Syma S107n.
+This project is an infrared remote controller for the Texas Instruments MSP432P401R microcontroller. It allows the MSP432P401R (together with the [Educational BoosterPack MKII](https://www.ti.com/tool/BOOSTXL-EDUMKII))  to send infrared signals to control the infrared helicopter Syma S107n. <br>
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -73,7 +52,7 @@ This project is an infrared remote controller for the Texas Instruments MSP432P4
 
 ## Built With
 
-[![Next][c]][c-url]
+[![c]][c-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -111,22 +90,20 @@ To use this project, you will need the following hardware:
 * HC08 Bluetooth module
 
 
+<p float="left">
+  <img src="msp432p401r.png" alt="msp432p401r" width="140" height="225">
+  <img src="boosterpack.png" alt="boosterpack" width="450" height="225">
+</p>
 
-<img src="msp432p401r.jpg" alt="msp432p401r" width="140" height="225">
-<img src="boosterpack.png" alt="msp432p401r" width="450" height="225">
 <br> <br>
 
 
-
-
 ## Setting up the hardware
-infrarosso: gnd P2.5
-bluetooth gnd 3.3v 3.2 3.3
 Connect the various components as follows:
 * Connect the BoosterPack MKII to the MSP432P401R Launchpad.
 * Connect the cathode of the LED (in series with the transistor) to a ground pin on the MSP432.
 * Connect the anode of the LED (in series with the transistor) to the P2.5 pin on the MSP432.
-* Connect the bluetooth module wires to the 3.3V, 3.2V, 3.3V, GND.
+* Connect the bluetooth module wires to the GND and 3.3V, P3.2 and P3.3 pins.
 <br> <br>
 <!-- USAGE EXAMPLES -->
 # Folder Structure
@@ -144,7 +121,8 @@ Connect the various components as follows:
     │   └── Lcd
     ├── Logic                  # Control logic
     │   └── Interrupts
-    ├── Release                    
+    ├── Release
+    ├── Images                 # Images for the README
     ├── targetConfigs          # Target configuration files
     ├── main.c                 # Main source code
     └── README.md
@@ -165,18 +143,27 @@ _For more examples, please refer to the [Documentation](https://docs.rs-online.c
 
 
 
-<!-- ROADMAP -->
-## Roadmap
+<!-- VIDEO AND PRESENTATION -->
+## Video and Presentation
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+- Youtube [video](https://youtube.com)
+- Presentation [slides](https://www.google.com/slides/about/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- TEAM MEMBERS -->
+# Team Members 
+
+The project was a team effort and as such each member actively participated in the activity. However, each of us concentrated on certain aspects of the project.
+
+Damiano Bertolini: <br>
+&nbsp; supplied the IR helicopter and the bluetooth module, contributed to the implementation of the bluetooth and infrared sensors to send signals to the IR helicopter.<br> <br>
+Matteo Beltrami: <br>
+&nbsp; contributed to the creation of the graphics displayed on the lcd and to the management of the movements to control the IR helicopter.<br> <br>
+Rowan Alessandro Bevilacqua: <br>
+&nbsp; contributed to menu implementation and code review and management.<br> 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTACT -->
 ## Contact
@@ -190,22 +177,11 @@ Project Link: [https://github.com/damianobertolini/msp432_IR_Controller](https:/
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/damianobertolini/msp432_IR_Controller.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+[contributors-url]: https://github.com/damianobertolini/msp432_IR_Controller/graphs/contributors
 [c]: https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white
 [c-url]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
 
