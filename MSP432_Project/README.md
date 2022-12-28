@@ -30,8 +30,8 @@
     <li><a href="#installation">Installation</a></li>
     <li><a href="#requirements">Requirements</a></li>
     <li><a href="#folder-structure">Folder Structure</a></li>
-    <li><a href="#functionality-explanation">Functionality explanation</a></li>
-    <li><a href="#getting started">Getting started</a></li>
+    <li><a href="#functionalities-explanation">Functionalities explanation</a></li>
+    <li><a href="#getting-started">Getting started</a></li>
     <li><a href="#video-and-presentation">Video and Presentation</a></li>
     <li><a href="#team-members">Team members</a></li>
     <li><a href="#contact">Contact</a></li>
