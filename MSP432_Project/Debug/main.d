@@ -56,6 +56,16 @@ main.obj: /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/incl
 main.obj: /Applications/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h
 main.obj: ../Logic/project_logic.h
 main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/menu_graphics.h
+main.obj: ../Hardware/Graphics/direction_graphics.h
+main.obj: ../Logic/test.h
+main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Logic/Interrupts/interrupts.h
+main.obj: /Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h
+main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/graphics_context.h
+main.obj: /Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h
+main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/images_definitions.h
+main.obj: /Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h
+main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Bluetooth/Controller/UART_IO.h
+main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Bluetooth/Hardware/UART_Driver.h
 
 ../main.c:
 
@@ -168,4 +178,24 @@ main.obj: /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTE
 ../Logic/project_logic.h:
 
 /Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/menu_graphics.h:
+
+../Hardware/Graphics/direction_graphics.h:
+
+../Logic/test.h:
+
+/Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Logic/Interrupts/interrupts.h:
+
+/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h:
+
+/Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/graphics_context.h:
+
+/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h:
+
+/Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Graphics/images_definitions.h:
+
+/Applications/simplelink_msp432p4_sdk_3_40_01_02/source/ti/grlib/grlib.h:
+
+/Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Bluetooth/Controller/UART_IO.h:
+
+/Users/damiano/Desktop/UNIVERSITA'/TERZO\ ANNO\ TRENTO/EMBEDDED\ SYSTEMS\ FOR\ IOT/msp432_IR_Controller/MSP432_Project/Hardware/Bluetooth/Hardware/UART_Driver.h:
 

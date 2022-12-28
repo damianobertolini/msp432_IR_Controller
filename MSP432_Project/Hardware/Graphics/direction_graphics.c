@@ -147,15 +147,21 @@ const tImage FORWARD_WHITE_1BPP_UNCOMP = {
     pixel_FORWARD_1BPP_UNCOMP,
 };
 
+// defining global variables used in the following functions
+int sign_x_value;               // 1, 0, -1 whether it's right, none, left direction
+int sign_y_value;               // 1, 0, -1 whether it's forward, none, backward direction
+
+bool greater_module_x;
+int left_right_power;           // number of power levels for left/right direction
+int forward_backward_power;     // number of power levels for forward/backward direction
 
 // redraw the directions and their respective power levels
 void drawDirections(int x, int y, Selection_t currentModality){
-    int sign_x_value = 0;               // 1, 0, -1 whether it's right, none, left direction
-    int sign_y_value = 0;               // 1, 0, -1 whether it's forward, none, backward direction
 
-    bool greater_module_x;
-    int left_right_power = 0;           // number of power levels for left/right direction
-    int forward_backward_power = 0;     // number of power levels for forward/backward direction
+    sign_x_value=0;               // 1, 0, -1 whether it's right, none, left direction
+    sign_y_value=0;               // 1, 0, -1 whether it's forward, none, backward direction
+    left_right_power=0;           // number of power levels for left/right direction
+    forward_backward_power=0;     // number of power levels for forward/backward direction
 
     /*
       since the values (x, y) received by the draw directions function are different in the case of the joystick  or the accelerometer,
@@ -177,7 +183,11 @@ void drawDirections(int x, int y, Selection_t currentModality){
       - joystick:       1400
       - accelerometer:  600
     */
-    // set parameters in order to choose the current direction and get the power levels
+
+    // reset power parameters in order to cover all limit cases
+    left_right_power=0;
+    forward_backward_power=0;
+
 
     if(currentModality == JOYSTICK){
         if(x>9800){
@@ -345,4 +355,26 @@ void drawDirectionNone(){
     Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
     Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+void testDirectionGraphics1()
+{
+    printf(" JOYSTICK direction graphics Test:\n");
+    Interrupt_disableMaster();
+    ADC14_disableConversion();
+
+    drawDirections(14500, 12000, JOYSTICK);
+    printf("greater_module_x: %d - left_right_power: %d - forward_backward_power: %d\n", greater_module_x, left_right_power, forward_backward_power);
+    if(greater_module_x==1 && left_right_power==4 && forward_backward_power==2){printf("Test JOYSTICK direction graphics OK\n\n");}
+}
+
+void testDirectionGraphics2()
+{
+    printf(" ACCELEROMETER direction graphics Test:\n");
+    Interrupt_disableMaster();
+    ADC14_disableConversion();
+
+    drawDirections(8000, 7500, ACCELEROMETER);
+    printf("greater_module_x: %d - left_right_power: %d - forward_backward_power: %d\n", greater_module_x, left_right_power, forward_backward_power);
+    if(greater_module_x==0 && left_right_power==0 && forward_backward_power==1){printf("Test ACCELEROMETER direction graphics OK\n\n");}
 }

@@ -19,5 +19,7 @@ void drawDirectionBackward();
 void drawDirectionLeft();
 void drawDirectionRight();
 void drawDirectionNone();
+void testDirectionGraphics1();
+void testDirectionGraphics2();
 
 #endif /* DIRECTION_GRAPHICS_H_ */

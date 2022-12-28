@@ -12,7 +12,10 @@
 #include <stdio.h>
 
 #include "Logic/project_logic.h"
+#include "Hardware/Graphics/direction_graphics.h"
 
+// for debugging and testing
+#include "Logic/test.h"
 
 void main(void)
 {
@@ -25,8 +28,24 @@ void main(void)
     // draws the menu
     start_menu();
 
+
     // enables Interrupt master and start first clock, in order to start getting buttons, timer and adc interrupts
     activate_peripherals();
+
+    if(TEST){
+        // Interrupts need to be enabled
+        test_timers_main();
+
+        // testing if IR is sending the correct signals
+        testCommands();
+
+        // testing if Bluetooth manager function is correctly working
+        testBluetooth();
+
+        // testing graphics
+        testDirectionGraphics1();
+        testDirectionGraphics2();
+    }
 
     while(1)
     {
@@ -36,28 +55,7 @@ void main(void)
 }
 
 
-void test1()
-{
-    Interrupt_disableMaster();
-    ADC14_disableConversion();
 
-    curr_val = 0;
-    forw_backw = 1;
-    right_left = 0;
 
-    findCommand();
 
-    forw_backw = -1;
-    right_left = 0;
 
-    findCommand();
-
-    forw_backw = 0;
-    right_left = -1;
-
-    findCommand();
-
-    forw_backw = 0;
-    right_left = -1;
-    findCommand();
-}

@@ -24,6 +24,8 @@ void activate_peripherals();
 void findCommand();
 void ble_command_manager();
 void drawSelection(int y);
+void testCommands();
+void testBluetooth();
 
 
 #endif /* LOGIC_PROJECT_LOGIC_H_ */

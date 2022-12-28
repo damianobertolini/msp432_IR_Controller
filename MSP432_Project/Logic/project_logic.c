@@ -23,7 +23,8 @@
 // Bluetooth
 #include "Hardware/Bluetooth/Controller/UART_IO.h"
 
-
+// for testing
+#include "Logic/test.h"
 
 // defining global variables also used in main
 int curr_val = 0;
@@ -114,11 +115,23 @@ void findCommand()
     //forward or backward
     if(curr_forw_backw == 1)
     {
+        if(TEST)
+        {
+            test_command = 1;
+            return;
+        }
+
         sendCommand(fw_matrix[curr_val], fw_matrix_p[curr_val], sizeof(fw_matrix[curr_val]) / sizeof(fw_matrix[curr_val][0]));
+
         return;
     }
     if(curr_forw_backw == -1)
     {
+        if(TEST)
+        {
+            test_command = 2;
+            return;
+        }
         sendCommand(bk_matrix[curr_val], bk_matrix_p[curr_val], sizeof(bk_matrix[curr_val]) / sizeof(bk_matrix[curr_val][0]));
         return;
     }
@@ -126,16 +139,31 @@ void findCommand()
     //right or left
     if(curr_right_left == 1)
     {
+        if(TEST)
+        {
+            test_command = 3;
+            return;
+        }
         sendCommand(right_matrix[curr_val], right_matrix_p[curr_val], sizeof(right_matrix[curr_val]) / sizeof(right_matrix[curr_val][0]));
         return;
     }
     if(curr_right_left == -1)
     {
+        if(TEST)
+        {
+            test_command = 4;
+            return;
+        }
         sendCommand(left_matrix[curr_val], left_matrix_p[curr_val], sizeof(left_matrix[curr_val]) / sizeof(left_matrix[curr_val][0]));
         return;
     }
 
     //default maintain current propeller speed
+    if(TEST)
+    {
+        test_command = 5;
+        return;
+    }
     sendCommand(up_matrix[curr_val], up_matrix_p[curr_val], sizeof(up_matrix[curr_val]) / sizeof(up_matrix[curr_val][0]));
 }
 
@@ -146,6 +174,11 @@ int landing = 0;
 // local function called when using Bluetooth and the user presses on "Plane", it slowly decrements the propellers power in order to make the helicopter land
 void land()
 {
+    if(TEST)
+    {
+        printf("curr_val = %d, n_plane = %d\n", curr_val, n_plane);
+    }
+
     // if the current velocity isn't 0, it counts 4 timers (A2 and A3) interrupts then decrements it until its value gets to 0
     if(curr_val != 0)
     {
@@ -166,6 +199,13 @@ void land()
     {
         // after finishing the landing, landing variable is set to 0 so that land() will not be called anymore
         landing = 0;
+        return;
+    }
+
+    if(TEST)
+    {
+        //recursive call
+        land();
     }
 }
 
@@ -254,3 +294,178 @@ void drawSelection(int y){
     }
 }
 
+// global variable used in testCommands()
+int test_command = 0;
+
+// tests if commands sent are correct based on curr_val, forw_backw and right_left values
+void testCommands()
+{
+    Interrupt_disableMaster();
+    ADC14_disableConversion();
+
+    test_command = 0;
+
+    curr_val = 0;
+    forw_backw = 1;
+    right_left = 0;
+
+    findCommand();
+
+    if(test_command == 1)
+    {
+        printf("\nTest forward OK\n");
+    }
+    else
+    {
+        printf("\nTest forward FAILED\n");
+    }
+
+    forw_backw = -1;
+    right_left = 0;
+
+    findCommand();
+
+    if(test_command == 2)
+    {
+        printf("Test backward OK\n");
+    }
+    else
+    {
+        printf("Test backward FAILED\n");
+    }
+
+    forw_backw = 0;
+    right_left = 1;
+
+    findCommand();
+
+    if(test_command == 3)
+    {
+        printf("Test right OK\n");
+    }
+    else
+    {
+        printf("Test right FAILED\n");
+    }
+
+    forw_backw = 0;
+    right_left = -1;
+    findCommand();
+
+    if(test_command == 4)
+    {
+        printf("Test left OK\n");
+    }
+    else
+    {
+        printf("Test left FAILED\n");
+    }
+
+
+    forw_backw = 0;
+    right_left = 0;
+
+    findCommand();
+
+    if(test_command == 5)
+    {
+        printf("Test up OK\n\n");
+    }
+    else
+    {
+        printf("Test up FAILED\n\n");
+    }
+}
+
+// tests if Bluetooth commands sent are the correct ones based on Buffer value
+void testBluetooth()
+{
+    Buffer[0] = 'f';
+    ble_command_manager();
+
+    if(test_command == 1)
+    {
+        printf("\nBLE Test forward OK\n");
+    }
+    else
+    {
+        printf("\nBLE Test forward FAILED\n");
+    }
+
+    Buffer[0] = 'b';
+    ble_command_manager();
+
+    if(test_command == 2)
+    {
+        printf("BLE Test backward OK\n");
+    }
+    else
+    {
+        printf("BLE Test backward FAILED\n");
+    }
+
+    Buffer[0] = 'r';
+    ble_command_manager();
+
+    if(test_command == 3)
+    {
+        printf("BLE Test right OK\n");
+    }
+    else
+    {
+        printf("BLE Test right FAILED\n");
+    }
+
+    Buffer[0] = 'l';
+    ble_command_manager();
+
+    if(test_command == 4)
+    {
+        printf("BLE Test left OK\n");
+    }
+    else
+    {
+        printf("BLE Test left FAILED\n");
+    }
+
+    Buffer[0] = 'u';
+    ble_command_manager();
+
+    if(test_command == 5)
+    {
+        printf("BLE Test up OK\n");
+    }
+    else
+    {
+        printf("BLE Test up FAILED\n");
+    }
+
+    Buffer[0] = 'd';
+    ble_command_manager();
+
+    if(test_command == 5)
+    {
+        printf("BLE Test down OK\n");
+    }
+    else
+    {
+        printf("BLE Test down FAILED\n");
+    }
+
+    printf("\n Landing Test:\n");
+
+    //a possible value for curr_val
+    curr_val = 2;
+
+    Buffer[0] = 'p';
+    ble_command_manager();
+
+    if(test_command == 5)
+    {
+        printf("BLE Test plane OK\n\n");
+    }
+    else
+    {
+        printf("BLE Test plane FAILED\n\n");
+    }
+}

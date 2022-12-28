@@ -25,6 +25,8 @@
 // Logic of the project (all functions which drive the hardware based on decisions on variables values)
 #include "Logic/project_logic.h"
 
+// functions for timers testing
+void test_timers_main();
 
 extern int mode_selected;
 
