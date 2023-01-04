@@ -8,7 +8,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="Images/logo.png" alt="Logo" width="140" height="80">
+    <img src="Readme_Images/logo.png" alt="Logo" width="140" height="80">
   </a>
 
 <h3 align="center">HELICOPTER CONTROLLER</h3>
@@ -93,8 +93,8 @@ To use this project, you will need the following hardware:
 
 
 <p float="left">
-  <img src="Images/msp432p401r.png" alt="msp432p401r" width="140" height="225">
-  <img src="Images/boosterpack.png" alt="boosterpack" width="450" height="225">
+  <img src="Readme_Images/msp432p401r.png" alt="msp432p401r" width="140" height="225">
+  <img src="Readme_Images/boosterpack.png" alt="boosterpack" width="450" height="225">
 </p>
 
 <br> <br>
