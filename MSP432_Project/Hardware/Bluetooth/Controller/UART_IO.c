@@ -17,7 +17,7 @@ void PrintString(uint32_t UART, char *string)
 }
 
 /*Thanks! https://github.com/grbl/grbl/blob/master/grbl/print.c */
-void PrintInteger(uint32_t UART, int integer)
+void PrintInteger(uint32_t UART, int64_t integer)
 {
     if(integer == 0)
     {
@@ -30,7 +30,7 @@ void PrintInteger(uint32_t UART, int integer)
     }
 
     char b[10];
-    int digit = integer;
+    int64_t digit = integer;
 
     uint8_t i = 0;
     while(digit)
@@ -59,7 +59,7 @@ void MSPrintf(uint32_t UART, const char *fs, ...)
 {
     va_list valist;
     va_start(valist, fs);
-    int i;
+    int64_t i;
     char *s;
 
     while(*fs)
@@ -74,7 +74,7 @@ void MSPrintf(uint32_t UART, const char *fs, ...)
             switch(*++fs)
             {
             case 'c':
-                i = va_arg(valist, int);
+                i = va_arg(valist, int64_t);
                 PrintChar(UART, (char)i);
                 break;
             case 's':
@@ -82,7 +82,7 @@ void MSPrintf(uint32_t UART, const char *fs, ...)
                 PrintString(UART, s);
                 break;
             case 'i':
-                i = va_arg(valist, int);
+                i = va_arg(valist, int64_t);
                 PrintInteger(UART, i);
                 break;
             }
@@ -97,7 +97,7 @@ void MSPrintf(uint32_t UART, const char *fs, ...)
  *
  * MSPgets(EUSCI_A0_BASE, InputBuffer, SizeOfInputBuffer)*/
 
-int MSPgets(uint32_t UART, char *b, int size)
+int64_t MSPgets(uint32_t UART, char *b, int64_t size)
 {
     char c;
     uint32_t i = 0;
@@ -143,7 +143,7 @@ int MSPgets(uint32_t UART, char *b, int size)
 }
 
 // modified version of MSPgets which is just NON-blocking (it doesn't wait for the device to receive data, it only checks if new data has arrived)
-int customMSPgets(uint32_t UART, char *b, int size)
+int64_t customMSPgets(uint32_t UART, char *b, int64_t size)
 {
     char c;
     uint32_t i = 0;

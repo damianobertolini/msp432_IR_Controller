@@ -28,6 +28,6 @@
 // functions for timers testing
 void test_timers_main();
 
-extern int mode_selected;
+extern int8_t mode_selected;
 
 #endif /* LOGIC_INTERRUPTS_INTERRUPTS_H_ */

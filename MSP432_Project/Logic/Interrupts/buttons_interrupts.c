@@ -8,7 +8,7 @@
 #include "interrupts.h"
 
 // tells if the mode (BLE, Joystick or accelerometer) has already been selected
-int mode_selected = 0;
+int8_t mode_selected = 0;
 
 
 // Joystick button on BoosterPack Module

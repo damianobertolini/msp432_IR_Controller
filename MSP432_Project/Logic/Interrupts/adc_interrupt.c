@@ -34,15 +34,15 @@ void ADC14_IRQHandler(void)
             resultsBuffer[1] = ADC14_getResult(ADC_MEM1);
 
             //switch modality in menu
-            drawSelection((int) resultsBuffer[1]);
+            drawSelection((uint64_t) resultsBuffer[1]);
         }
 
         return;
     }
 
 
-    int x_value;                            // integer that contains the x value of the joystick
-    int y_value;                            // integer that contains the y value of the joystick
+    uint64_t x_value;                            // integer that contains the x value of the joystick
+    uint64_t y_value;                            // integer that contains the y value of the joystick
 
 
     /* ADC_MEM1 or ADC_MEM2 conversion completed */
@@ -56,8 +56,8 @@ void ADC14_IRQHandler(void)
         resultsBuffer[1] = ADC14_getResult(ADC_MEM1);
 
         //draw Direction power
-        x_value = (int) resultsBuffer[0];
-        y_value = (int) resultsBuffer[1];
+        x_value = (uint64_t) resultsBuffer[0];
+        y_value = (uint64_t) resultsBuffer[1];
 
 
         //manipulate Joystick X position and decide accordingly whether to turn left, right or stay still
@@ -103,8 +103,8 @@ void ADC14_IRQHandler(void)
 
 
             //draw Direction power
-            x_value = (int) resultsBuffer[0];
-            y_value = (int) resultsBuffer[1];
+            x_value = (uint64_t) resultsBuffer[0];
+            y_value = (uint64_t) resultsBuffer[1];
 
 
             if(x_value < 6500)

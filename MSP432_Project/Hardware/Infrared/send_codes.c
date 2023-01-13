@@ -120,9 +120,9 @@ void SysTick_Init(void)
 }
 
 // EFFECT: calls enablePWM() for usec microseconds and then calls disablePWM()
-void mark(unsigned int usec)
+void mark(uint16_t usec)
 {
-    int clockCycles = usec * 48;
+    int64_t clockCycles = usec * 48;
     SysTick->LOAD = clockCycles-1;
     SysTick->VAL = 0;
     while ((SysTick->CTRL&0x00010000) == 0)
@@ -133,9 +133,9 @@ void mark(unsigned int usec)
 }
 
 // EFFECT: does nothing (waits) for usec
-void space(unsigned int usec)
+void space(uint16_t usec)
 {
-    int clockCycles = usec * 48;
+    int64_t clockCycles = usec * 48;
     SysTick->LOAD = clockCycles-1;
     SysTick->VAL = 0;
     while ((SysTick->CTRL&0x00010000) == 0)
@@ -143,9 +143,9 @@ void space(unsigned int usec)
 }
 
 // EFFECT: sends the array of pulses cmd[] with pauseTimes[] between each pulse
-void sendCommand(const unsigned int cmd[], const unsigned int pause[], unsigned int length)
+void sendCommand(const uint16_t cmd[], const uint16_t pause[], uint8_t length)
 {
-    int i;
+    int8_t i;
     for (i = 0; i < length; i++)
     {
         mark(cmd[i]);

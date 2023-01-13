@@ -10,16 +10,26 @@
 
 #include "Hardware/Graphics/menu_graphics.h"
 
-void drawDirections(int x, int y, Selection_t currentModality);
-void drawPower(int left_right_power, int forward_backward_power, int sign_x_value, int sign_y_value);
-void drawHorizontalPower(int sign_y_value, int forward_backward_power);
-void drawVerticalPower(int sign_x_value, int left_right_power);
+// redraw the directions and their respective power levels
+// inputs: x and y current Joystick or accelerometer values and currentModality to distinguish whether Joystick or accelerometer is being used
+void drawDirections(uint64_t x, uint64_t y, Selection_t currentModality);
+
+// redraw direction images when the current direction is FORWARD
 void drawDirectionForward();
+
+// redraw direction images when the current direction is BACKWARD
 void drawDirectionBackward();
+
+// redraw direction images when the current direction is LEFT
 void drawDirectionLeft();
+
+// redraw direction images when the current direction is RIGHT
 void drawDirectionRight();
-void drawDirectionNone();
+
+// test drawDirection() when Joystick is used
 void testDirectionGraphics1();
+
+// test drawDirection() when Accelerometer is used
 void testDirectionGraphics2();
 
 #endif /* DIRECTION_GRAPHICS_H_ */

@@ -96,6 +96,7 @@ void _lowPowerInit()
     GPIO_setOutputLowOnPin(GPIO_PORT_PJ, PIN_ALL16);
 }
 
+// stops watchdog timer and initializes some flash memory features (e.g. Voltage)
 void _PCM_Flash_WDT_Init()
 {
     // Stop watchdog timer
@@ -109,7 +110,7 @@ void _PCM_Flash_WDT_Init()
     FlashCtl_setWaitState(FLASH_BANK1, 2);
 }
 
-
+// initializes pin on Port 1 Pin 0 as output pin to use the connected LED
 void _ledInit()
 {
     /* Configuring P1.0 as output */
@@ -117,7 +118,7 @@ void _ledInit()
     GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN0);
 }
 
-
+// initializes the two timers used for graphics updating and IR signals sending
 void _timersInit()
 {
         /* Configuring Timer_A1, A2 and A3 for Up Mode */
@@ -132,7 +133,7 @@ void _timersInit()
 }
 
 
-//Buttons on TI J4.32 and J4.33
+// initializes Buttons on TI J4.32 and J4.33 and Joystick input button
 void _buttonsInit()
 {
     //Button S1

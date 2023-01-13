@@ -18,6 +18,8 @@
 #include "Hardware/Graphics/images.h"
 #include "Hardware/Graphics/graphics_context.h"
 
+#include "Logic/test.h"
+
 typedef enum {NONE, FORWARD, BACKWARD, LEFT, RIGHT} Direction_t;
 
 // keep track of the direction during the execution to avoid useless redrawing
@@ -26,24 +28,24 @@ Direction_t currentDirection = NONE;
 
 // CONSTANTS FOR IMAGE PLACEMENT
 
-const unsigned int RIGHT_DIRECTION_OFFSET_X = 76;
-const unsigned int RIGHT_DIRECTION_OFFSET_Y = 46;
+const uint8_t RIGHT_DIRECTION_OFFSET_X = 76;
+const uint8_t RIGHT_DIRECTION_OFFSET_Y = 46;
 
-const unsigned int LEFT_DIRECTION_OFFSET_X = 8;
-const unsigned int LEFT_DIRECTION_OFFSET_Y = 46;
+const uint8_t LEFT_DIRECTION_OFFSET_X = 8;
+const uint8_t LEFT_DIRECTION_OFFSET_Y = 46;
 
-const unsigned int BACKWARD_DIRECTION_OFFSET_X = 46;
-const unsigned int BACKWARD_DIRECTION_OFFSET_Y = 76;
+const uint8_t BACKWARD_DIRECTION_OFFSET_X = 46;
+const uint8_t BACKWARD_DIRECTION_OFFSET_Y = 76;
 
-const unsigned int FORWARD_DIRECTION_OFFSET_X = 46;
-const unsigned int FORWARD_DIRECTION_OFFSET_Y = 8;
+const uint8_t FORWARD_DIRECTION_OFFSET_X = 46;
+const uint8_t FORWARD_DIRECTION_OFFSET_Y = 8;
 
-const unsigned int HORIZONTAL_POWER_OFFSET_X = 58;
-const unsigned int VERTICAL_POWER_OFFSET_Y = 58;
-const unsigned int RIGHT_POWER_OFFSET_X = 78;
-const unsigned int LEFT_POWER_OFFSET_X = 47;
-const unsigned int FORWARD_POWER_OFFSET_Y = 47;
-const unsigned int BACKWARD_POWER_OFFSET_Y = 78;
+const uint8_t HORIZONTAL_POWER_OFFSET_X = 58;
+const uint8_t VERTICAL_POWER_OFFSET_Y = 58;
+const uint8_t RIGHT_POWER_OFFSET_X = 78;
+const uint8_t LEFT_POWER_OFFSET_X = 47;
+const uint8_t FORWARD_POWER_OFFSET_Y = 47;
+const uint8_t BACKWARD_POWER_OFFSET_Y = 78;
 
 
 // IMAGES FOR THE DIRECTIONS AND POWER LEVELS
@@ -148,15 +150,125 @@ const tImage FORWARD_WHITE_1BPP_UNCOMP = {
 };
 
 // defining global variables used in the following functions
-int sign_x_value;               // 1, 0, -1 whether it's right, none, left direction
-int sign_y_value;               // 1, 0, -1 whether it's forward, none, backward direction
+int8_t sign_x_value;               // 1, 0, -1 whether it's right, none, left direction
+int8_t sign_y_value;               // 1, 0, -1 whether it's forward, none, backward direction
 
 bool greater_module_x;
-int left_right_power;           // number of power levels for left/right direction
-int forward_backward_power;     // number of power levels for forward/backward direction
+int16_t left_right_power;           // number of power levels for left/right direction
+int16_t forward_backward_power;     // number of power levels for forward/backward direction
+
+
+// redraw direction images when the current direction is FORWARD
+void drawDirectionForward(){
+    Graphics_drawImage(&g_sContext, &FORWARD_RED, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+// redraw direction images when the current direction is BACKWARD
+void drawDirectionBackward(){
+    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_RED, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+// redraw direction images when the current direction is LEFT
+void drawDirectionLeft(){
+    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_RED, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+// redraw direction images when the current direction is RIGHT
+void drawDirectionRight(){
+    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_RED, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+// redraw direction images when the current direction is NONE
+void drawDirectionNone(){
+    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
+    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
+}
+
+
+
+// draw the power levels on vertical directions
+void drawHorizontalPower(int8_t sign_y_value, int16_t forward_backward_power) {
+    int32_t i;
+
+    if(sign_y_value == 1){
+        for(i=0; i<forward_backward_power; i++){
+            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, HORIZONTAL_POWER_OFFSET_X, FORWARD_POWER_OFFSET_Y-(POWER_OFFSET*i));
+        }
+    } else if(sign_y_value == -1){
+        for(i=0; i<forward_backward_power; i++){
+            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, HORIZONTAL_POWER_OFFSET_X, BACKWARD_POWER_OFFSET_Y+(POWER_OFFSET*i));
+        }
+    }
+}
+
+// draw the power levels on horizontal directions
+void drawVerticalPower(int8_t sign_x_value, int16_t left_right_power) {
+    int32_t i;
+
+    if(sign_x_value == 1){
+        for(i=0; i<left_right_power; i++){
+            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, RIGHT_POWER_OFFSET_X+(POWER_OFFSET*i), VERTICAL_POWER_OFFSET_Y);
+        }
+    } else if(sign_x_value == -1){
+        for(i=0; i<left_right_power; i++){
+            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, LEFT_POWER_OFFSET_X-(POWER_OFFSET*i), VERTICAL_POWER_OFFSET_Y);
+        }
+    }
+}
+
+
+// draw the power levels on both horizontal and vertical directions
+void drawPower(int16_t left_right_power, int16_t forward_backward_power, int8_t sign_x_value, int8_t sign_y_value){
+    drawVerticalPower(sign_x_value, left_right_power);
+    drawHorizontalPower(sign_y_value, forward_backward_power);
+}
+
+
+
+#ifdef TEST
+// test drawDirection() when Joystick is used
+void testDirectionGraphics1()
+{
+    printf(" JOYSTICK direction graphics Test:\n");
+    Interrupt_disableMaster();
+    ADC14_disableConversion();
+
+    drawDirections(14500, 12000, JOYSTICK);
+    printf("greater_module_x: %d - left_right_power: %d - forward_backward_power: %d\n", greater_module_x, left_right_power, forward_backward_power);
+    if(greater_module_x==1 && left_right_power==4 && forward_backward_power==2){printf("Test JOYSTICK direction graphics OK\n\n");}
+}
+
+// test drawDirection() when Accelerometer is used
+void testDirectionGraphics2()
+{
+    printf(" ACCELEROMETER direction graphics Test:\n");
+    Interrupt_disableMaster();
+    ADC14_disableConversion();
+
+    drawDirections(8000, 7500, ACCELEROMETER);
+    printf("greater_module_x: %d - left_right_power: %d - forward_backward_power: %d\n", greater_module_x, left_right_power, forward_backward_power);
+    if(greater_module_x==0 && left_right_power==0 && forward_backward_power==1){printf("Test ACCELEROMETER direction graphics OK\n\n");}
+}
+
+#endif
+
 
 // redraw the directions and their respective power levels
-void drawDirections(int x, int y, Selection_t currentModality){
+void drawDirections(uint64_t x, uint64_t y, Selection_t currentModality){
 
     sign_x_value=0;               // 1, 0, -1 whether it's right, none, left direction
     sign_y_value=0;               // 1, 0, -1 whether it's forward, none, backward direction
@@ -192,36 +304,36 @@ void drawDirections(int x, int y, Selection_t currentModality){
     if(currentModality == JOYSTICK){
         if(x>9800){
             sign_x_value = 1;
-            left_right_power = (int) (x-8200)/1400;
+            left_right_power = (int16_t) (x-8200)/1400;
         } else if(x<7000){
             sign_x_value = -1;
-            left_right_power = (int) (8200-x)/1400;
+            left_right_power = (int16_t) (8200-x)/1400;
         }
 
         if(y>9800){
             sign_y_value = 1;
-            forward_backward_power = (int) (y-8200)/1400;
+            forward_backward_power = (int16_t) (y-8200)/1400;
         } else if(y<7000){
             sign_y_value = -1;
-            forward_backward_power = (int) (8200-y)/1400;
+            forward_backward_power = (int16_t) (8200-y)/1400;
         }
     }
 
     if(currentModality == ACCELEROMETER){
         if(x>8800){
             sign_x_value = 1;
-            left_right_power = (int) (x-8200)/600;
+            left_right_power = (int16_t) (x-8200)/600;
         } else if(x<7600){
             sign_x_value = -1;
-            left_right_power = (int) (8200-x)/600;
+            left_right_power = (int16_t) (8200-x)/600;
         }
 
         if(y>8800){
             sign_y_value = 1;
-            forward_backward_power = (int) (y-8200)/600;
+            forward_backward_power = (int16_t) (y-8200)/600;
         } else if(y<7600){
             sign_y_value = -1;
-            forward_backward_power = (int) (8200-y)/600;
+            forward_backward_power = (int16_t) (8200-y)/600;
         }
     }
 
@@ -280,101 +392,4 @@ void drawDirections(int x, int y, Selection_t currentModality){
 
 }
 
-// draw the power levels on both horizontal and vertical directions
-void drawPower(int left_right_power, int FORWARD_backward_power, int sign_x_value, int sign_y_value){
-    drawVerticalPower(sign_x_value, left_right_power);
-    drawHorizontalPower(sign_y_value, FORWARD_backward_power);
-}
 
-// draw the power levels on vertical directions
-void drawHorizontalPower(int sign_y_value, int FORWARD_backward_power) {
-    int i;
-
-    if(sign_y_value == 1){
-        for(i=0; i<FORWARD_backward_power; i++){
-            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, HORIZONTAL_POWER_OFFSET_X, FORWARD_POWER_OFFSET_Y-(POWER_OFFSET*i));
-        }
-    } else if(sign_y_value == -1){
-        for(i=0; i<FORWARD_backward_power; i++){
-            Graphics_drawImage(&g_sContext, &HORIZONTAL_POWER, HORIZONTAL_POWER_OFFSET_X, BACKWARD_POWER_OFFSET_Y+(POWER_OFFSET*i));
-        }
-    }
-}
-
-// draw the power levels on horizontal directions
-void drawVerticalPower(int sign_x_value, int left_right_power) {
-    int i;
-
-    if(sign_x_value == 1){
-        for(i=0; i<left_right_power; i++){
-            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, RIGHT_POWER_OFFSET_X+(POWER_OFFSET*i), VERTICAL_POWER_OFFSET_Y);
-        }
-    } else if(sign_x_value == -1){
-        for(i=0; i<left_right_power; i++){
-            Graphics_drawImage(&g_sContext, &VERTICAL_POWER, LEFT_POWER_OFFSET_X-(POWER_OFFSET*i), VERTICAL_POWER_OFFSET_Y);
-        }
-    }
-}
-
-
-// redraw direction images when the current direction is FORWARD
-void drawDirectionForward(){
-    Graphics_drawImage(&g_sContext, &FORWARD_RED, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
-}
-
-// redraw direction images when the current direction is BACKWARD
-void drawDirectionBackward(){
-    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &BACKWARD_RED, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
-}
-
-// redraw direction images when the current direction is LEFT
-void drawDirectionLeft(){
-    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &LEFT_RED, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
-}
-
-// redraw direction images when the current direction is RIGHT
-void drawDirectionRight(){
-    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &RIGHT_RED, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
-}
-
-// redraw direction images when the current direction is NONE
-void drawDirectionNone(){
-    Graphics_drawImage(&g_sContext, &FORWARD_WHITE, FORWARD_DIRECTION_OFFSET_X, FORWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &BACKWARD_WHITE, BACKWARD_DIRECTION_OFFSET_X, BACKWARD_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &LEFT_WHITE, LEFT_DIRECTION_OFFSET_X, LEFT_DIRECTION_OFFSET_Y);
-    Graphics_drawImage(&g_sContext, &RIGHT_WHITE, RIGHT_DIRECTION_OFFSET_X, RIGHT_DIRECTION_OFFSET_Y);
-}
-
-void testDirectionGraphics1()
-{
-    printf(" JOYSTICK direction graphics Test:\n");
-    Interrupt_disableMaster();
-    ADC14_disableConversion();
-
-    drawDirections(14500, 12000, JOYSTICK);
-    printf("greater_module_x: %d - left_right_power: %d - forward_backward_power: %d\n", greater_module_x, left_right_power, forward_backward_power);
-    if(greater_module_x==1 && left_right_power==4 && forward_backward_power==2){printf("Test JOYSTICK direction graphics OK\n\n");}
-}
-
-void testDirectionGraphics2()
-{
-    printf(" ACCELEROMETER direction graphics Test:\n");
-    Interrupt_disableMaster();
-    ADC14_disableConversion();
-
-    drawDirections(8000, 7500, ACCELEROMETER);
-    printf("greater_module_x: %d - left_right_power: %d - forward_backward_power: %d\n", greater_module_x, left_right_power, forward_backward_power);
-    if(greater_module_x==0 && left_right_power==0 && forward_backward_power==1){printf("Test ACCELEROMETER direction graphics OK\n\n");}
-}

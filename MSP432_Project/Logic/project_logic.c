@@ -27,9 +27,9 @@
 #include "Logic/test.h"
 
 // defining global variables also used in main
-int curr_val = 0;
-int forw_backw = 0;
-int right_left = 0;
+uint8_t curr_val = 0;
+int8_t forw_backw = 0;
+int8_t right_left = 0;
 
 Selection_t currentSelection = JOYSTICK;    // This way the Joystick will be shown as selected at the startup of the menu
 
@@ -101,8 +101,8 @@ void activate_peripherals()
 void findCommand()
 {
     //create in-function local copy of global variables in order to have the possibility to erase their value
-    int curr_forw_backw = forw_backw;
-    int curr_right_left = right_left;
+    int8_t curr_forw_backw = forw_backw;
+    int8_t curr_right_left = right_left;
 
 
     //erase value (user will have to trigger again the device (Joystick, accelerometer, ...) in order to put them back to 1
@@ -115,11 +115,10 @@ void findCommand()
     //forward or backward
     if(curr_forw_backw == 1)
     {
-        if(TEST)
-        {
-            test_command = 1;
-            return;
-        }
+        #ifdef TEST
+        test_command = 1;
+        return;
+        #endif
 
         sendCommand(fw_matrix[curr_val], fw_matrix_p[curr_val], sizeof(fw_matrix[curr_val]) / sizeof(fw_matrix[curr_val][0]));
 
@@ -127,11 +126,11 @@ void findCommand()
     }
     if(curr_forw_backw == -1)
     {
-        if(TEST)
-        {
-            test_command = 2;
-            return;
-        }
+        #ifdef TEST
+        test_command = 2;
+        return;
+        #endif
+
         sendCommand(bk_matrix[curr_val], bk_matrix_p[curr_val], sizeof(bk_matrix[curr_val]) / sizeof(bk_matrix[curr_val][0]));
         return;
     }
@@ -139,45 +138,44 @@ void findCommand()
     //right or left
     if(curr_right_left == 1)
     {
-        if(TEST)
-        {
-            test_command = 3;
-            return;
-        }
+        #ifdef TEST
+        test_command = 3;
+        return;
+        #endif
+
         sendCommand(right_matrix[curr_val], right_matrix_p[curr_val], sizeof(right_matrix[curr_val]) / sizeof(right_matrix[curr_val][0]));
         return;
     }
     if(curr_right_left == -1)
     {
-        if(TEST)
-        {
-            test_command = 4;
-            return;
-        }
+        #ifdef TEST
+        test_command = 4;
+        return;
+        #endif
+
         sendCommand(left_matrix[curr_val], left_matrix_p[curr_val], sizeof(left_matrix[curr_val]) / sizeof(left_matrix[curr_val][0]));
         return;
     }
 
     //default maintain current propeller speed
-    if(TEST)
-    {
+        #ifdef TEST
         test_command = 5;
         return;
-    }
+        #endif
+
     sendCommand(up_matrix[curr_val], up_matrix_p[curr_val], sizeof(up_matrix[curr_val]) / sizeof(up_matrix[curr_val][0]));
 }
 
 
-int n_plane = 0;
-int landing = 0;
+uint8_t n_plane = 0;
+uint8_t landing = 0;
 
 // local function called when using Bluetooth and the user presses on "Plane", it slowly decrements the propellers power in order to make the helicopter land
 void land()
 {
-    if(TEST)
-    {
-        printf("curr_val = %d, n_plane = %d\n", curr_val, n_plane);
-    }
+    #ifdef TEST
+    printf("curr_val = %d, n_plane = %d\n", curr_val, n_plane);
+    #endif
 
     // if the current velocity isn't 0, it counts 4 timers (A2 and A3) interrupts then decrements it until its value gets to 0
     if(curr_val != 0)
@@ -202,11 +200,11 @@ void land()
         return;
     }
 
-    if(TEST)
-    {
-        //recursive call
-        land();
-    }
+    #ifdef TEST
+    //recursive call
+    land();
+    #endif
+
 }
 
 
@@ -273,7 +271,7 @@ void ble_command_manager()
 
 // move between the three menu options and redraws the option images based on the current selection
 // the upper and lower bound for the y value received are set to 9800 and 7000 in order to ignore little and unwanted movements
-void drawSelection(int y){
+void drawSelection(uint64_t y){
 
     if(y>9800){
         currentSelection = (Selection_t) ((3 + --currentSelection) % 3);  // Selection_t casting in order to avoid "enumerated type mixed with another type" warning
@@ -294,8 +292,9 @@ void drawSelection(int y){
     }
 }
 
+#ifdef TEST
 // global variable used in testCommands()
-int test_command = 0;
+uint8_t test_command = 0;
 
 // tests if commands sent are correct based on curr_val, forw_backw and right_left values
 void testCommands()
@@ -469,3 +468,6 @@ void testBluetooth()
         printf("BLE Test plane FAILED\n\n");
     }
 }
+
+#endif
+

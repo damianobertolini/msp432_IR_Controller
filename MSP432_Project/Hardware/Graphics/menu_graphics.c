@@ -20,16 +20,16 @@
 
 // CONSTANTS FOR IMAGE PLACEMENT
 
-const unsigned int PROPELLERS1_OFFSET_X = 8;
-const unsigned int PROPELLERS1_OFFSET_Y = 30;
-const unsigned int PROPELLERS2_OFFSET_X = 8;
-const unsigned int PROPELLERS2_OFFSET_Y = 29;
+const uint8_t PROPELLERS1_OFFSET_X = 8;
+const uint8_t PROPELLERS1_OFFSET_Y = 30;
+const uint8_t PROPELLERS2_OFFSET_X = 8;
+const uint8_t PROPELLERS2_OFFSET_Y = 29;
 
-const unsigned int MENU_OPTION_OFFSET_X = 17;
-const unsigned int MENU_OPTION1_OFFSET_Y = 59;
-const unsigned int MENU_OPTION2_OFFSET_Y = 75;
-const unsigned int MENU_OPTION3_OFFSET_Y = 92;
-const unsigned int BLUETOOTH_LOGO_OFFSET_X = 101;
+const uint8_t MENU_OPTION_OFFSET_X = 17;
+const uint8_t MENU_OPTION1_OFFSET_Y = 59;
+const uint8_t MENU_OPTION2_OFFSET_Y = 75;
+const uint8_t MENU_OPTION3_OFFSET_Y = 92;
+const uint8_t BLUETOOTH_LOGO_OFFSET_X = 101;
 
 
 // IMAGES FOR THE HELICOPTER, MENU AND MENU OPTIONS
@@ -175,9 +175,9 @@ void drawMenu()
 }
 
 // delay using a counter 
-void customDelay(int CYCLES)
+void customDelay(uint64_t CYCLES)
 {
-    int j;
+    uint64_t j;
 
     //this could throw a warning: Detected SW delay loop using empty loop. Recommend using a timer module instead
     //but the creator has decided not to use another timer to implement this function
@@ -190,7 +190,7 @@ void startImageHelicopter()
     Graphics_drawImage(&g_sContext, &HELICOPTER, 0, 0);
     customDelay(500000);
 
-    int j;
+    uint64_t j;
 
     // alternately draws the two propellers images, making the "movement" effect
     for(j=0; j<10; j++)

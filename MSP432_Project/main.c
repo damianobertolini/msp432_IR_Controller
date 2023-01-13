@@ -32,20 +32,20 @@ void main(void)
     // enables Interrupt master and start first clock, in order to start getting buttons, timer and adc interrupts
     activate_peripherals();
 
-    if(TEST){
-        // Interrupts need to be enabled
-        test_timers_main();
+    #ifdef TEST
+    // Interrupts need to be enabled
+    test_timers_main();
 
-        // testing if IR is sending the correct signals
-        testCommands();
+    // testing if IR is sending the correct signals
+    testCommands();
 
-        // testing if Bluetooth manager function is correctly working
-        testBluetooth();
+    // testing if Bluetooth manager function is correctly working
+    testBluetooth();
 
-        // testing graphics
-        testDirectionGraphics1();
-        testDirectionGraphics2();
-    }
+    // testing graphics
+    testDirectionGraphics1();
+    testDirectionGraphics2();
+    #endif
 
     while(1)
     {

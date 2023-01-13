@@ -21,35 +21,35 @@
 #define GREY6_COLOR 0xdddddd
 #define BLUE_COLOR  0x3333cc
 
-extern const unsigned int RIGHT_DIRECTION_OFFSET_X;
-extern const unsigned int RIGHT_DIRECTION_OFFSET_Y;
+extern const uint8_t RIGHT_DIRECTION_OFFSET_X;
+extern const uint8_t RIGHT_DIRECTION_OFFSET_Y;
 
-extern const unsigned int LEFT_DIRECTION_OFFSET_X;
-extern const unsigned int LEFT_DIRECTION_OFFSET_Y;
+extern const uint8_t LEFT_DIRECTION_OFFSET_X;
+extern const uint8_t LEFT_DIRECTION_OFFSET_Y;
 
-extern const unsigned int BACKWARD_DIRECTION_OFFSET_X;
-extern const unsigned int BACKWARD_DIRECTION_OFFSET_Y;
+extern const uint8_t BACKWARD_DIRECTION_OFFSET_X;
+extern const uint8_t BACKWARD_DIRECTION_OFFSET_Y;
 
-extern const unsigned int FORWARD_DIRECTION_OFFSET_X;
-extern const unsigned int FORWARD_DIRECTION_OFFSET_Y;
+extern const uint8_t FORWARD_DIRECTION_OFFSET_X;
+extern const uint8_t FORWARD_DIRECTION_OFFSET_Y;
 
-extern const unsigned int HORIZONTAL_POWER_OFFSET_X;
-extern const unsigned int FORWARD_POWER_OFFSET_Y;
-extern const unsigned int BACKWARD_POWER_OFFSET_Y;
+extern const uint8_t HORIZONTAL_POWER_OFFSET_X;
+extern const uint8_t FORWARD_POWER_OFFSET_Y;
+extern const uint8_t BACKWARD_POWER_OFFSET_Y;
 
-extern const unsigned int VERTICAL_POWER_OFFSET_Y;
-extern const unsigned int RIGHT_POWER_OFFSET_X;
-extern const unsigned int LEFT_POWER_OFFSET_X;
+extern const uint8_t VERTICAL_POWER_OFFSET_Y;
+extern const uint8_t RIGHT_POWER_OFFSET_X;
+extern const uint8_t LEFT_POWER_OFFSET_X;
 
 
-extern const unsigned int PROPELLERS1_OFFSET_X;
-extern const unsigned int PROPELLERS1_OFFSET_Y;
-extern const unsigned int PROPELLERS2_OFFSET_X;
-extern const unsigned int PROPELLERS2_OFFSET_Y;
+extern const uint8_t PROPELLERS1_OFFSET_X;
+extern const uint8_t PROPELLERS1_OFFSET_Y;
+extern const uint8_t PROPELLERS2_OFFSET_X;
+extern const uint8_t PROPELLERS2_OFFSET_Y;
 
-extern const unsigned int MENU_OPTION_OFFSET_X;
-extern const unsigned int MENU_OPTION1_OFFSET_Y;
-extern const unsigned int MENU_OPTION2_OFFSET_Y;
+extern const uint8_t MENU_OPTION_OFFSET_X;
+extern const uint8_t MENU_OPTION1_OFFSET_Y;
+extern const uint8_t MENU_OPTION2_OFFSET_Y;
 
 
 extern const Graphics_Image DIRECTIONS_1BPP_UNCOMP;
