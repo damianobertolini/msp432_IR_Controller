@@ -46,17 +46,11 @@
 This project simulates an infrared remote controller using the Texas Instruments MSP432P401R microcontroller. <br>
 It allows the MSP432P401R (along with the [Educational BoosterPack MKII](https://www.ti.com/tool/BOOSTXL-EDUMKII))  to send infrared signals in order to control the helicopter Syma S107n. <br>
 
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+<br>
 
 ## Built With
 
 [![c]][c-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ### Installation
@@ -107,11 +101,14 @@ Connect the various components as follows:
 * Connect the anode of the LED (in series with the transistor) to the PIN 2.5 on the MSP432.
 * Connect the Bluetooth module wires to the GND and 3.3V for power and to PIN 3.2 and PIN 3.3 for data transmitting and receiving.
 <br> <br>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- USAGE EXAMPLES -->
 # Folder Structure
 
 ## Directory layout
-    .
+    MSP432_Project
     ├── Debug                  # Compiled files 
     ├── Hardware               # Hardware related files
     │   ├── Bluetooth          # Manages Bluetooth connection
@@ -127,6 +124,7 @@ Connect the various components as follows:
     ├── main.c                 # Main source code
     └── README.md
 
+<br>
 
 <!-- FUNCTIONALITIES EXPLANATION -->
 ## Functionalities explanation
@@ -161,13 +159,14 @@ Each of these options, when selected, enables the use of the selected peripheral
 6. Build and run the project. The Launchpad should now be displaying the graphics.
 
 _For more examples, please refer to the [Documentation](https://docs.rs-online.com/3934/A700000006811369.pdf)_
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<br>
 
 
 <!-- VIDEO AND PRESENTATION -->
 ## Video and Presentation
 
-- Youtube [video](https://youtube.com)
+- Youtube [video](https://youtu.be/hcxit87viYA)
 - Presentation [slides](https://docs.google.com/presentation/d/1sG-96dGQjHRR0gdiXGEs0CYU5uLZg5O0sb5HPO7m0KU/edit?usp=sharing)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -185,7 +184,7 @@ Matteo Beltrami: <br>
 Rowan Alessandro Bevilacqua: <br>
 &nbsp; contributed to the menu implementation and code review and management.<br> 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<br>
 
 <!-- CONTACT -->
 ## Contact
@@ -197,6 +196,7 @@ Rowan Alessandro Bevilacqua - rowan.bevilacqua@studenti.unitn.it
 Project Link: [https://github.com/damianobertolini/msp432_IR_Controller](https://github.com/damianobertolini/msp432_IR_Controller)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
