@@ -1,20 +1,20 @@
 <!-- Credits for the readme template: https://github.com/othneildrew/Best-README-Template/ -->
 <a name="readme-top"></a>
 
-[![Contributors][contributors-shield]][contributors-url]
+<!--[![Contributors][contributors-shield]][contributors-url] >
 
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/damianobertolini/msp432_IR_Controller">
     <img src="Readme_Images/logo.png" alt="Logo" width="140" height="80">
   </a>
 
 <h3 align="center">HELICOPTER CONTROLLER</h3>
 
   <p align="center">
-    Implementation of a controller for the infrared helicopter Syma S107n
+    Implementation of a controller for the infrared helicopter Syma S107n using MSP432
     <br />
     <br /><br />
   </p>
@@ -105,9 +105,8 @@ Connect the various components as follows:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
-# Folder Structure
 
-## Directory layout
+## Folder structure
     MSP432_Project
     ├── Debug                  # Compiled files 
     ├── Hardware               # Hardware related files
@@ -144,7 +143,7 @@ Each of these options, when selected, enables the use of the selected peripheral
 
  The Bluetooth option also provides a "landing" function which just smoothly decrements the power intensity of the propellers until the helicopter stops.
 
- In order to setup the Bluetooth Connection, you need a BLE-Compatible device with Position and Bluetooth enabled, and an app for BLE Scanning and signal sending (you can you the one you prefer, for example BLE Terminal available on Google Play). After connecting, launch the program on MSP432 and you will receive some messages which indicate that the connection is established and working. 
+ In order to setup the Bluetooth Connection, you need a BLE-Compatible device with Position and Bluetooth enabled, and an app for BLE Scanning and signal sending (you can choose the one you prefer, for example BLE Terminal available on Google Play). After connecting, launch the program on MSP432 and you will receive some messages which indicate that the connection is established and working. 
 
  <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -152,8 +151,8 @@ Each of these options, when selected, enables the use of the selected peripheral
 ## Getting started
 
 1. Open the project in Code Composer Studio.
-2. Go to: _Project -> Properties -> Build -> Arm Compiler -> Include Options_ and add the _source_ directory located in _simplelink_msp432p4_sdk_3_40_01_02/_
-3. Go to: _Project -> Properties -> Build -> Arm Linker -> File Search Path_ and add:
+2. Go to: _Project → Properties → Build → Arm Compiler → Include Options_ and add the _source_ directory located in _simplelink_msp432p4_sdk_3_40_01_02/_
+3. Go to: _Project → Properties → Build → Arm Linker → File Search Path_ and add:
     * _msp432p4xx_dreivelib.lib_ directory_ located in _[..]/source/ti/devices/msp432p4xx/driverlib/ccs/_
     * _grlib.a_ located in _[..]/source/ti/grlib/lib/ccs/m4f/_
 6. Build and run the project. The Launchpad should now be displaying the graphics.
@@ -198,7 +197,6 @@ Project Link: [https://github.com/damianobertolini/msp432_IR_Controller](https:/
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
@@ -206,4 +204,3 @@ Project Link: [https://github.com/damianobertolini/msp432_IR_Controller](https:/
 [contributors-url]: https://github.com/damianobertolini/msp432_IR_Controller/graphs/contributors
 [c]: https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white
 [c-url]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
-
