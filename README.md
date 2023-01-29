@@ -166,7 +166,7 @@ _For more examples, please refer to the [Documentation](https://docs.rs-online.c
 ## Video and Presentation
 
 - Youtube [video](https://youtu.be/hcxit87viYA)
-- Presentation [slides](https://docs.google.com/presentation/d/1sG-96dGQjHRR0gdiXGEs0CYU5uLZg5O0sb5HPO7m0KU/edit?usp=sharing)
+- Presentation [slides](https://docs.google.com/presentation/d/17Ihhtw-FhXt1I8Q0ovvMzHOON-4QczH6jaPdZkeezwQ/edit?usp=sharing)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
